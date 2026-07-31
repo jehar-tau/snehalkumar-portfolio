@@ -1284,10 +1284,6 @@ a{color:inherit}
   <p style="margin:0 0 20px;font-size:14px;color:#6B7280">Shown on the Home and Work project cards.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:56px">
     <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Data Lineage Experience</div>
-      <image-slot id="thumb-data-lineage" radius="14" placeholder="Lineage graph UI" style="display:block;width:100%;aspect-ratio:16/10;height:auto"></image-slot>
-    </div>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
       <div style="font-size:13px;font-weight:600;color:#6B7280">AI-generated Descriptions</div>
       <image-slot id="thumb-ai-descriptions" radius="14" placeholder="AI review workflow UI" style="display:block;width:100%;aspect-ratio:16/10;height:auto"></image-slot>
     </div>
@@ -1300,10 +1296,6 @@ a{color:inherit}
   <h2 style="margin:0 0 20px;font-size:22px;font-weight:700;letter-spacing:-0.02em">Case study hero images</h2>
   <p style="margin:0 0 20px;font-size:14px;color:#6B7280">The large banner at the top of each case study.</p>
   <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:56px">
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Data Lineage Experience — hero</div>
-      <image-slot id="case-hero-data-lineage" radius="14" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;height:auto"></image-slot>
-    </div>
     <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
       <div style="font-size:13px;font-weight:600;color:#6B7280">AI-generated Descriptions — hero</div>
       <image-slot id="case-hero-ai-descriptions" radius="14" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;height:auto"></image-slot>
@@ -1539,15 +1531,6 @@ class Component extends DCLogic {
   projects() {
     return [
       {
-        id: 'data-lineage', title: 'Enterprise Data Lineage', company: 'Precisely', product: 'Data Integrity Suite',
-        depth: 'flagship', destination: 'internal',
-        summary: 'Evolving an early lineage vision into a production-ready investigation experience through search, usability testing, interaction improvements, and continuous iteration.',
-        role: 'Senior Product Designer', scopeShort: 'Lineage feature within data catalog',
-        tags: ['Enterprise SaaS', 'Data Governance', 'Data Lineage', 'Information Architecture', 'UX Research', 'Usability Testing', 'Interaction Design', 'Search and Filtering', 'Data Visualization', 'Product Strategy'],
-        filters: ['Flagship', 'Enterprise SaaS', 'Data Products'],
-        imageLabel: 'Enterprise lineage diagram thumbnail',
-      },
-      {
         id: 'ai-descriptions', title: 'AI-generated Descriptions', company: 'Precisely', product: 'Data Integrity Suite',
         depth: 'flagship', destination: 'internal',
         summary: 'Designed batch generation, review, validation, save/discard, and error-handling workflows for AI-generated metadata descriptions.',
@@ -1637,139 +1620,6 @@ class Component extends DCLogic {
 
   caseStudies() {
     return {
-      'data-lineage': {
-        title: 'Enterprise Data Lineage', company: 'Precisely', product: 'Data Integrity Suite',
-        summary: 'I helped evolve the Precisely lineage experience from an early product vision into a production-ready enterprise feature through information architecture, search design, usability testing, interaction improvements, transformation support, and continuous iteration.',
-        confidentialityNote: 'Some product details and visuals have been simplified or anonymised to protect confidential information.',
-        impact: ['Evolved from early vision to production release', 'Search designed for complex enterprise graphs', 'Continuously improved with customer feedback'],
-        snapshot: [
-          { label: 'Company', value: 'Precisely' }, { label: 'Product', value: 'Data Integrity Suite' },
-          { label: 'Role', value: 'Senior Product Designer' }, { label: 'Duration', value: '2024 – Present' },
-          { label: 'Status', value: 'Released and evolving' }, { label: 'Domain', value: 'Data governance & metadata management' },
-          { label: 'Platform', value: 'Enterprise SaaS web application' }, { label: 'Ownership', value: 'IA, interaction design, research' },
-        ],
-        responsibilities: ['Product design', 'Information architecture', 'Interaction design', 'Search and filtering', 'Prototyping', 'Usability testing', 'Research synthesis', 'Competitive research', 'Design validation', 'Collaboration with product and engineering', 'Continuous post-release improvements'],
-        scopeNote: 'This case study covers lineage investigation, search and filtering, usability research, interaction improvements, and transformation support within a larger enterprise data catalog platform.',
-        contextTitle: 'When trusted business decisions depend on untrusted data',
-        context: 'Organisations pull data from many upstream systems before it reaches reports, dashboards, analytics products, AI systems, and executive decision-making tools. When a value becomes inaccurate downstream, teams need to understand where the data originated, which systems and datasets it passed through, which field or column changed, which transformation was applied, what downstream assets may be affected, and who owns or manages the affected asset. Without effective lineage, these investigations can take significant time and require coordination between multiple technical and governance teams.',
-        dataFlowSteps: ['Source', 'Dataset', 'Transformation', 'Dataset', 'Report / dashboard'],
-        problemQuote: 'Users do not open lineage merely to view a diagram. They open it to investigate, validate, explain, and resolve data issues.',
-        personas: [
-          { role: 'Data Steward', need: 'Investigates data-quality issues, validates trusted data, understands ownership, and coordinates remediation.' },
-          { role: 'Data Engineer', need: 'Debugs pipelines, inspects transformations, traces upstream dependencies, and identifies where data changed.' },
-          { role: 'Data Architect', need: 'Understands relationships between systems, datasets, tables, and fields across the enterprise.' },
-          { role: 'Data Governance Manager', need: 'Understands ownership, policy impact, compliance relationships, and data dependencies.' },
-          { role: 'Analytics Engineer / BI Developer', need: 'Verifies where report data originated and identifies why a KPI, metric, or dashboard appears incorrect.' },
-        ],
-        secondaryUsers: ['Data owners', 'Business analysts', 'Compliance teams', 'Technical administrators', 'Subject-matter experts'],
-        commonQuestions: ['Why is this KPI incorrect?', 'Where did this field originate?', 'Which transformation changed this value?', 'What will be affected if this dataset changes?', 'Who owns this data?', 'How can I trace this issue to its source?'],
-        artifact1: 'Legacy lineage experience from the previous product', artifact1Caption: 'The previous experience provided an important foundation but used an older interaction model, with limitations in navigation, scalability, readability, and alignment with the newer product ecosystem.',
-        evolution: [
-          { phase: 'Legacy lineage experience', description: 'The previous product offered an important foundation, built on an older interaction model.' },
-          { phase: 'Early product vision', description: 'A rough product vision and prototype for lineage in the catalog, created before my ownership.' },
-          { phase: 'Initial three-level lineage experience', description: 'Source, dataset, and field level views established the core information architecture.' },
-          { phase: 'Search and filter design', description: 'Search across name, description, and tags made large graphs navigable.' },
-          { phase: 'Usability study', description: 'Moderated sessions tested comprehension, tracing, and search discoverability.' },
-          { phase: 'Interaction and comprehension enhancements', description: 'Findings were translated into clearer interaction and visual-hierarchy improvements.' },
-          { phase: 'Transformation support', description: 'Transformation nodes were added to show how data changes, not only where it moves.' },
-          { phase: 'Production release and customer feedback', description: 'The experience shipped to customers and began collecting real-world feedback.' },
-          { phase: 'Current scalability and decluttering improvements', description: 'Ongoing work focused on reducing complexity in large enterprise graphs.' },
-        ],
-        priorContextLabel: 'Transition goals from the legacy experience',
-        transitionGoals: ['Integrate lineage into the newer catalog experience', 'Support multiple asset levels', 'Improve investigation and tracing workflows', 'Create a scalable canvas-based interaction model', 'Build a foundation for future lineage capabilities'],
-        visionDescription: 'When I joined Precisely, my manager had already developed a rough product vision and prototype for how lineage could work in the catalog. The high-level product direction and early visual concept already existed. My role was to help mature the experience, solve interaction and discovery problems, validate it with users, and evolve it into a more complete product capability.',
-        levels: [
-          { level: 'Data Source', purpose: 'A high-level view of the datasets contained within a data source and their relationships to datasets in other sources, shown as implied lineage at a higher level.', goal: 'Understand data movement between systems and groups of datasets without exposing every field-level connection.' },
-          { level: 'Dataset', purpose: 'Shows a selected dataset as the central context while listing its fields and connecting them to related fields in upstream and downstream datasets.', goal: 'Investigate relationships between tables, datasets, and their columns.' },
-          { level: 'Field', purpose: 'Focuses on a selected field or column and shows its exact upstream and downstream dependencies.', goal: 'Trace the origin, movement, and impact of a specific value or attribute.' },
-        ],
-        searchIntro: 'As lineage diagrams grew, users needed a faster way to locate specific assets within the canvas. Search supported three metadata criteria: name, description, and tags.',
-        searchHmw: 'How might we reveal the reason for a search match without permanently adding more clutter to an already complex lineage diagram?',
-        challenges: [
-          { title: 'Revealing hidden matches', description: 'Description and tag matches were not normally visible on the asset card — the interface needed to reveal the matching metadata and explain why the asset was included.' },
-          { title: 'Highlighting results in a large graph', description: 'Users needed to distinguish matching assets from surrounding context while still understanding where each result sat within the lineage.' },
-          { title: 'Showing accurate result counts', description: 'The experience needed to communicate the number of matching assets clearly, including when matches appeared at different levels of the diagram.' },
-          { title: 'Navigating between matches', description: 'Users needed a reliable way to move through results without losing their current context.' },
-          { title: 'Combining search with filters', description: 'Search and filter behaviour needed to remain understandable when multiple criteria were active.' },
-        ],
-        searchSteps: ['User enters a search term', 'The system searches asset names, descriptions, and tags', 'Matching assets are highlighted on the canvas', 'The relevant hidden metadata is temporarily surfaced', 'The user can move between results', 'The surrounding lineage remains visible for context', 'Filters can be used to narrow the graph further'],
-        success: [
-          { label: 'User success', description: 'Users can interpret, trace, and investigate lineage relationships without losing context.' },
-          { label: 'Business success', description: 'A scalable lineage capability that supports enterprise-scale data governance and customer trust.' },
-          { label: 'UX success', description: 'Clear investigation workflows, explainable search results, and legible graphs even as complexity grows.' },
-        ],
-        led: ['Search and filter experience design', 'Usability-study participation and synthesis', 'Interaction and comprehension enhancements', 'Terminology and competitive research', 'Transformation experience design', 'Ongoing complexity-reduction work'],
-        contributed: ['Maturing the initial product vision into a usable system', 'Three-level information-architecture discussions', 'Design-system pattern additions'],
-        collaborated: ['Product management on scope and phasing', 'Engineering on graph rendering constraints', 'Data and metadata specialists on domain accuracy', 'Customer-facing teams on real-world feedback'],
-        process: ['Vision', 'Research', 'Design', 'Test', 'Iterate', 'Ship', 'Evolve'],
-        research: 'After the initial lineage experience and search-and-filter work were designed, the team conducted a usability study with users to evaluate comprehension, tracing, and search discoverability. In parallel, a focused terminology study compared product language against how customers and competitors actually described data assets.',
-        usabilityObjectives: ['Understand whether users could interpret the lineage diagram', 'Evaluate whether users could trace upstream and downstream relationships', 'Identify interaction problems', 'Test the discoverability and behaviour of search', 'Understand whether terminology matched user expectations', 'Identify barriers in large or complex graphs'],
-        usabilityMethod: ['Moderated usability sessions', 'Scenario-based tasks', 'Observation and follow-up questions', 'Analysis of repeated behavioural patterns', 'Synthesis into prioritised design issues'],
-        usabilityNote: 'Participant details and customer information are anonymised.',
-        artifact2: 'Usability study synthesis and prioritisation board', artifact2Caption: 'Findings were clustered into themes and prioritised as Critical, High impact, Important, or Future consideration.',
-        findings: [
-          { title: 'Interaction behaviour was not always clear', description: 'Users faced difficulty understanding how to select, expand, collapse, focus, or navigate parts of the graph.', priority: 'Critical' },
-          { title: 'Large diagrams became difficult to read', description: 'As more assets and relationships appeared, the graph became visually dense and cognitively demanding.', priority: 'Critical' },
-          { title: 'Tracing required stronger visual guidance', description: 'Users needed clearer feedback about the path they were following and which assets were currently relevant.', priority: 'High impact' },
-          { title: 'Terminology did not always match customer language', description: 'Some catalog terms were interpreted differently by users based on their technical background and existing tools.', priority: 'Important' },
-          { title: 'Search matches needed clearer explanation', description: 'When a result matched through a description or tag, users needed stronger visibility into why it appeared.', priority: 'High impact' },
-        ],
-        terminologyIntro: 'The team conducted a focused terminology study using competitor analysis, existing customer conversations, AI-assisted analysis of customer-interaction recordings, and internal product and domain discussions — exploring how customers and competitors referred to assets such as data sources, datasets, fields, tables, columns, databases, and lakes.',
-        terminologyTable: [
-          { concept: 'Data Source', language: 'Data source, source, lake, or system' },
-          { concept: 'Dataset', language: 'Dataset, database, or table, depending on context' },
-          { concept: 'Field', language: 'Field or column, with column commonly used for tabular data' },
-        ],
-        terminologyConclusion: 'The study highlighted meaningful language differences, especially around datasets, databases, fields, and columns. The findings informed product discussions, although the terminology changes were not implemented, because they affected broader platform conventions.',
-        insights: [
-          { title: 'Investigation, not decoration', description: 'Users open lineage to investigate and resolve issues, not to admire a diagram.', influence: 'Anchored design decisions around investigation workflows rather than visual polish alone.' },
-          { title: 'Complexity grows with real data', description: 'Diagrams that felt clear with sample data became dense and disorienting at real enterprise scale.', influence: 'Made progressive disclosure and decluttering an ongoing priority, not a one-time pass.' },
-          { title: 'Language affects trust', description: 'When product terminology diverged from a user’s own vocabulary, they second-guessed whether they were reading the graph correctly.', influence: 'Motivated the dedicated terminology research effort.' },
-        ],
-        principles: ['Design for investigation, not just visualization', 'Reveal complexity progressively', 'Make search results explainable', 'Preserve context while tracing', 'Treat transformations as first-class information', 'Continuously reduce visual noise'],
-        explorations: 'Enhancement work moved through problem, exploration, decision, and final behaviour for each interaction issue found in usability testing — from expand-and-collapse clarity to path emphasis and control discoverability. Each round was validated against the original usability findings before moving to delivery.',
-        enhancements: [
-          { problem: 'Users were unsure how to expand or collapse parts of the graph.', evidence: 'Usability sessions showed repeated hesitation and mis-clicks around graph controls.', objective: 'Make expand and collapse states unambiguous at a glance.', status: 'Delivered' },
-          { problem: 'Selected assets were hard to distinguish from surrounding context.', evidence: 'Participants lost track of which asset they were focused on while tracing.', objective: 'Strengthen visual hierarchy for the selected and focused state.', status: 'Delivered' },
-          { problem: 'Users struggled to follow a trace across multiple hops.', evidence: 'Observation notes showed users re-tracing paths manually with a cursor.', objective: 'Add stronger path emphasis along the active trace.', status: 'Delivered' },
-          { problem: 'Controls were not always discoverable.', evidence: 'Some interactions were only found after moderator guidance.', objective: 'Reduce ambiguity in control placement and labelling.', status: 'Delivered' },
-        ],
-        beforeAfterAnnotations: ['Clearer interaction states', 'Improved graph comprehension', 'Stronger focus on the active asset', 'Better tracing along a path', 'More predictable behaviour', 'Reduced ambiguity in controls'],
-        decisions: [
-          { decision: 'Structure lineage across three levels — source, dataset, and field', why: 'A single dense graph could not serve both a high-level overview and a field-level trace.', impact: 'Users could choose the right altitude for their investigation instead of parsing one overloaded view.' },
-          { decision: 'Surface hidden search matches inline on the asset card', why: 'Users could not tell why an asset matched a description or tag search.', impact: 'Search results became explainable without adding permanent clutter to the canvas.' },
-          { decision: 'Model transformations as a distinct node type', why: 'Users needed to see how data changed, not only where it moved.', impact: 'Investigations could identify the exact transformation responsible for a downstream issue.' },
-        ],
-        transformationIntro: 'As lineage matured, the experience expanded beyond direct asset-to-asset relationships to support transformations that describe how data was changed between upstream and downstream assets.',
-        transformationTypes: ['Split', 'Union', 'Join', 'Copy', 'Filter rows', 'Filter fields', 'Evaluate rule', 'Execute formula', 'Generate key', 'Group and aggregate', 'Stored procedure', 'LLM transformation'],
-        transformationChallenge: 'Transformation nodes needed to communicate meaningful technical behaviour while remaining understandable inside an already dense lineage graph.',
-        transformationConsiderations: ['Distinguishing transformations from data assets', 'Showing transformation type', 'Preserving upstream and downstream direction', 'Supporting multiple inputs and outputs', 'Preventing transformation details from overwhelming the canvas', 'Allowing users to inspect additional information when needed'],
-        modules: [
-          { title: 'Three-level lineage navigation', description: 'Source, dataset, and field-level views that let users choose the right altitude for their investigation.' },
-          { title: 'Search and filter experience', description: 'Explainable search across names, descriptions, and tags, with result highlighting and navigation.' },
-          { title: 'Transformation-aware lineage graph', description: 'Transformation nodes that show how data changes alongside where it moves.' },
-        ],
-        currentWorkTitle: 'Reducing cognitive load in large lineage graphs',
-        currentWorkDescription: 'After release to customers, additional feedback revealed that real enterprise lineage diagrams can become highly complex. Current design work focuses on helping users reduce clutter, isolate meaningful paths, and investigate specific relationships without losing context. This work is an active exploration, not yet final.',
-        currentWorkThemes: ['Progressive disclosure', 'Expand and collapse behaviour', 'Path isolation', 'Focus mode', 'Hiding unrelated branches', 'Simplifying implied relationships', 'Filtering by relationship or asset type', 'Ownership-based filtering', 'Reducing visual noise', 'Better handling of highly connected assets', 'Preserving orientation while navigating', 'Improving trace visibility'],
-        deliverables: ['Three-level lineage information architecture', 'Search and filter interaction specifications', 'Usability study plan and findings', 'Terminology research summary', 'Interaction enhancement specifications', 'Transformation node design patterns', 'Design handoff notes'],
-        outcomes: [
-          { label: 'Product outcome', description: 'Lineage released as part of the enterprise product experience and continuously evolving.' },
-          { label: 'Research outcome', description: 'Usability testing used to identify and prioritise product improvements, several of which have shipped.' },
-          { label: 'Design outcome', description: 'A scalable design foundation — three-level IA, explainable search, transformation modelling — for future lineage capabilities.' },
-          { label: 'Note for future content', description: 'Replace qualitative outcomes with verified metrics when adoption, task-success, support, or usage data becomes available.' },
-        ],
-        priorWork: ['Early product vision and direction', 'Initial prototype concept', 'Some foundational lineage interface concepts', 'Basic manual relationship patterns from the previous designer'],
-        myContribution: ['Search and filter experience, including search across names, descriptions, and tags', 'Surfacing hidden metadata matches and result highlighting', 'Usability-study participation and synthesis', 'Interaction and comprehension enhancements', 'Terminology and competitive research', 'Transformation experience design', 'Continuous product improvements', 'Current work on complexity reduction and decluttering'],
-        reflection: [
-          { title: 'What I learned', description: 'Complex enterprise visualizations cannot be made useful through visual polish alone. Their success depends on clear mental models, progressive disclosure, understandable terminology, predictable interactions, and strong investigative workflows.' },
-          { title: 'What surprised me', description: 'Users often understood the underlying data relationships but struggled with the interaction model or terminology used to express them.' },
-          { title: 'An important trade-off', description: 'Providing more information could improve technical accuracy but also increase visual complexity — the design needed to balance completeness with focus.' },
-          { title: 'What I would improve further', description: 'Validate terminology earlier, test with realistic large-scale graphs sooner, establish measurable task-success benchmarks, and introduce decluttering and focus mechanisms earlier.' },
-          { title: 'Closing thought', description: 'This project taught me how to design an enterprise capability as a living system — one that evolves through product vision, domain constraints, user research, implementation feedback, and continued customer use.' },
-        ],
-        related: ['ai-descriptions'],
-      },
       'mm-crm': {
         title: 'Mortgage CRM for Loan Officers', company: 'Infosys', product: 'Movement Mortgage · CRM Portal',
         summary: 'A CRM application that empowers loan officers to nurture leads more effectively — with clear lead visibility and suggested actions that keep borrowers engaged through the loan process.',
@@ -1831,7 +1681,7 @@ class Component extends DCLogic {
           { title: 'What I would improve', description: 'Bring compliance stakeholders into design reviews earlier to reduce late-stage constraints.' },
           { title: 'What I would test next', description: 'How suggested-action quality affects officer trust and adoption over time.' },
         ],
-        related: ['data-lineage', 'ai-descriptions'],
+        related: ['ai-descriptions'],
       },
       'bdo-onboarding': {
         title: 'Digital Account Onboarding for BDO Bank', company: 'Infosys', product: 'BDO Bank Philippines · CA/SA Onboarding',
@@ -1894,7 +1744,7 @@ class Component extends DCLogic {
           { title: 'What I would improve', description: 'Validate with real customers earlier; most validation came through stakeholders.' },
           { title: 'What I would test next', description: 'Drop-off points per stage to prioritize further simplification.' },
         ],
-        related: ['mm-crm', 'data-lineage'],
+        related: ['mm-crm'],
       },
       'ai-descriptions': {
         title: 'AI-generated Descriptions', company: 'Precisely', product: 'Data Integrity Suite',
@@ -1957,7 +1807,7 @@ class Component extends DCLogic {
           { title: 'What I would improve', description: 'Prototype with real generated output earlier; lorem ipsum hides review problems.' },
           { title: 'What I would test next', description: 'Confidence indicators and their effect on review speed and trust.' },
         ],
-        related: ['term-linking', 'data-lineage'],
+        related: ['term-linking'],
       },
       'term-linking': {
         title: 'Business Term to Technical Asset Linking', company: 'Precisely', product: 'Data Integrity Suite',
@@ -2020,7 +1870,7 @@ class Component extends DCLogic {
           { title: 'What I would improve', description: 'Test with longer, messier real queues earlier — clean demo data flatters the design.' },
           { title: 'What I would test next', description: 'Whether confidence-banded batch approval holds accuracy at 10× queue size.' },
         ],
-        related: ['ai-descriptions', 'data-lineage'],
+        related: ['ai-descriptions'],
       },
     };
   }

@@ -1338,6 +1338,10 @@ a{color:inherit}
       <image-slot id="thumb-data-lineage" radius="14" placeholder="Enterprise lineage diagram thumbnail" style="display:block;width:100%;aspect-ratio:16/10;height:auto"></image-slot>
     </div>
     <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280">Asset Impact Diagram</div>
+      <image-slot id="thumb-asset-impact-diagram" radius="14" placeholder="Asset Impact Diagram — relationship view" style="display:block;width:100%;aspect-ratio:16/10;height:auto"></image-slot>
+    </div>
+    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
       <div style="font-size:13px;font-weight:600;color:#6B7280">AI-generated Descriptions</div>
       <image-slot id="thumb-ai-descriptions" radius="14" placeholder="AI review workflow UI" style="display:block;width:100%;aspect-ratio:16/10;height:auto"></image-slot>
     </div>
@@ -1353,6 +1357,10 @@ a{color:inherit}
     <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
       <div style="font-size:13px;font-weight:600;color:#6B7280">Enterprise Data Lineage — hero</div>
       <image-slot id="case-hero-data-lineage" radius="14" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;height:auto"></image-slot>
+    </div>
+    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:#6B7280">Asset Impact Diagram — hero</div>
+      <image-slot id="case-hero-asset-impact-diagram" radius="14" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;height:auto"></image-slot>
     </div>
     <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
       <div style="font-size:13px;font-weight:600;color:#6B7280">AI-generated Descriptions — hero</div>
@@ -1598,6 +1606,15 @@ class Component extends DCLogic {
         imageLabel: 'Enterprise lineage diagram thumbnail',
       },
       {
+        id: 'asset-impact-diagram', title: 'Asset Impact Diagram', company: 'Precisely', product: 'Data Catalog',
+        depth: 'flagship', destination: 'internal',
+        summary: 'Visualizing complex asset relationships and dependencies as an interactive diagram — replacing a table-only experience.',
+        role: 'Senior Product Designer', scopeShort: 'Interactive relationship diagram',
+        tags: ['Enterprise SaaS', 'Data Visualization', 'Data Catalog', 'Interaction Design', 'Information Architecture'],
+        filters: ['Flagship', 'Enterprise SaaS', 'Data Products'],
+        imageLabel: 'Asset Impact Diagram — relationship view',
+      },
+      {
         id: 'ai-descriptions', title: 'AI-generated Descriptions', company: 'Precisely', product: 'Data Integrity Suite',
         depth: 'flagship', destination: 'internal',
         summary: 'Designed batch generation, review, validation, save/discard, and error-handling workflows for AI-generated metadata descriptions.',
@@ -1814,7 +1831,87 @@ class Component extends DCLogic {
           { title: 'What surprised me', description: 'Users often understood the data relationships but struggled with the interaction model used to express them.' },
           { title: 'What I would improve further', description: 'Test with realistic large-scale graphs sooner, and introduce decluttering mechanisms earlier.' },
         ],
-        related: ['ai-descriptions', 'term-linking'],
+        related: ['ai-descriptions', 'term-linking', 'asset-impact-diagram'],
+      },
+      'asset-impact-diagram': {
+        title: 'Asset Impact Diagram', company: 'Precisely', product: 'Data Catalog',
+        summary: 'Turning table-only asset relationships into an interactive diagram users can explore, cluster, and drill into.',
+        confidentialityNote: 'Some product details and visuals have been simplified to protect confidentiality.',
+        impact: ['From table to interactive diagram', 'Dependencies understood across levels', 'Positive feedback from users and customers'],
+        snapshot: [
+          { label: 'Role', value: 'Senior Product Designer' }, { label: 'Team', value: 'Product management, engineering, design peers' },
+          { label: 'Duration', value: '[Add duration]' }, { label: 'Product area', value: 'Data Catalog' },
+          { label: 'Status', value: 'Launched' },
+        ],
+        responsibilities: ['Product design', 'Interaction design', 'Information architecture', 'Component design', 'Research synthesis', 'Collaboration with engineering'],
+        scopeNote: 'This case study covers the design of an interactive asset-relationship diagram within Precisely’s Data Catalog product.',
+        contextTitle: 'From a table of relationships to a diagram you can explore',
+        context: 'Relationships between data assets were shown only as a table. Users needed to see, understand, and explore how assets connect and depend on each other — without losing context as relationships grew complex.',
+        artifact1: 'Legacy table-based relationships view', artifact1Caption: 'Relationships were previously shown only as a table. A legacy Precisely product offered an initial functional reference, and competitor research found no directly comparable solution.',
+        evolution: [
+          { phase: 'Table-only relationships', description: 'Users worked with a plain table to understand how assets connected.' },
+          { phase: 'Legacy product reference', description: 'An existing Precisely product offered an initial functional reference point.' },
+          { phase: 'Competitor research', description: 'No directly comparable solution existed to model the new experience on.' },
+          { phase: 'Interactive diagram design', description: 'Designed an explorable, clustered diagram from the ground up.' },
+          { phase: 'Launch', description: 'Shipped as part of the Data Catalog product.' },
+        ],
+        challenges: [
+          { title: 'Visualizing without overwhelming', description: 'Show complex relationships clearly without burying users in detail.' },
+          { title: 'Grouping by asset type', description: 'Cluster connected assets so the diagram stays readable at scale.' },
+          { title: 'Progressive investigation', description: 'Let users expand and explore dependencies at their own pace.' },
+          { title: 'Preserving context', description: 'Keep orientation clear as the diagram grows larger.' },
+        ],
+        success: [
+          { label: 'User success', description: 'Users can understand and explore asset relationships across multiple levels.' },
+          { label: 'Business success', description: 'A reusable diagram pattern for a specialized, data-dense experience.' },
+          { label: 'UX success', description: 'Complex relationships stay legible through clustering and progressive disclosure.' },
+        ],
+        led: ['Interaction and visual design for the diagram', 'Component design — asset, cluster, and side-panel patterns', 'Design reviews with product and engineering'],
+        contributed: ['Competitive and pattern research', 'Iterative interaction exploration'],
+        collaborated: ['Product management on scope', 'Engineering on feasibility and handoff', 'Design peers in review'],
+        process: ['Research', 'Concepts', 'Reviews', 'Iterate', 'Detail', 'Handoff'],
+        research: 'Competitor research found no directly comparable solution, so the interaction model was built from first principles rather than adapted from an existing pattern.',
+        artifact2: 'Interaction model overview — clustering, expansion, and side panel', artifact2Caption: 'The core interaction model behind every design decision in this case study.',
+        insights: [
+          { title: 'No pattern to borrow', description: 'No existing competitor solution matched this problem directly.', influence: 'The interaction model was designed from first principles.' },
+          { title: 'Overview and detail are in tension', description: 'Showing everything at once conflicts with staying readable.', influence: 'Led to clustering and progressive disclosure as core mechanisms.' },
+          { title: 'Complexity needs reusable parts', description: 'A one-off diagram would not scale to every scenario.', influence: 'Shaped asset, cluster, and side-panel as reusable components.' },
+        ],
+        principles: ['Cluster by asset type', 'Reveal detail progressively', 'Preserve context while exploring', 'Detail on demand via side panel', 'Design for high-density scenarios'],
+        explorations: 'Interaction exploration moved through clustering behaviour, expansion patterns, and side-panel detail — each round tested against how the diagram would hold up at real, high-density scale.',
+        decisions: [
+          { decision: 'Cluster connected assets by asset type', why: 'A flat diagram of every relationship becomes unreadable past a handful of assets.', impact: 'Users scan groups first, then drill in — instead of parsing one dense graph.' },
+          { decision: 'Expand relationships progressively, one level at a time', why: 'Loading every dependency at once overwhelms both the user and the canvas.', impact: 'Users investigate exactly as far as they need to, at their own pace.' },
+          { decision: 'Represent assets and clusters as distinct card types', why: 'Individual assets and grouped clusters carry different information and actions.', impact: 'A consistent, reusable visual language across every diagram state.' },
+          { decision: 'Show detail in a contextual side panel, not inline', why: 'Inline detail would clutter the diagram as soon as more than one asset needed it.', impact: 'The canvas stays clean while full detail is always one click away.' },
+          { decision: 'Add search and filters directly on the diagram', why: 'Large diagrams are hard to scan by eye alone.', impact: 'Users jump straight to the relationship they care about.' },
+          { decision: 'Support zoom, pan, and focus as first-class interactions', why: 'A diagram that grows needs navigation, not just layout.', impact: 'Users stay oriented at any diagram size.' },
+          { decision: 'Design explicitly for high-density scenarios', why: 'Real enterprise data produces far denser diagrams than typical mockups.', impact: 'The pattern holds up under real, messy, large-scale data.' },
+          { decision: 'Define loading, empty, and edge states up front', why: 'A diagram-based experience fails visibly if these states are an afterthought.', impact: 'A complete, production-ready component set at handoff.' },
+        ],
+        modules: [
+          { title: 'Starting asset', description: 'The diagram opens centered on a single asset in focus.' },
+          { title: 'Opening a relationship cluster', description: 'Selecting a cluster reveals the assets grouped inside it.' },
+          { title: 'Selecting an asset', description: 'Choosing an individual asset brings it into focus within the diagram.' },
+          { title: 'Viewing details in the side panel', description: 'Full asset detail opens in the contextual side panel, without leaving the diagram.' },
+          { title: 'Expanding another level', description: 'Users progressively expand outward to the next level of relationships.' },
+          { title: 'Searching or filtering the diagram', description: 'Search and filters narrow a large diagram down to what matters.' },
+        ],
+        deliverables: ['Interaction model and component specifications', 'Asset, cluster, and side-panel component designs', 'Search and filter interaction spec', 'Loading, empty, and edge-state designs', 'Engineering handoff documentation'],
+        outcomes: [
+          { label: 'From table to diagram', description: 'Relationships moved from a table-only experience to an interactive visual diagram.' },
+          { label: 'Multi-level understanding', description: 'Users could understand dependencies and explore relationships across multiple levels.' },
+          { label: 'Reception', description: 'Positive feedback from internal users and customers.' },
+        ],
+        priorWork: ['A legacy Precisely product as an initial functional reference', 'A table-only view of asset relationships'],
+        myContribution: ['Interaction model and clustering design', 'Asset, cluster, and side-panel components', 'Search, filter, zoom, and focus behaviour', 'Loading, empty, and edge-state design', 'Engineering handoff'],
+        reflection: [
+          { title: 'Designing without a pattern', description: 'No established competitor pattern existed — the interaction model had to be built from first principles.' },
+          { title: 'Overview vs. detail', description: 'Balancing a readable overview against full detail on demand shaped every major decision.' },
+          { title: 'Managing complexity', description: 'Clustering and progressive disclosure were the two real levers for taming complexity.' },
+          { title: 'Reusable components', description: 'The asset, cluster, and side-panel components were built to be reused across other diagram-based experiences.' },
+        ],
+        related: ['data-lineage', 'ai-descriptions'],
       },
       'mm-crm': {
         title: 'Mortgage CRM for Loan Officers', company: 'Infosys', product: 'Movement Mortgage · CRM Portal',
@@ -2003,7 +2100,7 @@ class Component extends DCLogic {
           { title: 'What I would improve', description: 'Prototype with real generated output earlier; lorem ipsum hides review problems.' },
           { title: 'What I would test next', description: 'Confidence indicators and their effect on review speed and trust.' },
         ],
-        related: ['term-linking', 'data-lineage'],
+        related: ['term-linking', 'data-lineage', 'asset-impact-diagram'],
       },
       'term-linking': {
         title: 'Business Term to Technical Asset Linking', company: 'Precisely', product: 'Data Integrity Suite',

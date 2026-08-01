@@ -294,6 +294,16 @@
     '  transition:border-color .12s}' +
     ':host([data-over]) .ring{border-color:#c96442}' +
     ':host([data-filled]) .ring{display:none}' +
+    // Empty-state placeholder colors are authored against a light host page.
+    // On a dark host page (prefers-color-scheme: dark) the same rgba(0,0,0,x)
+    // values would render near-invisible, so mirror them in white.
+    '@media (prefers-color-scheme: dark){' +
+    '  :host{color:rgba(255,255,255,.6)}' +
+    '  .frame{background:rgba(255,255,255,.06)}' +
+    '  .ring{border-color:rgba(255,255,255,.28)}' +
+    '  .empty .sub u{text-decoration-color:rgba(255,255,255,.3)}' +
+    '  .empty:hover .sub u{color:rgba(255,255,255,.85)}' +
+    '}' +
     // Controls overlay INSIDE the frame, pinned to the top-right corner, so
     // a full-bleed slot in an overflow:hidden container still shows them
     // (the old below-mask placement got clipped). Credit sits bottom-left,

@@ -15,7 +15,54 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
 <script src="./image-slot.js"></script>
 <style>
-body{margin:0;background:#ffffff;font-family:'Geist',system-ui,-apple-system,sans-serif;color:#111827;-webkit-font-smoothing:antialiased}
+:root{
+  color-scheme: light dark;
+  --bg:#ffffff;
+  --surface:#ffffff;
+  --surface-subtle:#F9FAFB;
+  --surface-muted:#F3F4F6;
+  --text:#111827;
+  --text-secondary:#374151;
+  --text-muted:#4B5563;
+  --text-subtle:#6B7280;
+  --text-faint:#9CA3AF;
+  --border:#E5E7EB;
+  --border-dashed:#D1D5DB;
+  --accent-text:#EA580C;
+  --accent-text-strong:#C2410C;
+  --accent-text-deep:#9A3412;
+  --accent-tint:#FFF7ED;
+  --accent-tint-border:#FED7AA;
+  --nav-bg:rgba(255,255,255,0.85);
+  --status-good-text:#166534;
+  --status-good-bg:#F0FDF4;
+  --status-good-border:#BBF7D0;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0B0F14;
+    --surface:#151A23;
+    --surface-subtle:#11151C;
+    --surface-muted:#1E2530;
+    --text:#F3F4F6;
+    --text-secondary:#CBD3DC;
+    --text-muted:#9CA3AF;
+    --text-subtle:#8792A2;
+    --text-faint:#7B8595;
+    --border:#2A313D;
+    --border-dashed:#5A6472;
+    --accent-text:#FB923C;
+    --accent-text-strong:#FDBA74;
+    --accent-text-deep:#FED7AA;
+    --accent-tint:#2A1D12;
+    --accent-tint-border:#8A6440;
+    --nav-bg:rgba(11,15,20,0.85);
+    --status-good-text:#86EFAC;
+    --status-good-bg:#10241A;
+    --status-good-border:#358055;
+  }
+}
+body{margin:0;background:var(--bg);font-family:'Geist',system-ui,-apple-system,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
 *{box-sizing:border-box}
 a{color:inherit}
 :focus-visible{outline:3px solid #FDBA74;outline-offset:3px}
@@ -25,12 +72,12 @@ a{color:inherit}
 </helmet>
 
 <!-- ============ NAVBAR ============ -->
-<nav style="position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid #E5E7EB">
+<nav style="position:sticky;top:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border)">
   <div style="max-width:1200px;margin:0 auto;padding:8px 24px;min-height:56px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 24px">
-    <a href="#" onClick="{{ goHome }}" style="font-size:18px;font-weight:700;letter-spacing:-0.04em;color:#111827;text-decoration:none;white-space:nowrap">Snehalkumar</a>
+    <a href="#" onClick="{{ goHome }}" style="font-size:18px;font-weight:700;letter-spacing:-0.04em;color:var(--text);text-decoration:none;white-space:nowrap">Snehalkumar</a>
     <div style="display:flex;align-items:center;gap:4px">
       <sc-for list="{{ navLinks }}" as="nl" hint-placeholder-count="5">
-        <a href="#" onClick="{{ nl.onClick }}" aria-current="{{ nl.ariaCurrent }}" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;color:{{ nl.color }};background:{{ nl.bg }}" style-hover="color:#111827;background:#F3F4F6">{{ nl.label }}</a>
+        <a href="#" onClick="{{ nl.onClick }}" aria-current="{{ nl.ariaCurrent }}" style="text-decoration:none;font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;color:{{ nl.color }};background:{{ nl.bg }}" style-hover="color:var(--text);background:var(--surface-muted)">{{ nl.label }}</a>
       </sc-for>
     </div>
     <a href="#" onClick="{{ goContact }}" style="text-decoration:none;font-size:14px;font-weight:600;padding:10px 18px;border-radius:999px;background:#F97316;color:#ffffff;white-space:nowrap;transition:background .15s" style-hover="background:#EA580C">Let’s work together</a>
@@ -44,53 +91,53 @@ a{color:inherit}
   <!-- Hero -->
   <section style="max-width:1200px;margin:0 auto;padding:clamp(48px,7vw,88px) 24px clamp(40px,6vw,72px);display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,5vw,64px);align-items:center">
     <div style="display:flex;flex-direction:column;gap:24px">
-      <h1 style="margin: 0; font-size: clamp(34px,5vw,50px); line-height: 1.1; letter-spacing: -0.04em; font-weight: 750">I design complex SaaS products with <em style="font-style:normal;color:#EA580C">clarity</em>, structure, and systems thinking.</h1>
-      <p style="margin:0;font-size:18px;line-height:1.6;color:#4B5563;max-width:56ch">Senior Product Designer with 8+ years of experience across enterprise SaaS, data platforms, design systems, and AI-assisted product workflows. I help teams turn complex product problems into clear, usable, and scalable experiences.</p>
+      <h1 style="margin: 0; font-size: clamp(34px,5vw,50px); line-height: 1.1; letter-spacing: -0.04em; font-weight: 750">I design complex SaaS products with <em style="font-style:normal;color:var(--accent-text)">clarity</em>, structure, and systems thinking.</h1>
+      <p style="margin:0;font-size:18px;line-height:1.6;color:var(--text-muted);max-width:56ch">Senior Product Designer with 8+ years of experience across enterprise SaaS, data platforms, design systems, and AI-assisted product workflows. I help teams turn complex product problems into clear, usable, and scalable experiences.</p>
       <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:4px">
         <a href="#" onClick="{{ goWork }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:#F97316;color:#ffffff;transition:background .15s" style-hover="background:#EA580C">View selected work</a>
-        <a href="#" onClick="{{ goExperience }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:#ffffff;color:#111827;border:1px solid #E5E7EB;transition:border-color .15s" style-hover="border-color:#FDBA74">View experience</a>
-        <a href="#" onClick="{{ goContact }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:#ffffff;color:#111827;border:1px solid #E5E7EB;transition:border-color .15s" style-hover="border-color:#FDBA74">Get in touch</a>
+        <a href="#" onClick="{{ goExperience }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:var(--surface);color:var(--text);border:1px solid var(--border);transition:border-color .15s" style-hover="border-color:#FDBA74">View experience</a>
+        <a href="#" onClick="{{ goContact }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:var(--surface);color:var(--text);border:1px solid var(--border);transition:border-color .15s" style-hover="border-color:#FDBA74">Get in touch</a>
       </div>
       <sc-if value="{{ showAskTeaser }}" hint-placeholder-val="{{ true }}">
-      <button onClick="{{ openAsk }}" style="cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;width:100%;max-width:520px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:8px 8px 8px 20px;text-align:left;transition:border-color .15s,box-shadow .15s" style-hover="border-color:#FDBA74;box-shadow:0 4px 16px rgba(249,115,22,0.12)">
+      <button onClick="{{ openAsk }}" style="cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:12px;width:100%;max-width:520px;background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:8px 8px 8px 20px;text-align:left;transition:border-color .15s,box-shadow .15s" style-hover="border-color:#FDBA74;box-shadow:0 4px 16px rgba(249,115,22,0.12)">
         <span style="width:8px;height:8px;border-radius:999px;background:#F97316;flex:none"></span>
-        <span style="flex:1;font-size:14.5px;color:#9A3412;font-weight:500">Ask AI about my projects, process, or experience…</span>
+        <span style="flex:1;font-size:14.5px;color:var(--accent-text-deep);font-weight:500">Ask AI about my projects, process, or experience…</span>
         <span style="flex:none;font-size:13.5px;font-weight:600;color:#ffffff;background:#F97316;border-radius:999px;padding:9px 18px">Ask AI</span>
       </button>
       </sc-if>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
         <sc-for list="{{ heroChips }}" as="chip" hint-placeholder-count="5">
-          <span style="font-size:13px;font-weight:500;color:#4B5563;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:999px;padding:6px 14px">{{ chip }}</span>
+          <span style="font-size:13px;font-weight:500;color:var(--text-muted);background:var(--surface-subtle);border:1px solid var(--border);border-radius:999px;padding:6px 14px">{{ chip }}</span>
         </sc-for>
       </div>
     </div>
     <div style="display:flex;justify-content:flex-end;padding:20px 8px 20px 0">
       <sc-if value="{{ heroMinimal }}" hint-placeholder-val="{{ false }}">
-      <div style="width:100%;max-width:360px;background:#ffffff;border:1px solid #E5E7EB;border-radius:28px;padding:12px;box-shadow:0 12px 40px rgba(17,24,39,0.08)">
+      <div style="width:100%;max-width:360px;background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:12px;box-shadow:0 12px 40px rgba(17,24,39,0.08)">
         <image-slot id="portrait" src="images/profile/portrait.jpg" radius="20" placeholder="Drop portrait photo" style="display:block;width:100%;aspect-ratio:0.92;height:auto"></image-slot>
         <div style="padding:14px 8px 6px">
           <div style="font-size:15px;font-weight:700;letter-spacing:-0.02em">Snehalkumar</div>
-          <div style="font-size:13px;color:#6B7280">Senior Product Designer</div>
+          <div style="font-size:13px;color:var(--text-subtle)">Senior Product Designer</div>
         </div>
       </div>
       </sc-if>
       <sc-if value="{{ heroLayered }}" hint-placeholder-val="{{ true }}">
       <div style="position:relative;width:100%;max-width:370px">
-        <div style="position:absolute;inset:-16px 16px 16px -16px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:32px;transform:rotate(-3deg)"></div>
-        <div style="position:relative;background:#ffffff;border:1px solid #E5E7EB;border-radius:28px;padding:12px;box-shadow:0 20px 50px rgba(17,24,39,0.10);transform:rotate(2deg);transition:transform .35s,box-shadow .35s" style-hover="transform:rotate(0deg) translateY(-4px);box-shadow:0 28px 64px rgba(17,24,39,0.14)">
+        <div style="position:absolute;inset:-16px 16px 16px -16px;background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:32px;transform:rotate(-3deg)"></div>
+        <div style="position:relative;background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:12px;box-shadow:0 20px 50px rgba(17,24,39,0.10);transform:rotate(2deg);transition:transform .35s,box-shadow .35s" style-hover="transform:rotate(0deg) translateY(-4px);box-shadow:0 28px 64px rgba(17,24,39,0.14)">
           <image-slot id="portrait" src="images/profile/portrait.jpg" radius="20" placeholder="Drop portrait photo" style="display:block;width:100%;aspect-ratio:0.92;height:auto"></image-slot>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 8px 6px">
             <div>
               <div style="font-size:15px;font-weight:700;letter-spacing:-0.02em">Snehalkumar</div>
-              <div style="font-size:13px;color:#6B7280">Senior Product Designer</div>
+              <div style="font-size:13px;color:var(--text-subtle)">Senior Product Designer</div>
             </div>
           </div>
         </div>
-        <div style="position:absolute;top:-14px;right:-10px;display:flex;align-items:center;gap:8px;background:#ffffff;border:1px solid #E5E7EB;border-radius:999px;padding:8px 16px;box-shadow:0 8px 24px rgba(17,24,39,0.10);transform:rotate(2deg);font-size:13px;font-weight:600;color:#111827;white-space:nowrap">
+        <div style="position:absolute;top:-14px;right:-10px;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:8px 16px;box-shadow:0 8px 24px rgba(17,24,39,0.10);transform:rotate(2deg);font-size:13px;font-weight:600;color:var(--text);white-space:nowrap">
           <span style="width:8px;height:8px;border-radius:999px;background:#22C55E;flex:none"></span>
           Currently designing @ Precisely
         </div>
-        <div style="position:absolute;bottom:110px;left:-24px;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:8px 16px;box-shadow:0 8px 24px rgba(17,24,39,0.08);transform:rotate(-3deg);font-size:13px;font-weight:600;color:#9A3412;white-space:nowrap">8+ years · enterprise SaaS</div>
+        <div style="position:absolute;bottom:110px;left:-24px;background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:8px 16px;box-shadow:0 8px 24px rgba(17,24,39,0.08);transform:rotate(-3deg);font-size:13px;font-weight:600;color:var(--accent-text-deep);white-space:nowrap">8+ years · enterprise SaaS</div>
       </div>
       </sc-if>
     </div>
@@ -98,26 +145,26 @@ a{color:inherit}
 
   <!-- Metrics -->
   <sc-if value="{{ metricsGridOn }}" hint-placeholder-val="{{ false }}">
-  <section style="background:#F9FAFB;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB">
+  <section style="background:var(--surface-subtle);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
     <div style="max-width:1200px;margin:0 auto;padding:56px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px">
       <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="6">
-        <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:22px 20px;display:flex;flex-direction:column;gap:6px;transition:transform .15s,border-color .15s,box-shadow .15s" style-hover="transform:translateY(-2px);border-color:#FED7AA;box-shadow:0 8px 24px rgba(17,24,39,0.07)">
-          <div style="font-size:30px;font-weight:750;letter-spacing:-0.03em;color:#111827">{{ m.value }}</div>
-          <div style="font-size:13px;font-weight:500;color:#6B7280;line-height:1.4">{{ m.label }}</div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px 20px;display:flex;flex-direction:column;gap:6px;transition:transform .15s,border-color .15s,box-shadow .15s" style-hover="transform:translateY(-2px);border-color:var(--accent-tint-border);box-shadow:0 8px 24px rgba(17,24,39,0.07)">
+          <div style="font-size:30px;font-weight:750;letter-spacing:-0.03em;color:var(--text)">{{ m.value }}</div>
+          <div style="font-size:13px;font-weight:500;color:var(--text-subtle);line-height:1.4">{{ m.label }}</div>
         </div>
       </sc-for>
     </div>
   </section>
   </sc-if>
   <sc-if value="{{ metricsTickerOn }}" hint-placeholder-val="{{ true }}">
-  <section aria-label="Career at a glance" style="background:#ffffff;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB;overflow:hidden;position:relative;padding:26px 0">
+  <section aria-label="Career at a glance" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;position:relative;padding:26px 0">
     <div style="display:flex;width:max-content;animation:ticker 32s linear infinite" style-hover="animation-play-state:paused">
       <div style="display:flex;align-items:baseline;padding-right:0">
         <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="6">
           <div style="display:flex;align-items:baseline;gap:14px;white-space:nowrap;padding-right:48px">
             <span aria-hidden="true" style="color:#F97316;font-size:17px">✦</span>
-            <span style="font-size:clamp(24px,3vw,32px);font-weight:750;letter-spacing:-0.03em;color:#111827">{{ m.value }}</span>
-            <span style="font-size:15px;font-weight:500;color:#6B7280">{{ m.label }}</span>
+            <span style="font-size:clamp(24px,3vw,32px);font-weight:750;letter-spacing:-0.03em;color:var(--text)">{{ m.value }}</span>
+            <span style="font-size:15px;font-weight:500;color:var(--text-subtle)">{{ m.label }}</span>
           </div>
         </sc-for>
       </div>
@@ -125,14 +172,14 @@ a{color:inherit}
         <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="6">
           <div style="display:flex;align-items:baseline;gap:14px;white-space:nowrap;padding-right:48px">
             <span style="color:#F97316;font-size:17px">✦</span>
-            <span style="font-size:clamp(24px,3vw,32px);font-weight:750;letter-spacing:-0.03em;color:#111827">{{ m.value }}</span>
-            <span style="font-size:15px;font-weight:500;color:#6B7280">{{ m.label }}</span>
+            <span style="font-size:clamp(24px,3vw,32px);font-weight:750;letter-spacing:-0.03em;color:var(--text)">{{ m.value }}</span>
+            <span style="font-size:15px;font-weight:500;color:var(--text-subtle)">{{ m.label }}</span>
           </div>
         </sc-for>
       </div>
     </div>
-    <div style="position:absolute;top:0;bottom:0;left:0;width:90px;background:linear-gradient(90deg,#ffffff,rgba(255,255,255,0));pointer-events:none"></div>
-    <div style="position:absolute;top:0;bottom:0;right:0;width:90px;background:linear-gradient(270deg,#ffffff,rgba(255,255,255,0));pointer-events:none"></div>
+    <div style="position:absolute;top:0;bottom:0;left:0;width:90px;background:linear-gradient(90deg,var(--bg),transparent);pointer-events:none"></div>
+    <div style="position:absolute;top:0;bottom:0;right:0;width:90px;background:linear-gradient(270deg,var(--bg),transparent);pointer-events:none"></div>
   </section>
   </sc-if>
 
@@ -140,43 +187,43 @@ a{color:inherit}
   <section style="max-width:1200px;margin:0 auto;padding:96px 24px 48px">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:40px">
       <div>
-        <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Selected work</div>
+        <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Selected work</div>
         <h2 style="margin:0;font-size:clamp(32px,4vw,44px);line-height:1.1;letter-spacing:-0.04em;font-weight:750">Product design for complex systems</h2>
       </div>
-      <a href="#" onClick="{{ goWork }}" style="text-decoration:none;font-size:14px;font-weight:600;color:#EA580C;white-space:nowrap;padding-bottom:6px" style-hover="color:#C2410C">View all work →</a>
+      <a href="#" onClick="{{ goWork }}" style="text-decoration:none;font-size:14px;font-weight:600;color:var(--accent-text);white-space:nowrap;padding-bottom:6px" style-hover="color:var(--accent-text-strong)">View all work →</a>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:20px">
       <sc-for list="{{ flagshipProjects }}" as="p" hint-placeholder-count="3">
-        <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;background:#ffffff;border:1px solid #E5E7EB;border-radius:24px;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 12px 32px rgba(17,24,39,0.08);border-color:#FED7AA">
-          <div style="aspect-ratio:16/10;border-bottom:1px solid #F3F4F6">
+        <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 12px 32px rgba(17,24,39,0.08);border-color:var(--accent-tint-border)">
+          <div style="aspect-ratio:16/10;border-bottom:1px solid var(--surface-muted)">
             <image-slot id="thumb-{{ p.id }}" shape="rect" placeholder="{{ p.imageLabel }}" style="display:block;width:100%;height:100%"></image-slot>
           </div>
           <div style="padding:24px;display:flex;flex-direction:column;gap:10px;flex:1">
             <div style="display:flex;align-items:center;gap:8px">
-              <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#C2410C;background:#FFF7ED;border-radius:999px;padding:4px 10px">Flagship</span>
-              <span style="font-size:12px;color:#6B7280">{{ p.company }}</span>
+              <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-text-strong);background:var(--accent-tint);border-radius:999px;padding:4px 10px">Flagship</span>
+              <span style="font-size:12px;color:var(--text-subtle)">{{ p.company }}</span>
             </div>
-            <div style="font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1.25;color:#111827">{{ p.title }}</div>
-            <p style="margin:0;font-size:14px;line-height:1.55;color:#4B5563;flex:1">{{ p.summary }}</p>
+            <div style="font-size:20px;font-weight:700;letter-spacing:-0.02em;line-height:1.25;color:var(--text)">{{ p.title }}</div>
+            <p style="margin:0;font-size:14px;line-height:1.55;color:var(--text-muted);flex:1">{{ p.summary }}</p>
             <div style="display:flex;flex-wrap:wrap;gap:6px">
               <sc-for list="{{ p.topTags }}" as="t" hint-placeholder-count="3">
-                <span style="font-size:11px;font-weight:500;color:#6B7280;background:#F3F4F6;border-radius:999px;padding:4px 10px">{{ t }}</span>
+                <span style="font-size:11px;font-weight:500;color:var(--text-subtle);background:var(--surface-muted);border-radius:999px;padding:4px 10px">{{ t }}</span>
               </sc-for>
             </div>
-            <div style="font-size:14px;font-weight:600;color:#EA580C;margin-top:6px">View case study →</div>
+            <div style="font-size:14px;font-weight:600;color:var(--accent-text);margin-top:6px">View case study →</div>
           </div>
         </a>
       </sc-for>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px">
       <sc-for list="{{ compactProjects }}" as="p" hint-placeholder-count="4">
-        <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:20px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:#FED7AA">
+        <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:var(--accent-tint-border)">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-            <span style="font-size:12px;color:#6B7280">{{ p.company }}</span>
+            <span style="font-size:12px;color:var(--text-subtle)">{{ p.company }}</span>
             <span style="font-size:11px;font-weight:600;color:{{ p.badgeColor }};background:{{ p.badgeBg }};border-radius:999px;padding:3px 9px;white-space:nowrap">{{ p.badge }}</span>
           </div>
-          <div style="font-size:16px;font-weight:700;letter-spacing:-0.02em;line-height:1.3;color:#111827">{{ p.title }}</div>
-          <p style="margin:0;font-size:13px;line-height:1.5;color:#4B5563;flex:1">{{ p.summary }}</p>
+          <div style="font-size:16px;font-weight:700;letter-spacing:-0.02em;line-height:1.3;color:var(--text)">{{ p.title }}</div>
+          <p style="margin:0;font-size:13px;line-height:1.5;color:var(--text-muted);flex:1">{{ p.summary }}</p>
           <div style="font-size:13px;font-weight:600;color:{{ p.ctaColor }}">{{ p.cta }}</div>
         </a>
       </sc-for>
@@ -187,34 +234,34 @@ a{color:inherit}
   <section style="max-width:1200px;margin:0 auto;padding:64px 24px">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px">
       <div>
-        <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Experiments</div>
+        <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Experiments</div>
         <h2 style="margin:0 0 12px;font-size:clamp(28px,3.5vw,38px);line-height:1.1;letter-spacing:-0.04em;font-weight:750">Built to test ideas quickly</h2>
-        <p style="margin:0;font-size:16px;line-height:1.6;color:#4B5563;max-width:64ch">AI-assisted builds, interface experiments, design automation explorations, and small tools created to test ideas quickly.</p>
+        <p style="margin:0;font-size:16px;line-height:1.6;color:var(--text-muted);max-width:64ch">AI-assisted builds, interface experiments, design automation explorations, and small tools created to test ideas quickly.</p>
       </div>
-      <a href="#" onClick="{{ goExperiments }}" style="text-decoration:none;font-size:14px;font-weight:600;color:#EA580C;white-space:nowrap;padding-bottom:6px" style-hover="color:#C2410C">All experiments →</a>
+      <a href="#" onClick="{{ goExperiments }}" style="text-decoration:none;font-size:14px;font-weight:600;color:var(--accent-text);white-space:nowrap;padding-bottom:6px" style-hover="color:var(--accent-text-strong)">All experiments →</a>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
       <sc-for list="{{ homeExperiments }}" as="e" hint-placeholder-count="3">
-        <a href="{{ e.href }}" target="{{ e.target }}" rel="noopener noreferrer" onClick="{{ e.onClick }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:22px;transition:transform .15s,border-color .15s" style-hover="transform:translateY(-2px);border-color:#FED7AA">
+        <a href="{{ e.href }}" target="{{ e.target }}" rel="noopener noreferrer" onClick="{{ e.onClick }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:22px;transition:transform .15s,border-color .15s" style-hover="transform:translateY(-2px);border-color:var(--accent-tint-border)">
           <div style="display:flex;align-items:center;justify-content:space-between">
-            <span style="font-size:11px;font-weight:600;color:#C2410C;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:3px 10px">{{ e.status }}</span>
-            <span style="font-size:12px;color:#9CA3AF">{{ e.category }}</span>
+            <span style="font-size:11px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:3px 10px">{{ e.status }}</span>
+            <span style="font-size:12px;color:var(--text-faint)">{{ e.category }}</span>
           </div>
-          <div style="font-size:17px;font-weight:700;letter-spacing:-0.02em;color:#111827">{{ e.title }}</div>
-          <p style="margin:0;font-size:13.5px;line-height:1.55;color:#4B5563;flex:1">{{ e.summary }}</p>
-          <div style="font-size:13px;font-weight:600;color:#EA580C">{{ e.cta }}</div>
+          <div style="font-size:17px;font-weight:700;letter-spacing:-0.02em;color:var(--text)">{{ e.title }}</div>
+          <p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted);flex:1">{{ e.summary }}</p>
+          <div style="font-size:13px;font-weight:600;color:var(--accent-text)">{{ e.cta }}</div>
         </a>
       </sc-for>
     </div>
   </section>
 
   <!-- About preview -->
-  <section style="background:#F9FAFB;border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB">
+  <section style="background:var(--surface-subtle);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
     <div style="max-width:1200px;margin:0 auto;padding:80px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,5vw,64px);align-items:center">
       <div>
-        <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Career story</div>
+        <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Career story</div>
         <h2 style="margin:0 0 16px;font-size:clamp(28px,3.5vw,38px);line-height:1.15;letter-spacing:-0.04em;font-weight:750">From factory systems to enterprise product design</h2>
-        <p style="margin:0 0 24px;font-size:16px;line-height:1.65;color:#4B5563">I started with mechanical engineering and factory systems, moved into industrial design at NID, and now design enterprise SaaS products, data workflows, and AI-assisted experiences.</p>
+        <p style="margin:0 0 24px;font-size:16px;line-height:1.65;color:var(--text-muted)">I started with mechanical engineering and factory systems, moved into industrial design at NID, and now design enterprise SaaS products, data workflows, and AI-assisted experiences.</p>
         <a href="#" onClick="{{ goExperience }}" style="text-decoration:none;display:inline-block;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:#111827;color:#ffffff" style-hover="background:#374151">View full experience</a>
       </div>
       <div style="display:flex;flex-direction:column;gap:0">
@@ -226,7 +273,7 @@ a{color:inherit}
             </div>
             <div style="padding-bottom:22px">
               <div style="font-size:15px;font-weight:700;letter-spacing:-0.01em">{{ mt.title }}</div>
-              <div style="font-size:13px;color:#6B7280">{{ mt.sub }}</div>
+              <div style="font-size:13px;color:var(--text-subtle)">{{ mt.sub }}</div>
             </div>
           </div>
         </sc-for>
@@ -241,8 +288,8 @@ a{color:inherit}
       <p style="margin:0;font-size:16px;line-height:1.6;color:#9CA3AF;max-width:60ch">I enjoy collaborating on complex product problems, enterprise workflows, AI-assisted experiences, and design systems.</p>
       <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:8px">
         <a href="#" onClick="{{ goContact }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:#F97316;color:#ffffff" style-hover="background:#EA580C">Get in touch</a>
-        <a href="{{ linkedinUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:transparent;color:#ffffff;border:1px solid #4B5563" style-hover="border-color:#9CA3AF">LinkedIn ↗</a>
-        <a href="{{ emailHref }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:transparent;color:#ffffff;border:1px solid #4B5563" style-hover="border-color:#9CA3AF">Email</a>
+        <a href="{{ linkedinUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:transparent;color:#ffffff;border:1px solid #4B5563" style-hover="border-color:var(--text-faint)">LinkedIn ↗</a>
+        <a href="{{ emailHref }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:transparent;color:#ffffff;border:1px solid #4B5563" style-hover="border-color:var(--text-faint)">Email</a>
       </div>
     </div>
   </section>
@@ -252,9 +299,9 @@ a{color:inherit}
 <!-- ============ WORK LISTING ============ -->
 <sc-if value="{{ isWork }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="Work" style="max-width:1200px;margin:0 auto;padding:72px 24px 96px">
-  <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Work</div>
+  <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Work</div>
   <h1 style="margin:0 0 16px;font-size:clamp(38px,5vw,56px);line-height:1.05;letter-spacing:-0.045em;font-weight:750">Selected Work</h1>
-  <p style="margin:0 0 40px;font-size:17px;line-height:1.6;color:#4B5563;max-width:66ch">A collection of product design, enterprise SaaS, AI workflow, data product, research, and design-system projects.</p>
+  <p style="margin:0 0 40px;font-size:17px;line-height:1.6;color:var(--text-muted);max-width:66ch">A collection of product design, enterprise SaaS, AI workflow, data product, research, and design-system projects.</p>
   <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px">
     <sc-for list="{{ filterChips }}" as="f" hint-placeholder-count="8">
       <button onClick="{{ f.onClick }}" style="cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:600;padding:8px 16px;border-radius:999px;background:{{ f.bg }};color:{{ f.color }};border:1px solid {{ f.border }};transition:border-color .15s" style-hover="border-color:#FDBA74">{{ f.label }}</button>
@@ -262,43 +309,43 @@ a{color:inherit}
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px;margin-bottom:20px">
     <sc-for list="{{ filteredLarge }}" as="p" hint-placeholder-count="2">
-      <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;background:#ffffff;border:1px solid #E5E7EB;border-radius:24px;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 12px 32px rgba(17,24,39,0.08);border-color:#FED7AA">
-        <div style="aspect-ratio:16/8.5;border-bottom:1px solid #F3F4F6">
+      <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 12px 32px rgba(17,24,39,0.08);border-color:var(--accent-tint-border)">
+        <div style="aspect-ratio:16/8.5;border-bottom:1px solid var(--surface-muted)">
           <image-slot id="thumb-{{ p.id }}" shape="rect" placeholder="{{ p.imageLabel }}" style="display:block;width:100%;height:100%"></image-slot>
         </div>
         <div style="padding:26px;display:flex;flex-direction:column;gap:10px;flex:1">
           <div style="display:flex;align-items:center;gap:8px">
-            <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#C2410C;background:#FFF7ED;border-radius:999px;padding:4px 10px">Flagship</span>
-            <span style="font-size:12px;color:#6B7280">{{ p.company }}</span>
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-text-strong);background:var(--accent-tint);border-radius:999px;padding:4px 10px">Flagship</span>
+            <span style="font-size:12px;color:var(--text-subtle)">{{ p.company }}</span>
           </div>
-          <div style="font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.25;color:#111827">{{ p.title }}</div>
-          <p style="margin:0;font-size:14.5px;line-height:1.55;color:#4B5563">{{ p.summary }}</p>
-          <div style="display:flex;gap:24px;padding:12px 0;border-top:1px solid #F3F4F6;border-bottom:1px solid #F3F4F6;margin:4px 0">
-            <div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:2px">Role</div><div style="font-size:13px;font-weight:500;color:#374151">{{ p.role }}</div></div>
-            <div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:2px">Scope</div><div style="font-size:13px;font-weight:500;color:#374151">{{ p.scopeShort }}</div></div>
+          <div style="font-size:22px;font-weight:700;letter-spacing:-0.02em;line-height:1.25;color:var(--text)">{{ p.title }}</div>
+          <p style="margin:0;font-size:14.5px;line-height:1.55;color:var(--text-muted)">{{ p.summary }}</p>
+          <div style="display:flex;gap:24px;padding:12px 0;border-top:1px solid var(--surface-muted);border-bottom:1px solid var(--surface-muted);margin:4px 0">
+            <div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:2px">Role</div><div style="font-size:13px;font-weight:500;color:var(--text-secondary)">{{ p.role }}</div></div>
+            <div><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:2px">Scope</div><div style="font-size:13px;font-weight:500;color:var(--text-secondary)">{{ p.scopeShort }}</div></div>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:6px">
             <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="4">
-              <span style="font-size:11px;font-weight:500;color:#6B7280;background:#F3F4F6;border-radius:999px;padding:4px 10px">{{ t }}</span>
+              <span style="font-size:11px;font-weight:500;color:var(--text-subtle);background:var(--surface-muted);border-radius:999px;padding:4px 10px">{{ t }}</span>
             </sc-for>
           </div>
-          <div style="font-size:14px;font-weight:600;color:#EA580C;margin-top:6px">View case study →</div>
+          <div style="font-size:14px;font-weight:600;color:var(--accent-text);margin-top:6px">View case study →</div>
         </div>
       </a>
     </sc-for>
   </div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
     <sc-for list="{{ filteredCompact }}" as="p" hint-placeholder-count="3">
-      <a href="{{ p.href }}" target="{{ p.target }}" rel="noopener noreferrer" onClick="{{ p.openMaybe }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:22px;transition:transform .15s,box-shadow .15s,border-color .15s;opacity:{{ p.opacity }}" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:#FED7AA">
+      <a href="{{ p.href }}" target="{{ p.target }}" rel="noopener noreferrer" onClick="{{ p.openMaybe }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px;transition:transform .15s,box-shadow .15s,border-color .15s;opacity:{{ p.opacity }}" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:var(--accent-tint-border)">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-          <span style="font-size:12px;color:#6B7280">{{ p.company }}</span>
+          <span style="font-size:12px;color:var(--text-subtle)">{{ p.company }}</span>
           <span style="font-size:11px;font-weight:600;color:{{ p.badgeColor }};background:{{ p.badgeBg }};border-radius:999px;padding:3px 9px;white-space:nowrap">{{ p.badge }}</span>
         </div>
-        <div style="font-size:17px;font-weight:700;letter-spacing:-0.02em;line-height:1.3;color:#111827">{{ p.title }}</div>
-        <p style="margin:0;font-size:13.5px;line-height:1.55;color:#4B5563;flex:1">{{ p.summary }}</p>
+        <div style="font-size:17px;font-weight:700;letter-spacing:-0.02em;line-height:1.3;color:var(--text)">{{ p.title }}</div>
+        <p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted);flex:1">{{ p.summary }}</p>
         <div style="display:flex;flex-wrap:wrap;gap:6px">
           <sc-for list="{{ p.topTags }}" as="t" hint-placeholder-count="3">
-            <span style="font-size:11px;font-weight:500;color:#6B7280;background:#F3F4F6;border-radius:999px;padding:4px 10px">{{ t }}</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text-subtle);background:var(--surface-muted);border-radius:999px;padding:4px 10px">{{ t }}</span>
           </sc-for>
         </div>
         <div style="font-size:13px;font-weight:600;color:{{ p.ctaColor }};margin-top:4px">{{ p.cta }}</div>
@@ -313,23 +360,23 @@ a{color:inherit}
 <main data-screen-label="Case study" style="padding-bottom:96px">
   <!-- Hero -->
   <section style="max-width:1200px;margin:0 auto;padding:64px 24px 0">
-    <a href="#" onClick="{{ goWork }}" style="text-decoration:none;font-size:13.5px;font-weight:600;color:#6B7280" style-hover="color:#EA580C">← All work</a>
+    <a href="#" onClick="{{ goWork }}" style="text-decoration:none;font-size:13.5px;font-weight:600;color:var(--text-subtle)" style-hover="color:var(--accent-text)">← All work</a>
     <div style="max-width:820px;margin-top:28px">
-      <div style="font-size:14px;font-weight:600;color:#EA580C;margin-bottom:14px">{{ cs.company }} · {{ cs.product }}</div>
+      <div style="font-size:14px;font-weight:600;color:var(--accent-text);margin-bottom:14px">{{ cs.company }} · {{ cs.product }}</div>
       <h1 style="margin:0 0 20px;font-size:clamp(38px,5vw,58px);line-height:1.05;letter-spacing:-0.045em;font-weight:750">{{ cs.title }}</h1>
-      <p style="margin:0;font-size:19px;line-height:1.6;color:#4B5563">{{ cs.summary }}</p>
+      <p style="margin:0;font-size:19px;line-height:1.6;color:var(--text-muted)">{{ cs.summary }}</p>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px">
       <sc-for list="{{ cs.impact }}" as="im" hint-placeholder-count="3">
-        <span style="font-size:13.5px;font-weight:600;color:#C2410C;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:8px 16px">{{ im }}</span>
+        <span style="font-size:13.5px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:8px 16px">{{ im }}</span>
       </sc-for>
     </div>
-    <image-slot id="case-hero-{{ csSlug }}" radius="28" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;margin-top:40px;border:1px solid #E5E7EB;border-radius:28px;height:auto"></image-slot>
+    <image-slot id="case-hero-{{ csSlug }}" radius="28" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;margin-top:40px;border:1px solid var(--border);border-radius:28px;height:auto"></image-slot>
     <div style="display:none">
-      <span style="font-size:13px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:12px;padding:12px 20px">Hero image — final experience overview</span>
+      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Hero image — final experience overview</span>
     </div>
     <sc-if value="{{ cs.confidentialityNote }}" hint-placeholder-val="{{ false }}">
-      <p style="margin:16px 0 0;font-size:13px;line-height:1.6;color:#9CA3AF;font-style:italic">{{ cs.confidentialityNote }}</p>
+      <p style="margin:16px 0 0;font-size:13px;line-height:1.6;color:var(--text-faint);font-style:italic">{{ cs.confidentialityNote }}</p>
     </sc-if>
   </section>
 
@@ -337,23 +384,23 @@ a{color:inherit}
   <section style="max-width:1200px;margin:0 auto;padding:64px 24px 0">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px">
       <sc-for list="{{ cs.snapshot }}" as="s" hint-placeholder-count="10">
-        <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:16px;padding:16px">
-          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:6px">{{ s.label }}</div>
-          <div style="font-size:13.5px;font-weight:500;color:#374151;line-height:1.4">{{ s.value }}</div>
+        <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;padding:16px">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">{{ s.label }}</div>
+          <div style="font-size:13.5px;font-weight:500;color:var(--text-secondary);line-height:1.4">{{ s.value }}</div>
         </div>
       </sc-for>
     </div>
-    <p style="margin:20px 0 0;font-size:13.5px;line-height:1.6;color:#6B7280;font-style:italic">{{ cs.scopeNote }} Some visuals and details have been simplified or recreated for confidentiality.</p>
+    <p style="margin:20px 0 0;font-size:13.5px;line-height:1.6;color:var(--text-subtle);font-style:italic">{{ cs.scopeNote }} Some visuals and details have been simplified or recreated for confidentiality.</p>
   </section>
 
   <!-- My responsibilities -->
   <sc-if value="{{ cs.responsibilities }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1200px;margin:0 auto;padding:32px 24px 0">
-    <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#C2410C;margin-bottom:14px">My responsibilities</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent-text-strong);margin-bottom:14px">My responsibilities</div>
       <div style="display:flex;flex-wrap:wrap;gap:8px">
         <sc-for list="{{ cs.responsibilities }}" as="resp" hint-placeholder-count="11">
-          <span style="font-size:13px;font-weight:500;color:#374151;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:999px;padding:7px 14px">{{ resp }}</span>
+          <span style="font-size:13px;font-weight:500;color:var(--text-secondary);background:var(--surface-subtle);border:1px solid var(--border);border-radius:999px;padding:7px 14px">{{ resp }}</span>
         </sc-for>
       </div>
     </div>
@@ -362,24 +409,24 @@ a{color:inherit}
 
   <!-- Context -->
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Brief &amp; context</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Brief &amp; context</div>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">{{ cs.contextTitle }}</h2>
-    <p style="margin:0;font-size:16.5px;line-height:1.7;color:#374151">{{ cs.context }}</p>
+    <p style="margin:0;font-size:16.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.context }}</p>
   </section>
 
   <!-- Data flow illustration -->
   <sc-if value="{{ cs.dataFlowSteps }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:820px;margin:0 auto;padding:40px 24px 0">
-    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px 24px">
+    <div style="display:flex;align-items:center;flex-wrap:wrap;gap:10px;background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px 24px">
       <sc-for list="{{ cs.dataFlowSteps }}" as="step" hint-placeholder-count="5">
         <div style="display:flex;align-items:center;gap:10px">
-          <span style="font-size:13.5px;font-weight:600;color:#374151;background:#ffffff;border:1px solid #E5E7EB;border-radius:999px;padding:8px 16px">{{ step }}</span>
+          <span style="font-size:13.5px;font-weight:600;color:var(--text-secondary);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:8px 16px">{{ step }}</span>
           <span style="font-size:14px;color:#FB923C">→</span>
         </div>
       </sc-for>
     </div>
     <sc-if value="{{ cs.problemQuote }}" hint-placeholder-val="{{ false }}">
-      <p style="margin:20px 0 0;font-size:18px;line-height:1.55;color:#111827;font-weight:600;letter-spacing:-0.01em;border-left:3px solid #F97316;padding-left:20px">{{ cs.problemQuote }}</p>
+      <p style="margin:20px 0 0;font-size:18px;line-height:1.55;color:var(--text);font-weight:600;letter-spacing:-0.01em;border-left:3px solid #F97316;padding-left:20px">{{ cs.problemQuote }}</p>
     </sc-if>
   </section>
   </sc-if>
@@ -387,32 +434,32 @@ a{color:inherit}
   <!-- Personas -->
   <sc-if value="{{ cs.personas }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Users &amp; personas</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Users &amp; personas</div>
     <h2 style="margin:0 0 28px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Who uses enterprise data lineage?</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px">
       <sc-for list="{{ cs.personas }}" as="per" hint-placeholder-count="5">
-        <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:22px">
-          <div style="font-size:15.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px;color:#111827">{{ per.role }}</div>
-          <p style="margin:0;font-size:13.5px;line-height:1.55;color:#4B5563">{{ per.need }}</p>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px">
+          <div style="font-size:15.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:8px;color:var(--text)">{{ per.role }}</div>
+          <p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ per.need }}</p>
         </div>
       </sc-for>
     </div>
     <sc-if value="{{ cs.secondaryUsers }}" hint-placeholder-val="{{ false }}">
       <div style="margin-bottom:28px">
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:10px">Secondary users</div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:10px">Secondary users</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px">
           <sc-for list="{{ cs.secondaryUsers }}" as="su" hint-placeholder-count="5">
-            <span style="font-size:13px;font-weight:500;color:#6B7280;background:#F3F4F6;border-radius:999px;padding:6px 14px">{{ su }}</span>
+            <span style="font-size:13px;font-weight:500;color:var(--text-subtle);background:var(--surface-muted);border-radius:999px;padding:6px 14px">{{ su }}</span>
           </sc-for>
         </div>
       </div>
     </sc-if>
     <sc-if value="{{ cs.commonQuestions }}" hint-placeholder-val="{{ false }}">
-      <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:20px;padding:24px">
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#C2410C;margin-bottom:12px">Common user questions</div>
+      <div style="background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:20px;padding:24px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent-text-strong);margin-bottom:12px">Common user questions</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
           <sc-for list="{{ cs.commonQuestions }}" as="q" hint-placeholder-count="6">
-            <div style="display:flex;gap:8px"><span style="color:#EA580C;font-weight:700;flex:none">?</span><span style="font-size:13.5px;line-height:1.5;color:#374151">{{ q }}</span></div>
+            <div style="display:flex;gap:8px"><span style="color:var(--accent-text);font-weight:700;flex:none">?</span><span style="font-size:13.5px;line-height:1.5;color:var(--text-secondary)">{{ q }}</span></div>
           </sc-for>
         </div>
       </div>
@@ -422,27 +469,27 @@ a{color:inherit}
 
   <!-- Artifact: current state -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <div style="aspect-ratio:16/7;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:24px;display:flex;align-items:center;justify-content:center">
-      <span style="font-size:13px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:12px;padding:12px 20px">{{ cs.artifact1 }}</span>
+    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center">
+      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">{{ cs.artifact1 }}</span>
     </div>
-    <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:#6B7280;text-align:center">{{ cs.artifact1Caption }}</p>
+    <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact1Caption }}</p>
   </section>
 
   <!-- Evolution timeline -->
   <sc-if value="{{ cs.evolution }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Project evolution</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Project evolution</div>
     <h2 style="margin:0 0 36px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">A continuously evolving product capability</h2>
     <div style="display:flex;flex-direction:column">
       <sc-for list="{{ cs.evolution }}" as="ev" hint-placeholder-count="9">
         <div style="display:flex;gap:20px">
           <div style="display:flex;flex-direction:column;align-items:center;width:14px;flex:none">
-            <div style="width:14px;height:14px;border-radius:999px;background:#ffffff;border:3px solid #F97316;margin-top:4px;flex:none"></div>
-            <div style="width:2px;flex:1;background:#FED7AA"></div>
+            <div style="width:14px;height:14px;border-radius:999px;background:var(--surface);border:3px solid #F97316;margin-top:4px;flex:none"></div>
+            <div style="width:2px;flex:1;background:var(--accent-tint-border)"></div>
           </div>
           <div style="padding-bottom:32px;flex:1">
-            <div style="font-size:16px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px;color:#111827">{{ ev.phase }}</div>
-            <p style="margin:0;font-size:14px;line-height:1.6;color:#4B5563;max-width:56ch">{{ ev.description }}</p>
+            <div style="font-size:16px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px;color:var(--text)">{{ ev.phase }}</div>
+            <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-muted);max-width:56ch">{{ ev.description }}</p>
           </div>
         </div>
       </sc-for>
@@ -453,44 +500,44 @@ a{color:inherit}
   <!-- Where it started: legacy + initial vision -->
   <sc-if value="{{ cs.visionDescription }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Where this project started</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Where this project started</div>
     <h2 style="margin:0 0 28px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Translating an early product vision into a usable system</h2>
     <sc-if value="{{ cs.transitionGoals }}" hint-placeholder-val="{{ false }}">
-      <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:24px;margin-bottom:24px">
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:12px">{{ cs.priorContextLabel }}</div>
+      <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:24px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:12px">{{ cs.priorContextLabel }}</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <sc-for list="{{ cs.transitionGoals }}" as="tg" hint-placeholder-count="5">
-            <div style="display:flex;gap:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:#374151">{{ tg }}</span></div>
+            <div style="display:flex;gap:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-secondary)">{{ tg }}</span></div>
           </sc-for>
         </div>
       </div>
     </sc-if>
-    <div style="aspect-ratio:16/7;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
-      <span style="font-size:13px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:12px;padding:12px 20px">Early lineage vision prototype created before my ownership</span>
+    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
+      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Early lineage vision prototype created before my ownership</span>
     </div>
-    <p style="margin:0;font-size:16px;line-height:1.7;color:#374151;max-width:80ch">{{ cs.visionDescription }}</p>
+    <p style="margin:0;font-size:16px;line-height:1.7;color:var(--text-secondary);max-width:80ch">{{ cs.visionDescription }}</p>
   </section>
   </sc-if>
 
   <!-- Three-level information architecture -->
   <sc-if value="{{ cs.levels }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Information architecture</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Information architecture</div>
     <h2 style="margin:0 0 12px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Designing lineage across three levels of detail</h2>
-    <p style="margin:0 0 24px;font-size:13.5px;color:#9CA3AF">Click a level to switch focus.</p>
+    <p style="margin:0 0 24px;font-size:13.5px;color:var(--text-faint)">Click a level to switch focus.</p>
     <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:24px">
       <sc-for list="{{ cs.levels }}" as="lv" hint-placeholder-count="3">
         <button onClick="{{ lv.onClick }}" style="cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:600;padding:8px 16px;border-radius:999px;background:{{ lv.chipBg }};color:{{ lv.chipColor }};border:1px solid {{ lv.chipBorder }};transition:border-color .15s" style-hover="border-color:#FDBA74">{{ lv.level }}</button>
       </sc-for>
     </div>
-    <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;overflow:hidden;max-width:600px">
-      <div style="aspect-ratio:16/7;background:#F9FAFB;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;justify-content:center">
-        <span style="font-size:12px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:10px;padding:8px 12px;text-align:center">{{ cs.activeLevel.level }}-level lineage</span>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;max-width:600px">
+      <div style="aspect-ratio:16/7;background:var(--surface-subtle);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center">
+        <span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px;text-align:center">{{ cs.activeLevel.level }}-level lineage</span>
       </div>
       <div style="padding:22px">
-        <div style="font-size:15.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;color:#111827">{{ cs.activeLevel.level }} level</div>
-        <p style="margin:0 0 10px;font-size:13.5px;line-height:1.55;color:#4B5563">{{ cs.activeLevel.purpose }}</p>
-        <p style="margin:0;font-size:13px;line-height:1.5;color:#C2410C"><span style="font-weight:700">User goal:</span> {{ cs.activeLevel.goal }}</p>
+        <div style="font-size:15.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;color:var(--text)">{{ cs.activeLevel.level }} level</div>
+        <p style="margin:0 0 10px;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ cs.activeLevel.purpose }}</p>
+        <p style="margin:0;font-size:13px;line-height:1.5;color:var(--accent-text-strong)"><span style="font-weight:700">User goal:</span> {{ cs.activeLevel.goal }}</p>
       </div>
     </div>
   </section>
@@ -499,25 +546,25 @@ a{color:inherit}
   <!-- Search & filter intro -->
   <sc-if value="{{ cs.searchIntro }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">My first major contribution</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">My first major contribution</div>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Making complex lineage graphs searchable</h2>
-    <p style="margin:0 0 20px;font-size:16.5px;line-height:1.7;color:#374151">{{ cs.searchIntro }}</p>
+    <p style="margin:0 0 20px;font-size:16.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.searchIntro }}</p>
     <sc-if value="{{ cs.searchHmw }}" hint-placeholder-val="{{ false }}">
-      <p style="margin:0;font-size:18px;line-height:1.55;color:#111827;font-weight:600;letter-spacing:-0.01em;border-left:3px solid #F97316;padding-left:20px">{{ cs.searchHmw }}</p>
+      <p style="margin:0;font-size:18px;line-height:1.55;color:var(--text);font-weight:600;letter-spacing:-0.01em;border-left:3px solid #F97316;padding-left:20px">{{ cs.searchHmw }}</p>
     </sc-if>
   </section>
   </sc-if>
 
   <!-- Challenges -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">The challenge</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">The challenge</div>
     <h2 style="margin:0 0 28px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">What made this hard</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
       <sc-for list="{{ cs.challenges }}" as="c" hint-placeholder-count="4">
-        <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-          <div style="width:36px;height:36px;border-radius:12px;background:#FFF7ED;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:750;color:#EA580C;margin-bottom:14px">{{ c.n }}</div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
+          <div style="width:36px;height:36px;border-radius:12px;background:var(--accent-tint);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:750;color:var(--accent-text);margin-bottom:14px">{{ c.n }}</div>
           <div style="font-size:16px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ c.title }}</div>
-          <p style="margin:0;font-size:14px;line-height:1.6;color:#4B5563">{{ c.description }}</p>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-muted)">{{ c.description }}</p>
         </div>
       </sc-for>
     </div>
@@ -526,16 +573,16 @@ a{color:inherit}
   <!-- Search interaction narrative -->
   <sc-if value="{{ cs.searchSteps }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:820px;margin:0 auto;padding:56px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:20px">How search works</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:20px">How search works</div>
     <div style="display:flex;flex-direction:column;gap:0">
       <sc-for list="{{ cs.searchSteps }}" as="step" hint-placeholder-count="7">
         <div style="display:flex;gap:16px;align-items:stretch">
           <div style="display:flex;flex-direction:column;align-items:center;width:12px">
             <div style="width:10px;height:10px;border-radius:999px;background:#F97316;margin-top:6px;flex:none"></div>
-            <div style="width:2px;flex:1;background:#FED7AA"></div>
+            <div style="width:2px;flex:1;background:var(--accent-tint-border)"></div>
           </div>
           <div style="padding-bottom:18px">
-            <p style="margin:0;font-size:14.5px;line-height:1.5;color:#374151">{{ step }}</p>
+            <p style="margin:0;font-size:14.5px;line-height:1.5;color:var(--text-secondary)">{{ step }}</p>
           </div>
         </div>
       </sc-for>
@@ -545,12 +592,12 @@ a{color:inherit}
 
   <!-- Success criteria -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Success criteria</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Success criteria</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
       <sc-for list="{{ cs.success }}" as="s" hint-placeholder-count="3">
-        <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:22px">
-          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#C2410C;margin-bottom:8px">{{ s.label }}</div>
-          <p style="margin:0;font-size:14px;line-height:1.6;color:#374151">{{ s.description }}</p>
+        <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:22px">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent-text-strong);margin-bottom:8px">{{ s.label }}</div>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-secondary)">{{ s.description }}</p>
         </div>
       </sc-for>
     </div>
@@ -558,24 +605,24 @@ a{color:inherit}
 
   <!-- Role & contribution -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">My role &amp; contribution</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">My role &amp; contribution</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
-      <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:#111827">I led</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:var(--text)">I led</div>
         <sc-for list="{{ cs.led }}" as="li" hint-placeholder-count="3">
-          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:#4B5563">{{ li }}</span></div>
+          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-muted)">{{ li }}</span></div>
         </sc-for>
       </div>
-      <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:#111827">I contributed to</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:var(--text)">I contributed to</div>
         <sc-for list="{{ cs.contributed }}" as="li" hint-placeholder-count="3">
-          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:#4B5563">{{ li }}</span></div>
+          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-muted)">{{ li }}</span></div>
         </sc-for>
       </div>
-      <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:#111827">I collaborated with</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:var(--text)">I collaborated with</div>
         <sc-for list="{{ cs.collaborated }}" as="li" hint-placeholder-count="3">
-          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:#4B5563">{{ li }}</span></div>
+          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-muted)">{{ li }}</span></div>
         </sc-for>
       </div>
     </div>
@@ -583,11 +630,11 @@ a{color:inherit}
 
   <!-- Process strip -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:20px">Process</div>
-    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:999px;padding:14px 24px">
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:20px">Process</div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--surface-subtle);border:1px solid var(--border);border-radius:999px;padding:14px 24px">
       <sc-for list="{{ cs.process }}" as="st" hint-placeholder-count="6">
         <div style="display:flex;align-items:center;gap:10px">
-          <span style="font-size:14px;font-weight:600;color:#374151">{{ st.label }}</span>
+          <span style="font-size:14px;font-weight:600;color:var(--text-secondary)">{{ st.label }}</span>
           <span style="font-size:13px;color:{{ st.arrowColor }}">→</span>
         </div>
       </sc-for>
@@ -596,58 +643,58 @@ a{color:inherit}
 
   <!-- Research -->
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Research &amp; discovery</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Research &amp; discovery</div>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Understanding the workflow first</h2>
-    <p style="margin:0;font-size:16.5px;line-height:1.7;color:#374151">{{ cs.research }}</p>
+    <p style="margin:0;font-size:16.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.research }}</p>
   </section>
 
   <!-- Usability study -->
   <sc-if value="{{ cs.usabilityObjectives }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
-      <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:#111827">Research objectives</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:var(--text)">Research objectives</div>
         <sc-for list="{{ cs.usabilityObjectives }}" as="ob" hint-placeholder-count="6">
-          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:#4B5563">{{ ob }}</span></div>
+          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-muted)">{{ ob }}</span></div>
         </sc-for>
       </div>
-      <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:#111827">Study method</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:var(--text)">Study method</div>
         <sc-for list="{{ cs.usabilityMethod }}" as="me" hint-placeholder-count="5">
-          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:#4B5563">{{ me }}</span></div>
+          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-muted)">{{ me }}</span></div>
         </sc-for>
       </div>
     </div>
-    <div style="aspect-ratio:16/7;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:24px;display:flex;align-items:center;justify-content:center;margin-top:20px">
-      <span style="font-size:13px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:12px;padding:12px 20px">Usability study plan and interview guide</span>
+    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center;margin-top:20px">
+      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Usability study plan and interview guide</span>
     </div>
     <sc-if value="{{ cs.usabilityNote }}" hint-placeholder-val="{{ false }}">
-      <p style="margin:14px 0 0;font-size:13px;line-height:1.5;color:#9CA3AF;text-align:center;font-style:italic">{{ cs.usabilityNote }}</p>
+      <p style="margin:14px 0 0;font-size:13px;line-height:1.5;color:var(--text-faint);text-align:center;font-style:italic">{{ cs.usabilityNote }}</p>
     </sc-if>
   </section>
   </sc-if>
 
   <!-- Artifact: research -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <div style="aspect-ratio:16/7;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:24px;display:flex;align-items:center;justify-content:center">
-      <span style="font-size:13px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:12px;padding:12px 20px">{{ cs.artifact2 }}</span>
+    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center">
+      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">{{ cs.artifact2 }}</span>
     </div>
-    <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:#6B7280;text-align:center">{{ cs.artifact2Caption }}</p>
+    <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact2Caption }}</p>
   </section>
 
   <!-- What we learned -->
   <sc-if value="{{ cs.findings }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Research findings</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Research findings</div>
     <h2 style="margin:0 0 28px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">What we learned</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
       <sc-for list="{{ cs.findings }}" as="fi" hint-placeholder-count="5">
-        <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px">
-            <div style="font-size:16px;font-weight:700;letter-spacing:-0.01em;color:#111827">{{ fi.title }}</div>
-            <span style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#C2410C;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:4px 10px;white-space:nowrap">{{ fi.priority }}</span>
+            <div style="font-size:16px;font-weight:700;letter-spacing:-0.01em;color:var(--text)">{{ fi.title }}</div>
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:4px 10px;white-space:nowrap">{{ fi.priority }}</span>
           </div>
-          <p style="margin:0;font-size:14px;line-height:1.6;color:#4B5563">{{ fi.description }}</p>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-muted)">{{ fi.description }}</p>
         </div>
       </sc-for>
     </div>
@@ -657,42 +704,42 @@ a{color:inherit}
   <!-- Terminology research -->
   <sc-if value="{{ cs.terminologyTable }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Terminology research</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Terminology research</div>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">When product language and customer language diverge</h2>
-    <p style="margin:0 0 24px;font-size:16.5px;line-height:1.7;color:#374151">{{ cs.terminologyIntro }}</p>
-    <div style="border:1px solid #E5E7EB;border-radius:20px;overflow:auto">
+    <p style="margin:0 0 24px;font-size:16.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.terminologyIntro }}</p>
+    <div style="border:1px solid var(--border);border-radius:20px;overflow:auto">
       <table style="width:100%;border-collapse:collapse;min-width:480px">
         <thead>
-          <tr style="background:#F9FAFB">
-            <th style="text-align:left;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;padding:14px 20px;border-bottom:1px solid #E5E7EB">Product concept</th>
-            <th style="text-align:left;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;padding:14px 20px;border-bottom:1px solid #E5E7EB">Commonly observed language</th>
+          <tr style="background:var(--surface-subtle)">
+            <th style="text-align:left;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);padding:14px 20px;border-bottom:1px solid var(--border)">Product concept</th>
+            <th style="text-align:left;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);padding:14px 20px;border-bottom:1px solid var(--border)">Commonly observed language</th>
           </tr>
         </thead>
         <tbody>
           <sc-for list="{{ cs.terminologyTable }}" as="tt" hint-placeholder-count="3">
             <tr>
-              <td style="font-size:14px;font-weight:600;color:#111827;padding:14px 20px;border-bottom:1px solid #F3F4F6;white-space:nowrap">{{ tt.concept }}</td>
-              <td style="font-size:14px;line-height:1.5;color:#4B5563;padding:14px 20px;border-bottom:1px solid #F3F4F6">{{ tt.language }}</td>
+              <td style="font-size:14px;font-weight:600;color:var(--text);padding:14px 20px;border-bottom:1px solid var(--surface-muted);white-space:nowrap">{{ tt.concept }}</td>
+              <td style="font-size:14px;line-height:1.5;color:var(--text-muted);padding:14px 20px;border-bottom:1px solid var(--surface-muted)">{{ tt.language }}</td>
             </tr>
           </sc-for>
         </tbody>
       </table>
     </div>
-    <p style="margin:20px 0 0;font-size:14.5px;line-height:1.65;color:#4B5563">{{ cs.terminologyConclusion }}</p>
+    <p style="margin:20px 0 0;font-size:14.5px;line-height:1.65;color:var(--text-muted)">{{ cs.terminologyConclusion }}</p>
   </section>
   </sc-if>
 
   <!-- Insights -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:28px">Key insights</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:28px">Key insights</div>
     <div style="display:flex;flex-direction:column;gap:14px">
       <sc-for list="{{ cs.insights }}" as="ins" hint-placeholder-count="3">
-        <div style="display:grid;grid-template-columns:44px 1fr;gap:16px;background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
+        <div style="display:grid;grid-template-columns:44px 1fr;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
           <div style="font-size:26px;font-weight:750;color:#FDBA74;letter-spacing:-0.03em">{{ ins.n }}</div>
           <div>
             <div style="font-size:16px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ ins.title }}</div>
-            <p style="margin:0 0 8px;font-size:14.5px;line-height:1.6;color:#4B5563">{{ ins.description }}</p>
-            <p style="margin:0;font-size:13.5px;line-height:1.5;color:#C2410C"><span style="font-weight:700">Influence:</span> {{ ins.influence }}</p>
+            <p style="margin:0 0 8px;font-size:14.5px;line-height:1.6;color:var(--text-muted)">{{ ins.description }}</p>
+            <p style="margin:0;font-size:13.5px;line-height:1.5;color:var(--accent-text-strong)"><span style="font-weight:700">Influence:</span> {{ ins.influence }}</p>
           </div>
         </div>
       </sc-for>
@@ -701,53 +748,53 @@ a{color:inherit}
 
   <!-- Design direction -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:20px">Design direction</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:20px">Design direction</div>
     <div style="display:flex;flex-wrap:wrap;gap:10px">
       <sc-for list="{{ cs.principles }}" as="pr" hint-placeholder-count="5">
-        <span style="font-size:14px;font-weight:600;color:#374151;background:#ffffff;border:1px solid #E5E7EB;border-radius:999px;padding:10px 18px">{{ pr }}</span>
+        <span style="font-size:14px;font-weight:600;color:var(--text-secondary);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:10px 18px">{{ pr }}</span>
       </sc-for>
     </div>
   </section>
 
   <!-- Explorations -->
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Exploration &amp; iterations</div>
-    <p style="margin:0;font-size:16.5px;line-height:1.7;color:#374151">{{ cs.explorations }}</p>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Exploration &amp; iterations</div>
+    <p style="margin:0;font-size:16.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.explorations }}</p>
   </section>
 
   <!-- Artifact: wireframes gallery -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-      <div style="aspect-ratio:4/3;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:10px;padding:8px 12px">Early concept A</span></div>
-      <div style="aspect-ratio:4/3;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:10px;padding:8px 12px">Early concept B</span></div>
-      <div style="aspect-ratio:4/3;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:10px;padding:8px 12px">Iteration — chosen direction</span></div>
+      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px">Early concept A</span></div>
+      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px">Early concept B</span></div>
+      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px">Iteration — chosen direction</span></div>
     </div>
-    <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:#6B7280;text-align:center">Wireframe explorations comparing alternate approaches before converging on the final direction.</p>
+    <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">Wireframe explorations comparing alternate approaches before converging on the final direction.</p>
   </section>
 
   <!-- Enhancement series -->
   <sc-if value="{{ cs.enhancements }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Enhancement series</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Enhancement series</div>
     <h2 style="margin:0 0 28px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Turning research findings into product improvements</h2>
     <div style="display:flex;flex-direction:column;gap:16px">
       <sc-for list="{{ cs.enhancements }}" as="en" hint-placeholder-count="4">
-        <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:26px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
-            <p style="margin:0;font-size:15.5px;line-height:1.5;color:#111827;font-weight:700;max-width:64ch">{{ en.problem }}</p>
-            <span style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#166534;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:999px;padding:4px 10px;white-space:nowrap">{{ en.status }}</span>
+            <p style="margin:0;font-size:15.5px;line-height:1.5;color:var(--text);font-weight:700;max-width:64ch">{{ en.problem }}</p>
+            <span style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--status-good-text);background:var(--status-good-bg);border:1px solid var(--status-good-border);border-radius:999px;padding:4px 10px;white-space:nowrap">{{ en.status }}</span>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:16px">
-            <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:6px">Evidence</div><p style="margin:0;font-size:13.5px;line-height:1.55;color:#4B5563">{{ en.evidence }}</p></div>
-            <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:6px">Design objective</div><p style="margin:0;font-size:13.5px;line-height:1.55;color:#4B5563">{{ en.objective }}</p></div>
+            <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">Evidence</div><p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ en.evidence }}</p></div>
+            <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">Design objective</div><p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ en.objective }}</p></div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-            <div style="aspect-ratio:4/3;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:11.5px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:10px;padding:8px 12px;text-align:center">Original interaction</span></div>
+            <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:11.5px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px;text-align:center">Original interaction</span></div>
             <sc-if value="{{ en.isOpen }}" hint-placeholder-val="{{ true }}">
-              <div style="aspect-ratio:4/3;background:#FFF7ED;border:1px solid #FED7AA;border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:11.5px;font-weight:600;color:#C2410C;border:1px dashed #FDBA74;border-radius:10px;padding:8px 12px;text-align:center">Delivered production experience</span></div>
+              <div style="aspect-ratio:4/3;background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:11.5px;font-weight:600;color:var(--accent-text-strong);border:1px dashed #FDBA74;border-radius:10px;padding:8px 12px;text-align:center">Delivered production experience</span></div>
             </sc-if>
           </div>
-          <button onClick="{{ en.onToggle }}" style="cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:#EA580C;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:8px 16px" style-hover="border-color:#FDBA74">{{ en.toggleLabel }}</button>
+          <button onClick="{{ en.onToggle }}" style="cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:var(--accent-text);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:8px 16px" style-hover="border-color:#FDBA74">{{ en.toggleLabel }}</button>
         </div>
       </sc-for>
     </div>
@@ -757,20 +804,20 @@ a{color:inherit}
   <!-- Before / after comparison -->
   <sc-if value="{{ cs.beforeAfterAnnotations }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:28px">Before &amp; after</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:4px;border:1px solid #E5E7EB;border-radius:24px;overflow:hidden">
-      <div style="background:#F9FAFB;padding:20px">
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:12px">Initial lineage experience</div>
-        <div style="aspect-ratio:4/3;background:#ffffff;border:1px solid #E5E7EB;border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:10px;padding:8px 12px;text-align:center">Before enhancement</span></div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:28px">Before &amp; after</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:4px;border:1px solid var(--border);border-radius:24px;overflow:hidden">
+      <div style="background:var(--surface-subtle);padding:20px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:12px">Initial lineage experience</div>
+        <div style="aspect-ratio:4/3;background:var(--surface);border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px;text-align:center">Before enhancement</span></div>
       </div>
-      <div style="background:#FFF7ED;padding:20px">
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#C2410C;margin-bottom:12px">Enhanced experience after usability testing</div>
-        <div style="aspect-ratio:4/3;background:#ffffff;border:1px solid #FED7AA;border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:10px;padding:8px 12px;text-align:center">After enhancement</span></div>
+      <div style="background:var(--accent-tint);padding:20px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent-text-strong);margin-bottom:12px">Enhanced experience after usability testing</div>
+        <div style="aspect-ratio:4/3;background:var(--surface);border:1px solid var(--accent-tint-border);border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px;text-align:center">After enhancement</span></div>
       </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
       <sc-for list="{{ cs.beforeAfterAnnotations }}" as="an" hint-placeholder-count="6">
-        <span style="font-size:12.5px;font-weight:600;color:#C2410C;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:6px 14px">{{ an }}</span>
+        <span style="font-size:12.5px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:6px 14px">{{ an }}</span>
       </sc-for>
     </div>
   </section>
@@ -778,13 +825,13 @@ a{color:inherit}
 
   <!-- Decisions -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:28px">Key design decisions</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:28px">Key design decisions</div>
     <div style="display:flex;flex-direction:column;gap:14px">
       <sc-for list="{{ cs.decisions }}" as="d" hint-placeholder-count="3">
-        <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:24px">
-          <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#C2410C;margin-bottom:8px">Decision</div><p style="margin:0;font-size:14.5px;line-height:1.55;color:#111827;font-weight:600">{{ d.decision }}</p></div>
-          <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:8px">Why</div><p style="margin:0;font-size:14px;line-height:1.55;color:#4B5563">{{ d.why }}</p></div>
-          <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:8px">Impact</div><p style="margin:0;font-size:14px;line-height:1.55;color:#4B5563">{{ d.impact }}</p></div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:24px">
+          <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent-text-strong);margin-bottom:8px">Decision</div><p style="margin:0;font-size:14.5px;line-height:1.55;color:var(--text);font-weight:600">{{ d.decision }}</p></div>
+          <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:8px">Why</div><p style="margin:0;font-size:14px;line-height:1.55;color:var(--text-muted)">{{ d.why }}</p></div>
+          <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:8px">Impact</div><p style="margin:0;font-size:14px;line-height:1.55;color:var(--text-muted)">{{ d.impact }}</p></div>
         </div>
       </sc-for>
     </div>
@@ -793,26 +840,26 @@ a{color:inherit}
   <!-- Transformation interaction demo -->
   <sc-if value="{{ cs.transformationDemo }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Try the interaction</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Try the interaction</div>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Transformation detail, revealed on demand</h2>
-    <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#6B7280">Click the connection below — full transformation detail stays out of the canvas until a user asks for it.</p>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:32px 24px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
-      <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:14px;padding:14px 20px;font-size:13.5px;font-weight:600;color:#374151;white-space:nowrap">{{ cs.transformationDemo.sourceLabel }}</div>
+    <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:var(--text-subtle)">Click the connection below — full transformation detail stays out of the canvas until a user asks for it.</p>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:32px 24px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 20px;font-size:13.5px;font-weight:600;color:var(--text-secondary);white-space:nowrap">{{ cs.transformationDemo.sourceLabel }}</div>
       <button onClick="{{ cs.onToggleTransformDemo }}" style="cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;background:transparent;border:none;padding:8px" style-hover="opacity:0.75">
         <span style="width:40px;height:2px;background:#F97316"></span>
         <span style="font-size:12px;font-weight:700;color:#ffffff;background:#F97316;border-radius:999px;padding:5px 12px;white-space:nowrap">{{ cs.transformationDemo.connectionLabel }}</span>
         <span style="width:40px;height:2px;background:#F97316"></span>
       </button>
-      <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:14px;padding:14px 20px;font-size:13.5px;font-weight:600;color:#374151;white-space:nowrap">{{ cs.transformationDemo.targetLabel }}</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 20px;font-size:13.5px;font-weight:600;color:var(--text-secondary);white-space:nowrap">{{ cs.transformationDemo.targetLabel }}</div>
     </div>
     <sc-if value="{{ cs.transformDemoOpen }}" hint-placeholder-val="{{ false }}">
-      <div style="margin-top:16px;background:#ffffff;border:1px solid #FED7AA;border-radius:16px;padding:22px">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#C2410C;margin-bottom:8px">Side panel — transformation detail</div>
-        <p style="margin:0;font-size:14px;line-height:1.6;color:#374151">{{ cs.transformationDemo.detail }}</p>
+      <div style="margin-top:16px;background:var(--surface);border:1px solid var(--accent-tint-border);border-radius:16px;padding:22px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent-text-strong);margin-bottom:8px">Side panel — transformation detail</div>
+        <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-secondary)">{{ cs.transformationDemo.detail }}</p>
       </div>
     </sc-if>
     <sc-if value="{{ cs.transformationDemo.rollupNote }}" hint-placeholder-val="{{ false }}">
-      <p style="margin:16px 0 0;font-size:13px;line-height:1.55;color:#9CA3AF;font-style:italic">{{ cs.transformationDemo.rollupNote }}</p>
+      <p style="margin:16px 0 0;font-size:13px;line-height:1.55;color:var(--text-faint);font-style:italic">{{ cs.transformationDemo.rollupNote }}</p>
     </sc-if>
   </section>
   </sc-if>
@@ -820,44 +867,44 @@ a{color:inherit}
   <!-- Transformations -->
   <sc-if value="{{ cs.transformationTypes }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Supporting data transformations</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Supporting data transformations</div>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Showing how data changes, not only where it moves</h2>
-    <p style="margin:0 0 20px;font-size:16.5px;line-height:1.7;color:#374151">{{ cs.transformationIntro }}</p>
+    <p style="margin:0 0 20px;font-size:16.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.transformationIntro }}</p>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
       <sc-for list="{{ cs.transformationTypes }}" as="tt" hint-placeholder-count="12">
-        <span style="font-size:13px;font-weight:600;color:#374151;background:#F3F4F6;border-radius:999px;padding:7px 14px">{{ tt }}</span>
+        <span style="font-size:13px;font-weight:600;color:var(--text-secondary);background:var(--surface-muted);border-radius:999px;padding:7px 14px">{{ tt }}</span>
       </sc-for>
     </div>
-    <p style="margin:0 0 20px;font-size:18px;line-height:1.55;color:#111827;font-weight:600;letter-spacing:-0.01em;border-left:3px solid #F97316;padding-left:20px">{{ cs.transformationChallenge }}</p>
+    <p style="margin:0 0 20px;font-size:18px;line-height:1.55;color:var(--text);font-weight:600;letter-spacing:-0.01em;border-left:3px solid #F97316;padding-left:20px">{{ cs.transformationChallenge }}</p>
     <sc-if value="{{ cs.transformationConsiderations }}" hint-placeholder-val="{{ false }}">
-      <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:24px;margin-bottom:20px">
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:12px">Design considerations</div>
+      <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:20px">
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:12px">Design considerations</div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px">
           <sc-for list="{{ cs.transformationConsiderations }}" as="tc" hint-placeholder-count="6">
-            <div style="display:flex;gap:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:#374151">{{ tc }}</span></div>
+            <div style="display:flex;gap:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-secondary)">{{ tc }}</span></div>
           </sc-for>
         </div>
       </div>
     </sc-if>
-    <div style="aspect-ratio:16/7;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:24px;display:flex;align-items:center;justify-content:center">
-      <span style="font-size:13px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:12px;padding:12px 20px">Transformation node design — join, union, or formula example</span>
+    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center">
+      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Transformation node design — join, union, or formula example</span>
     </div>
   </section>
   </sc-if>
 
   <!-- Final solution -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Final solution</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Final solution</div>
     <h2 style="margin:0 0 32px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">What shipped</h2>
     <div style="display:flex;flex-direction:column;gap:40px">
       <sc-for list="{{ cs.modules }}" as="mo" hint-placeholder-count="3">
         <div>
-          <div style="aspect-ratio:16/8;background:linear-gradient(135deg,#FFF7ED,#F3F4F6);border:1px solid #E5E7EB;border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:18px">
-            <span style="font-size:13px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:12px;padding:12px 20px">Final UI — {{ mo.title }}</span>
+          <div style="aspect-ratio:16/8;background:linear-gradient(135deg,var(--accent-tint),var(--surface-muted));border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:18px">
+            <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Final UI — {{ mo.title }}</span>
           </div>
           <div style="max-width:720px">
             <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ mo.title }}</div>
-            <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4B5563">{{ mo.description }}</p>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-muted)">{{ mo.description }}</p>
           </div>
         </div>
       </sc-for>
@@ -867,21 +914,21 @@ a{color:inherit}
   <!-- Access points toggle -->
   <sc-if value="{{ cs.accessPoints }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Multiple lineage access points</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Multiple lineage access points</div>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Lineage as a reusable capability, not a single page</h2>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
       <sc-for list="{{ cs.accessPoints }}" as="ap" hint-placeholder-count="2">
         <button onClick="{{ ap.onClick }}" style="cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:600;padding:9px 18px;border-radius:999px;background:{{ ap.chipBg }};color:{{ ap.chipColor }};border:1px solid {{ ap.chipBorder }};transition:border-color .15s" style-hover="border-color:#FDBA74">{{ ap.label }}</button>
       </sc-for>
     </div>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:24px">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-        <div style="font-size:15.5px;font-weight:700;letter-spacing:-0.01em;color:#111827">{{ cs.activeAccessPoint.label }}</div>
-        <span style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#C2410C;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:4px 10px;white-space:nowrap">{{ cs.activeAccessPoint.status }}</span>
+        <div style="font-size:15.5px;font-weight:700;letter-spacing:-0.01em;color:var(--text)">{{ cs.activeAccessPoint.label }}</div>
+        <span style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:4px 10px;white-space:nowrap">{{ cs.activeAccessPoint.status }}</span>
       </div>
-      <p style="margin:0 0 16px;font-size:14.5px;line-height:1.6;color:#4B5563">{{ cs.activeAccessPoint.description }}</p>
-      <div style="aspect-ratio:16/8;background:#ffffff;border:1px solid #E5E7EB;border-radius:16px;display:flex;align-items:center;justify-content:center">
-        <span style="font-size:12.5px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:10px;padding:8px 14px;text-align:center">{{ cs.activeAccessPoint.imageLabel }}</span>
+      <p style="margin:0 0 16px;font-size:14.5px;line-height:1.6;color:var(--text-muted)">{{ cs.activeAccessPoint.description }}</p>
+      <div style="aspect-ratio:16/8;background:var(--surface);border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center">
+        <span style="font-size:12.5px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 14px;text-align:center">{{ cs.activeAccessPoint.imageLabel }}</span>
       </div>
     </div>
   </section>
@@ -890,31 +937,31 @@ a{color:inherit}
   <!-- Current work -->
   <sc-if value="{{ cs.currentWorkTitle }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <span style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#C2410C;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:5px 12px;margin-bottom:16px">In progress</span>
+    <span style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:5px 12px;margin-bottom:16px">In progress</span>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">{{ cs.currentWorkTitle }}</h2>
-    <p style="margin:0 0 24px;font-size:16.5px;line-height:1.7;color:#374151;max-width:80ch">{{ cs.currentWorkDescription }}</p>
+    <p style="margin:0 0 24px;font-size:16.5px;line-height:1.7;color:var(--text-secondary);max-width:80ch">{{ cs.currentWorkDescription }}</p>
     <sc-if value="{{ cs.currentWorkThemes }}" hint-placeholder-val="{{ false }}">
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px">
         <sc-for list="{{ cs.currentWorkThemes }}" as="th" hint-placeholder-count="12">
-          <span style="font-size:13px;font-weight:500;color:#374151;background:#F3F4F6;border-radius:999px;padding:7px 14px">{{ th }}</span>
+          <span style="font-size:13px;font-weight:500;color:var(--text-secondary);background:var(--surface-muted);border-radius:999px;padding:7px 14px">{{ th }}</span>
         </sc-for>
       </div>
     </sc-if>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
-      <div style="aspect-ratio:4/3;background:#F9FAFB;border:1px dashed #D1D5DB;border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:#9CA3AF;text-align:center;padding:8px 12px">Current graph complexity</span></div>
-      <div style="aspect-ratio:4/3;background:#F9FAFB;border:1px dashed #D1D5DB;border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:#9CA3AF;text-align:center;padding:8px 12px">Early decluttering concepts</span></div>
-      <div style="aspect-ratio:4/3;background:#F9FAFB;border:1px dashed #D1D5DB;border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:#9CA3AF;text-align:center;padding:8px 12px">Path isolation exploration</span></div>
+      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);text-align:center;padding:8px 12px">Current graph complexity</span></div>
+      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);text-align:center;padding:8px 12px">Early decluttering concepts</span></div>
+      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);text-align:center;padding:8px 12px">Path isolation exploration</span></div>
     </div>
-    <p style="margin:14px 0 0;font-size:12.5px;line-height:1.5;color:#9CA3AF;text-align:center;font-style:italic">Current exploration — not yet final.</p>
+    <p style="margin:14px 0 0;font-size:12.5px;line-height:1.5;color:var(--text-faint);text-align:center;font-style:italic">Current exploration — not yet final.</p>
   </section>
   </sc-if>
 
   <!-- Deliverables + Outcome -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:24px;padding:28px">
-      <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:18px">Deliverables</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;padding:28px">
+      <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:18px">Deliverables</div>
       <sc-for list="{{ cs.deliverables }}" as="del" hint-placeholder-count="6">
-        <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">✓</span><span style="font-size:14px;line-height:1.5;color:#374151">{{ del }}</span></div>
+        <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">✓</span><span style="font-size:14px;line-height:1.5;color:var(--text-secondary)">{{ del }}</span></div>
       </sc-for>
     </div>
     <div style="background:#111827;border-radius:24px;padding:28px">
@@ -933,20 +980,20 @@ a{color:inherit}
   <!-- My contribution / ownership split -->
   <sc-if value="{{ cs.myContribution }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:28px">My contribution</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:28px">My contribution</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
       <sc-if value="{{ cs.priorWork }}" hint-placeholder-val="{{ false }}">
-        <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:26px">
-          <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:#111827">Existing before I joined</div>
+        <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:26px">
+          <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:var(--text)">Existing before I joined</div>
           <sc-for list="{{ cs.priorWork }}" as="pw" hint-placeholder-count="4">
-            <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#9CA3AF;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:#6B7280">{{ pw }}</span></div>
+            <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:var(--text-faint);font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-subtle)">{{ pw }}</span></div>
           </sc-for>
         </div>
       </sc-if>
-      <div style="background:#ffffff;border:1px solid #FED7AA;border-radius:20px;padding:26px">
-        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:#111827">My contribution</div>
+      <div style="background:var(--surface);border:1px solid var(--accent-tint-border);border-radius:20px;padding:26px">
+        <div style="font-size:15px;font-weight:700;margin-bottom:14px;color:var(--text)">My contribution</div>
         <sc-for list="{{ cs.myContribution }}" as="mc" hint-placeholder-count="8">
-          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:#374151">{{ mc }}</span></div>
+          <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-secondary)">{{ mc }}</span></div>
         </sc-for>
       </div>
     </div>
@@ -955,12 +1002,12 @@ a{color:inherit}
 
   <!-- Reflection -->
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:28px">Reflection</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:28px">Reflection</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
       <sc-for list="{{ cs.reflection }}" as="r" hint-placeholder-count="3">
-        <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-          <div style="font-size:14px;font-weight:700;margin-bottom:8px;color:#111827">{{ r.title }}</div>
-          <p style="margin:0;font-size:14px;line-height:1.6;color:#4B5563">{{ r.description }}</p>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:24px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:8px;color:var(--text)">{{ r.title }}</div>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-muted)">{{ r.description }}</p>
         </div>
       </sc-for>
     </div>
@@ -968,14 +1015,14 @@ a{color:inherit}
 
   <!-- Related -->
   <section style="max-width:1000px;margin:0 auto;padding:88px 24px 0">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:24px">Related projects</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:24px">Related projects</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
       <sc-for list="{{ relatedProjects }}" as="p" hint-placeholder-count="2">
-        <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;gap:8px;background:#ffffff;border:1px solid #E5E7EB;border-radius:20px;padding:22px;transition:transform .15s,border-color .15s" style-hover="transform:translateY(-2px);border-color:#FED7AA">
-          <span style="font-size:12px;color:#6B7280">{{ p.company }}</span>
-          <div style="font-size:17px;font-weight:700;letter-spacing:-0.02em;color:#111827">{{ p.title }}</div>
-          <p style="margin:0;font-size:13.5px;line-height:1.55;color:#4B5563">{{ p.summary }}</p>
-          <div style="font-size:13px;font-weight:600;color:#EA580C;margin-top:4px">View case study →</div>
+        <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px;transition:transform .15s,border-color .15s" style-hover="transform:translateY(-2px);border-color:var(--accent-tint-border)">
+          <span style="font-size:12px;color:var(--text-subtle)">{{ p.company }}</span>
+          <div style="font-size:17px;font-weight:700;letter-spacing:-0.02em;color:var(--text)">{{ p.title }}</div>
+          <p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ p.summary }}</p>
+          <div style="font-size:13px;font-weight:600;color:var(--accent-text);margin-top:4px">View case study →</div>
         </a>
       </sc-for>
     </div>
@@ -988,15 +1035,15 @@ a{color:inherit}
 <main data-screen-label="Experience" style="max-width:1200px;margin:0 auto;padding:72px 24px 96px">
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,5vw,56px);align-items:center;margin-bottom:88px">
     <div>
-      <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Experience</div>
+      <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Experience</div>
       <h1 style="margin:0 0 20px;font-size:clamp(38px,4.5vw,54px);line-height:1.08;letter-spacing:-0.045em;font-weight:750">Experience shaped by systems, products, and problem solving.</h1>
-      <p style="margin:0 0 28px;font-size:17px;line-height:1.65;color:#4B5563">I started in mechanical engineering and operations, moved into industrial design and universal design, and now design enterprise SaaS products, data workflows, design systems, and AI-assisted product experiences.</p>
+      <p style="margin:0 0 28px;font-size:17px;line-height:1.65;color:var(--text-muted)">I started in mechanical engineering and operations, moved into industrial design and universal design, and now design enterprise SaaS products, data workflows, design systems, and AI-assisted product experiences.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <a href="{{ resumeHref }}" target="{{ resumeTarget }}" rel="noopener noreferrer" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:#F97316;color:#ffffff" style-hover="background:#EA580C">Download resume</a>
-        <a href="#" onClick="{{ goContact }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:#ffffff;color:#111827;border:1px solid #E5E7EB" style-hover="border-color:#FDBA74">Get in touch</a>
+        <a href="#" onClick="{{ goContact }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:var(--surface);color:var(--text);border:1px solid var(--border)" style-hover="border-color:#FDBA74">Get in touch</a>
       </div>
     </div>
-    <div style="border-radius:28px;overflow:hidden;border:1px solid #E5E7EB;box-shadow:0 12px 40px rgba(17,24,39,0.08)">
+    <div style="border-radius:28px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 40px rgba(17,24,39,0.08)">
       <image-slot id="speaking" src="images/profile/speaking.jpg" shape="rect" placeholder="Drop speaking / conference photo" style="display:block;width:100%;aspect-ratio:4/3;height:auto"></image-slot>
     </div>
   </div>
@@ -1008,14 +1055,14 @@ a{color:inherit}
       <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="7">
         <div style="display:flex;gap:24px">
           <div style="display:flex;flex-direction:column;align-items:center;width:14px;flex:none">
-            <div style="width:14px;height:14px;border-radius:999px;background:#ffffff;border:3px solid #F97316;margin-top:4px;flex:none"></div>
+            <div style="width:14px;height:14px;border-radius:999px;background:var(--surface);border:3px solid #F97316;margin-top:4px;flex:none"></div>
             <div style="width:2px;flex:1;background:{{ t.lineColor }}"></div>
           </div>
           <div style="padding-bottom:40px;flex:1">
-            <div style="font-size:13px;font-weight:600;color:#EA580C;margin-bottom:4px">{{ t.period }}</div>
+            <div style="font-size:13px;font-weight:600;color:var(--accent-text);margin-bottom:4px">{{ t.period }}</div>
             <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em;margin-bottom:2px">{{ t.role }}</div>
-            <div style="font-size:15px;font-weight:600;color:#6B7280;margin-bottom:8px">{{ t.company }}</div>
-            <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4B5563;max-width:60ch">{{ t.description }}</p>
+            <div style="font-size:15px;font-weight:600;color:var(--text-subtle);margin-bottom:8px">{{ t.company }}</div>
+            <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-muted);max-width:60ch">{{ t.description }}</p>
           </div>
         </div>
       </sc-for>
@@ -1026,15 +1073,15 @@ a{color:inherit}
   <div style="margin-top:56px">
     <h2 style="margin:0 0 28px;font-size:clamp(24px,3vw,32px);letter-spacing:-0.035em;font-weight:750">Education</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:900px">
-      <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:26px">
-        <div style="font-size:13px;font-weight:600;color:#EA580C;margin-bottom:8px">2016 – 2019</div>
+      <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:26px">
+        <div style="font-size:13px;font-weight:600;color:var(--accent-text);margin-bottom:8px">2016 – 2019</div>
         <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px">National Institute of Design, Bangalore</div>
-        <div style="font-size:14px;color:#4B5563">Universal Design</div>
+        <div style="font-size:14px;color:var(--text-muted)">Universal Design</div>
       </div>
-      <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:26px">
-        <div style="font-size:13px;font-weight:600;color:#EA580C;margin-bottom:8px">2008 – 2013</div>
+      <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:26px">
+        <div style="font-size:13px;font-weight:600;color:var(--accent-text);margin-bottom:8px">2008 – 2013</div>
         <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px">Trinity College of Engineering and Research, Pune</div>
-        <div style="font-size:14px;color:#4B5563">B.E. Mechanical Engineering</div>
+        <div style="font-size:14px;color:var(--text-muted)">B.E. Mechanical Engineering</div>
       </div>
     </div>
   </div>
@@ -1044,7 +1091,7 @@ a{color:inherit}
     <h2 style="margin:0 0 28px;font-size:clamp(24px,3vw,32px);letter-spacing:-0.035em;font-weight:750">Skills &amp; capabilities</h2>
     <div style="display:flex;flex-wrap:wrap;gap:10px;max-width:900px">
       <sc-for list="{{ skills }}" as="sk" hint-placeholder-count="12">
-        <span style="font-size:14px;font-weight:600;color:#374151;background:#ffffff;border:1px solid #E5E7EB;border-radius:999px;padding:10px 18px">{{ sk }}</span>
+        <span style="font-size:14px;font-weight:600;color:var(--text-secondary);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:10px 18px">{{ sk }}</span>
       </sc-for>
     </div>
   </div>
@@ -1052,10 +1099,10 @@ a{color:inherit}
   <!-- Certification -->
   <div style="margin-top:56px;max-width:900px">
     <h2 style="margin:0 0 28px;font-size:clamp(24px,3vw,32px);letter-spacing:-0.035em;font-weight:750">Certification</h2>
-    <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:20px;padding:26px;max-width:440px">
-      <div style="font-size:13px;font-weight:600;color:#C2410C;margin-bottom:8px">May 2021</div>
+    <div style="background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:20px;padding:26px;max-width:440px">
+      <div style="font-size:13px;font-weight:600;color:var(--accent-text-strong);margin-bottom:8px">May 2021</div>
       <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px">Rhode Island School of Design</div>
-      <div style="font-size:14px;color:#4B5563">Certificate course in Strategic Design</div>
+      <div style="font-size:14px;color:var(--text-muted)">Certificate course in Strategic Design</div>
     </div>
   </div>
 </main>
@@ -1064,24 +1111,24 @@ a{color:inherit}
 <!-- ============ EXPERIMENTS ============ -->
 <sc-if value="{{ isExperiments }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="Experiments" style="max-width:1200px;margin:0 auto;padding:72px 24px 96px">
-  <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Experiments</div>
+  <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Experiments</div>
   <h1 style="margin:0 0 16px;font-size:clamp(38px,5vw,56px);line-height:1.05;letter-spacing:-0.045em;font-weight:750">Experiments</h1>
-  <p style="margin:0 0 48px;font-size:17px;line-height:1.6;color:#4B5563;max-width:66ch">Small builds, AI-assisted experiments, interaction concepts, and product ideas created to learn faster and test possibilities.</p>
+  <p style="margin:0 0 48px;font-size:17px;line-height:1.6;color:var(--text-muted);max-width:66ch">Small builds, AI-assisted experiments, interaction concepts, and product ideas created to learn faster and test possibilities.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
     <sc-for list="{{ experiments }}" as="e" hint-placeholder-count="4">
-      <a href="{{ e.href }}" target="{{ e.target }}" rel="noopener noreferrer" onClick="{{ e.onClick }}" style="text-decoration:none;display:flex;flex-direction:column;gap:12px;background:#ffffff;border:1px solid #E5E7EB;border-radius:24px;padding:28px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:#FED7AA">
+      <a href="{{ e.href }}" target="{{ e.target }}" rel="noopener noreferrer" onClick="{{ e.onClick }}" style="text-decoration:none;display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:var(--accent-tint-border)">
         <div style="display:flex;align-items:center;justify-content:space-between">
-          <span style="font-size:11px;font-weight:600;color:#C2410C;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:4px 12px">{{ e.status }}</span>
-          <span style="font-size:12.5px;color:#9CA3AF">{{ e.category }}</span>
+          <span style="font-size:11px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:4px 12px">{{ e.status }}</span>
+          <span style="font-size:12.5px;color:var(--text-faint)">{{ e.category }}</span>
         </div>
-        <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em;color:#111827">{{ e.title }}</div>
-        <p style="margin:0;font-size:14.5px;line-height:1.6;color:#4B5563;flex:1">{{ e.summary }}</p>
+        <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em;color:var(--text)">{{ e.title }}</div>
+        <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-muted);flex:1">{{ e.summary }}</p>
         <div style="display:flex;flex-wrap:wrap;gap:6px">
           <sc-for list="{{ e.tags }}" as="t" hint-placeholder-count="3">
-            <span style="font-size:11px;font-weight:500;color:#6B7280;background:#F3F4F6;border-radius:999px;padding:4px 10px">{{ t }}</span>
+            <span style="font-size:11px;font-weight:500;color:var(--text-subtle);background:var(--surface-muted);border-radius:999px;padding:4px 10px">{{ t }}</span>
           </sc-for>
         </div>
-        <div style="font-size:14px;font-weight:600;color:#EA580C;margin-top:4px">{{ e.cta }}</div>
+        <div style="font-size:14px;font-weight:600;color:var(--accent-text);margin-top:4px">{{ e.cta }}</div>
       </a>
     </sc-for>
   </div>
@@ -1092,15 +1139,15 @@ a{color:inherit}
 <sc-if value="{{ isExperimentPost }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="Experiment blog" style="padding-bottom:96px">
   <div style="max-width:760px;margin:0 auto;padding:56px 24px 0">
-    <a href="#" onClick="{{ goExperiments }}" style="text-decoration:none;font-size:13.5px;font-weight:600;color:#6B7280" style-hover="color:#EA580C">← All experiments</a>
+    <a href="#" onClick="{{ goExperiments }}" style="text-decoration:none;font-size:13.5px;font-weight:600;color:var(--text-subtle)" style-hover="color:var(--accent-text)">← All experiments</a>
     <div style="display:flex;align-items:center;gap:10px;margin:28px 0 16px">
-      <span style="font-size:11px;font-weight:600;color:#C2410C;background:#FFF7ED;border:1px solid #FED7AA;border-radius:999px;padding:4px 12px">{{ post.status }}</span>
-      <span style="font-size:13px;color:#9CA3AF">{{ post.category }}</span>
-      <span style="font-size:13px;color:#D1D5DB">·</span>
-      <span style="font-size:13px;color:#9CA3AF">{{ post.readTime }}</span>
+      <span style="font-size:11px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:4px 12px">{{ post.status }}</span>
+      <span style="font-size:13px;color:var(--text-faint)">{{ post.category }}</span>
+      <span style="font-size:13px;color:var(--text-faint)">·</span>
+      <span style="font-size:13px;color:var(--text-faint)">{{ post.readTime }}</span>
     </div>
     <h1 style="margin:0 0 16px;font-size:clamp(32px,4.5vw,46px);line-height:1.08;letter-spacing:-0.045em;font-weight:750">{{ post.title }}</h1>
-    <p style="margin:0 0 24px;font-size:17px;line-height:1.65;color:#4B5563">{{ post.intro }}</p>
+    <p style="margin:0 0 24px;font-size:17px;line-height:1.65;color:var(--text-muted)">{{ post.intro }}</p>
     <sc-if value="{{ post.hasExternal }}" hint-placeholder-val="{{ false }}">
       <a href="{{ post.externalUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:11px 20px;border-radius:999px;background:#F97316;color:#ffffff;margin-bottom:8px" style-hover="background:#EA580C">Open project ↗</a>
     </sc-if>
@@ -1113,32 +1160,32 @@ a{color:inherit}
           <h2 style="margin:24px 0 0;font-size:clamp(22px,2.5vw,28px);line-height:1.2;letter-spacing:-0.03em;font-weight:750">{{ b.text }}</h2>
         </sc-if>
         <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}">
-          <p style="margin:0;font-size:16px;line-height:1.75;color:#374151">{{ b.text }}</p>
+          <p style="margin:0;font-size:16px;line-height:1.75;color:var(--text-secondary)">{{ b.text }}</p>
         </sc-if>
         <sc-if value="{{ b.isCallout }}" hint-placeholder-val="{{ false }}">
-          <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:16px;padding:20px 24px">
-            <p style="margin:0;font-size:15px;line-height:1.65;color:#9A3412;font-weight:500">{{ b.text }}</p>
+          <div style="background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:16px;padding:20px 24px">
+            <p style="margin:0;font-size:15px;line-height:1.65;color:var(--accent-text-deep);font-weight:500">{{ b.text }}</p>
           </div>
         </sc-if>
         <sc-if value="{{ b.isImg }}" hint-placeholder-val="{{ false }}">
           <div>
-            <div style="aspect-ratio:{{ b.ratio }};background:linear-gradient(135deg,#FFF7ED,#F3F4F6);border:1px solid #E5E7EB;border-radius:20px;display:flex;align-items:center;justify-content:center">
-              <span style="font-size:12px;font-weight:600;color:#9CA3AF;border:1px dashed #D1D5DB;border-radius:10px;padding:8px 14px">{{ b.label }}</span>
+            <div style="aspect-ratio:{{ b.ratio }};background:linear-gradient(135deg,var(--accent-tint),var(--surface-muted));border:1px solid var(--border);border-radius:20px;display:flex;align-items:center;justify-content:center">
+              <span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 14px">{{ b.label }}</span>
             </div>
-            <p style="margin:12px 0 0;font-size:13px;line-height:1.5;color:#6B7280;text-align:center">{{ b.caption }}</p>
+            <p style="margin:12px 0 0;font-size:13px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ b.caption }}</p>
           </div>
         </sc-if>
         <sc-if value="{{ b.isTabs }}" hint-placeholder-val="{{ false }}">
-          <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:22px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:14px">{{ b.label }} — try it</div>
+          <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:22px">
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:14px">{{ b.label }} — try it</div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
               <sc-for list="{{ b.tabs }}" as="t" hint-placeholder-count="3">
                 <button onClick="{{ t.onClick }}" style="cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;padding:8px 16px;border-radius:999px;background:{{ t.bg }};color:{{ t.color }};border:1px solid {{ t.border }};transition:border-color .15s" style-hover="border-color:#FDBA74">{{ t.label }}</button>
               </sc-for>
             </div>
-            <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:14px;padding:20px">
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px">
               <div style="font-size:14.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ b.activeTitle }}</div>
-              <p style="margin:0;font-size:14px;line-height:1.65;color:#4B5563">{{ b.activeText }}</p>
+              <p style="margin:0;font-size:14px;line-height:1.65;color:var(--text-muted)">{{ b.activeText }}</p>
             </div>
           </div>
         </sc-if>
@@ -1161,10 +1208,10 @@ a{color:inherit}
     </div>
     <div style="display:flex;justify-content:space-between;gap:16px;margin-top:32px;flex-wrap:wrap">
       <sc-for list="{{ otherPosts }}" as="op" hint-placeholder-count="2">
-        <a href="#" onClick="{{ op.openPost }}" style="text-decoration:none;flex:1;min-width:240px;display:flex;flex-direction:column;gap:6px;background:#ffffff;border:1px solid #E5E7EB;border-radius:18px;padding:20px;transition:border-color .15s,transform .15s" style-hover="border-color:#FED7AA;transform:translateY(-2px)">
-          <span style="font-size:11.5px;color:#9CA3AF">{{ op.category }}</span>
-          <span style="font-size:15px;font-weight:700;letter-spacing:-0.01em;color:#111827">{{ op.title }}</span>
-          <span style="font-size:13px;font-weight:600;color:#EA580C">Read the story →</span>
+        <a href="#" onClick="{{ op.openPost }}" style="text-decoration:none;flex:1;min-width:240px;display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px;transition:border-color .15s,transform .15s" style-hover="border-color:var(--accent-tint-border);transform:translateY(-2px)">
+          <span style="font-size:11.5px;color:var(--text-faint)">{{ op.category }}</span>
+          <span style="font-size:15px;font-weight:700;letter-spacing:-0.01em;color:var(--text)">{{ op.title }}</span>
+          <span style="font-size:13px;font-weight:600;color:var(--accent-text)">Read the story →</span>
         </a>
       </sc-for>
     </div>
@@ -1177,26 +1224,26 @@ a{color:inherit}
 <main data-screen-label="About" style="max-width:1200px;margin:0 auto;padding:72px 24px 96px">
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,5vw,56px);align-items:center;margin-bottom:88px">
     <div>
-      <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">About</div>
+      <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">About</div>
       <h1 style="margin:0 0 20px;font-size:clamp(36px,4.5vw,52px);line-height:1.08;letter-spacing:-0.045em;font-weight:750">I’m Snehal Kumar — a designer who likes turning complex systems into clear, usable products.</h1>
     </div>
     <div style="display:flex;justify-content:flex-end">
-      <image-slot id="portrait" src="images/profile/portrait.jpg" radius="28" placeholder="Drop portrait photo" style="display:block;width:100%;max-width:340px;aspect-ratio:0.92;border:1px solid #E5E7EB;border-radius:28px;box-shadow:0 12px 40px rgba(17,24,39,0.08);height:auto"></image-slot>
+      <image-slot id="portrait" src="images/profile/portrait.jpg" radius="28" placeholder="Drop portrait photo" style="display:block;width:100%;max-width:340px;aspect-ratio:0.92;border:1px solid var(--border);border-radius:28px;box-shadow:0 12px 40px rgba(17,24,39,0.08);height:auto"></image-slot>
     </div>
   </div>
 
   <div style="max-width:720px;margin-bottom:88px">
     <h2 style="margin:0 0 20px;font-size:clamp(26px,3vw,34px);letter-spacing:-0.035em;font-weight:750">Story</h2>
-    <p style="margin:0 0 18px;font-size:16.5px;line-height:1.75;color:#374151">I began in mechanical engineering, working with factory systems and operations at Coca-Cola — an environment where problems were physical, measurable, and unforgiving. That grounding in systems thinking never left me.</p>
-    <p style="margin:0 0 18px;font-size:16.5px;line-height:1.75;color:#374151">Industrial and universal design at NID Bangalore shifted my focus from machines to people — designing for accessibility, inclusion, and real-world context. From there I moved into UX and product design, working on enterprise client projects at Infosys, marketing automation products at HCL Software, and today, data integrity and catalog products at Precisely.</p>
-    <p style="margin:0;font-size:16.5px;line-height:1.75;color:#374151">These days I'm most interested in the intersection of enterprise SaaS, data products, and AI — designing workflows where automation assists people without taking away their judgment or control.</p>
+    <p style="margin:0 0 18px;font-size:16.5px;line-height:1.75;color:var(--text-secondary)">I began in mechanical engineering, working with factory systems and operations at Coca-Cola — an environment where problems were physical, measurable, and unforgiving. That grounding in systems thinking never left me.</p>
+    <p style="margin:0 0 18px;font-size:16.5px;line-height:1.75;color:var(--text-secondary)">Industrial and universal design at NID Bangalore shifted my focus from machines to people — designing for accessibility, inclusion, and real-world context. From there I moved into UX and product design, working on enterprise client projects at Infosys, marketing automation products at HCL Software, and today, data integrity and catalog products at Precisely.</p>
+    <p style="margin:0;font-size:16.5px;line-height:1.75;color:var(--text-secondary)">These days I'm most interested in the intersection of enterprise SaaS, data products, and AI — designing workflows where automation assists people without taking away their judgment or control.</p>
   </div>
 
   <div style="margin-bottom:88px">
     <h2 style="margin:0 0 28px;font-size:clamp(26px,3vw,34px);letter-spacing:-0.035em;font-weight:750">What I care about</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
       <sc-for list="{{ values }}" as="v" hint-placeholder-count="6">
-        <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:8px">
+        <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:8px">
           <div style="width:32px;height:4px;border-radius:999px;background:#F97316"></div>
           <div style="font-size:16px;font-weight:700;letter-spacing:-0.01em;margin-top:8px">{{ v }}</div>
         </div>
@@ -1208,7 +1255,7 @@ a{color:inherit}
     <h2 style="margin:0 0 28px;font-size:clamp(26px,3vw,34px);letter-spacing:-0.035em;font-weight:750">Current interests</h2>
     <div style="display:flex;flex-wrap:wrap;gap:10px;max-width:900px">
       <sc-for list="{{ interests }}" as="i" hint-placeholder-count="7">
-        <span style="font-size:14px;font-weight:600;color:#374151;background:#ffffff;border:1px solid #E5E7EB;border-radius:999px;padding:10px 18px">{{ i }}</span>
+        <span style="font-size:14px;font-weight:600;color:var(--text-secondary);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:10px 18px">{{ i }}</span>
       </sc-for>
     </div>
   </div>
@@ -1219,22 +1266,22 @@ a{color:inherit}
 <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="Contact" style="max-width:1200px;margin:0 auto;padding:96px 24px 120px">
   <div style="max-width:680px">
-    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Contact</div>
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Contact</div>
     <h1 style="margin:0 0 20px;font-size:clamp(38px,5vw,56px);line-height:1.05;letter-spacing:-0.045em;font-weight:750">Interested in working together?</h1>
-    <p style="margin:0 0 36px;font-size:17px;line-height:1.65;color:#4B5563">I’m open to conversations around enterprise SaaS, data products, AI workflows, design systems, and complex product experiences.</p>
+    <p style="margin:0 0 36px;font-size:17px;line-height:1.65;color:var(--text-muted)">I’m open to conversations around enterprise SaaS, data products, AI workflows, design systems, and complex product experiences.</p>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:56px">
       <a href="{{ emailHref }}" style="text-decoration:none;font-size:15px;font-weight:600;padding:14px 26px;border-radius:999px;background:#F97316;color:#ffffff" style-hover="background:#EA580C">Email me</a>
-      <a href="{{ linkedinUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;font-size:15px;font-weight:600;padding:14px 26px;border-radius:999px;background:#ffffff;color:#111827;border:1px solid #E5E7EB" style-hover="border-color:#FDBA74">LinkedIn ↗</a>
-      <a href="{{ resumeHref }}" target="{{ resumeTarget }}" rel="noopener noreferrer" style="text-decoration:none;font-size:15px;font-weight:600;padding:14px 26px;border-radius:999px;background:#ffffff;color:#111827;border:1px solid #E5E7EB" style-hover="border-color:#FDBA74">Download resume</a>
+      <a href="{{ linkedinUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;font-size:15px;font-weight:600;padding:14px 26px;border-radius:999px;background:var(--surface);color:var(--text);border:1px solid var(--border)" style-hover="border-color:#FDBA74">LinkedIn ↗</a>
+      <a href="{{ resumeHref }}" target="{{ resumeTarget }}" rel="noopener noreferrer" style="text-decoration:none;font-size:15px;font-weight:600;padding:14px 26px;border-radius:999px;background:var(--surface);color:var(--text);border:1px solid var(--border)" style-hover="border-color:#FDBA74">Download resume</a>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px">
-      <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:6px">Email</div>
-        <div style="font-size:15px;font-weight:600;color:#111827;word-break:break-all">{{ linkEmail }}</div>
+      <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:24px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">Email</div>
+        <div style="font-size:15px;font-weight:600;color:var(--text);word-break:break-all">{{ linkEmail }}</div>
       </div>
-      <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:24px">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF;margin-bottom:6px">LinkedIn</div>
-        <div style="font-size:15px;font-weight:600;color:#111827;word-break:break-all">{{ linkedinLabel }}</div>
+      <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:24px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">LinkedIn</div>
+        <div style="font-size:15px;font-weight:600;color:var(--text);word-break:break-all">{{ linkedinLabel }}</div>
       </div>
     </div>
   </div>
@@ -1244,23 +1291,23 @@ a{color:inherit}
 <!-- ============ ASK AI SIDE PANEL ============ -->
 <sc-if value="{{ askOpen }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeAsk }}" style="position:fixed;inset:0;z-index:200;background:rgba(17,24,39,0.35);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)"></div>
-<aside data-screen-label="Ask AI panel" role="dialog" aria-label="Ask AI about Snehal’s work" style="position:fixed;top:0;right:0;bottom:0;z-index:201;width:min(460px,100vw);background:#ffffff;border-left:1px solid #E5E7EB;box-shadow:-24px 0 64px rgba(17,24,39,0.15);display:flex;flex-direction:column">
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 24px;border-bottom:1px solid #E5E7EB">
+<aside data-screen-label="Ask AI panel" role="dialog" aria-label="Ask AI about Snehal’s work" style="position:fixed;top:0;right:0;bottom:0;z-index:201;width:min(460px,100vw);background:var(--surface);border-left:1px solid var(--border);box-shadow:-24px 0 64px rgba(17,24,39,0.15);display:flex;flex-direction:column">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 24px;border-bottom:1px solid var(--border)">
     <div>
       <div style="display:flex;align-items:center;gap:10px">
         <div style="width:32px;height:32px;border-radius:999px;background:#F97316;color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none">S</div>
         <div style="font-size:16px;font-weight:700;letter-spacing:-0.02em">Ask about Snehal’s work</div>
       </div>
-      <p style="margin:8px 0 0;font-size:13px;line-height:1.5;color:#6B7280">AI assistant trained on this portfolio — projects, process, outcomes, experience.</p>
+      <p style="margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--text-subtle)">AI assistant trained on this portfolio — projects, process, outcomes, experience.</p>
     </div>
-    <button onClick="{{ closeAsk }}" aria-label="Close Ask AI panel" style="cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;color:#6B7280;background:#F3F4F6;border:none;border-radius:999px;width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center" style-hover="background:#E5E7EB;color:#111827">✕</button>
+    <button onClick="{{ closeAsk }}" aria-label="Close Ask AI panel" style="cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;color:var(--text-subtle);background:var(--surface-muted);border:none;border-radius:999px;width:32px;height:32px;flex:none;display:flex;align-items:center;justify-content:center" style-hover="background:var(--border);color:var(--text)">✕</button>
   </div>
 
-  <div ref="{{ chatRef }}" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;background:#F9FAFB;padding:20px">
+  <div ref="{{ chatRef }}" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;background:var(--surface-subtle);padding:20px">
     <div style="display:flex;gap:12px">
       <div style="width:32px;height:32px;border-radius:999px;background:#F97316;color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none">S</div>
-      <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:4px 18px 18px 18px;padding:14px 18px;max-width:56ch">
-        <p style="margin:0;font-size:14.5px;line-height:1.6;color:#374151">Hi! I can answer questions about Snehal Kumar’s projects, experience, and design process. Try one of the suggestions below, or ask anything.</p>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px 18px 18px 18px;padding:14px 18px;max-width:56ch">
+        <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-secondary)">Hi! I can answer questions about Snehal Kumar’s projects, experience, and design process. Try one of the suggestions below, or ask anything.</p>
       </div>
     </div>
     <sc-for list="{{ askMessages }}" as="m" hint-placeholder-count="0">
@@ -1271,14 +1318,14 @@ a{color:inherit}
             <p style="margin:0;font-size:14.5px;line-height:1.6;color:{{ m.textColor }};white-space:pre-wrap">{{ m.text }}</p>
           </div>
           <sc-for list="{{ m.cards }}" as="c" hint-placeholder-count="0">
-            <a href="{{ c.href }}" target="{{ c.target }}" rel="noopener noreferrer" onClick="{{ c.openFromChat }}" style="text-decoration:none;display:flex;flex-direction:column;gap:6px;background:#ffffff;border:1px solid #FED7AA;border-radius:16px;padding:16px 18px;transition:transform .15s,box-shadow .15s" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07)">
+            <a href="{{ c.href }}" target="{{ c.target }}" rel="noopener noreferrer" onClick="{{ c.openFromChat }}" style="text-decoration:none;display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--accent-tint-border);border-radius:16px;padding:16px 18px;transition:transform .15s,box-shadow .15s" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07)">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-                <span style="font-size:11.5px;color:#6B7280">{{ c.company }}</span>
-                <span style="font-size:10.5px;font-weight:600;color:#C2410C;background:#FFF7ED;border-radius:999px;padding:3px 9px;white-space:nowrap">{{ c.badge }}</span>
+                <span style="font-size:11.5px;color:var(--text-subtle)">{{ c.company }}</span>
+                <span style="font-size:10.5px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border-radius:999px;padding:3px 9px;white-space:nowrap">{{ c.badge }}</span>
               </div>
-              <div style="font-size:15px;font-weight:700;letter-spacing:-0.01em;color:#111827">{{ c.title }}</div>
-              <p style="margin:0;font-size:13px;line-height:1.5;color:#4B5563">{{ c.summary }}</p>
-              <div style="font-size:12.5px;font-weight:600;color:#EA580C;margin-top:2px">{{ c.cta }}</div>
+              <div style="font-size:15px;font-weight:700;letter-spacing:-0.01em;color:var(--text)">{{ c.title }}</div>
+              <p style="margin:0;font-size:13px;line-height:1.5;color:var(--text-muted)">{{ c.summary }}</p>
+              <div style="font-size:12.5px;font-weight:600;color:var(--accent-text);margin-top:2px">{{ c.cta }}</div>
             </a>
           </sc-for>
         </div>
@@ -1287,26 +1334,26 @@ a{color:inherit}
     <sc-if value="{{ askLoading }}" hint-placeholder-val="{{ false }}">
       <div style="display:flex;gap:12px">
         <div style="width:32px;height:32px;border-radius:999px;background:#F97316;color:#ffffff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none">S</div>
-        <div style="background:#ffffff;border:1px solid #E5E7EB;border-radius:4px 18px 18px 18px;padding:14px 18px">
-          <p style="margin:0;font-size:14.5px;color:#9CA3AF">Thinking…</p>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px 18px 18px 18px;padding:14px 18px">
+          <p style="margin:0;font-size:14.5px;color:var(--text-faint)">Thinking…</p>
         </div>
       </div>
     </sc-if>
   </div>
 
-  <div style="border-top:1px solid #E5E7EB;background:#ffffff;padding:16px 20px;display:flex;flex-direction:column;gap:12px">
+  <div style="border-top:1px solid var(--border);background:var(--surface);padding:16px 20px;display:flex;flex-direction:column;gap:12px">
     <sc-if value="{{ showAskSuggestions }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;flex-wrap:wrap;gap:8px">
         <sc-for list="{{ askSuggestions }}" as="sg" hint-placeholder-count="4">
-          <button onClick="{{ sg.onClick }}" style="cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:500;color:#374151;background:#F9FAFB;border:1px solid #E5E7EB;border-radius:999px;padding:8px 14px;transition:border-color .15s;text-align:left" style-hover="border-color:#FDBA74;color:#C2410C">{{ sg.label }}</button>
+          <button onClick="{{ sg.onClick }}" style="cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:500;color:var(--text-secondary);background:var(--surface-subtle);border:1px solid var(--border);border-radius:999px;padding:8px 14px;transition:border-color .15s;text-align:left" style-hover="border-color:#FDBA74;color:var(--accent-text-strong)">{{ sg.label }}</button>
         </sc-for>
       </div>
     </sc-if>
     <div style="display:flex;gap:8px">
-      <input value="{{ askInput }}" onChange="{{ onAskInput }}" onKeyDown="{{ onAskKey }}" placeholder="Ask about a project, skill, or outcome…" aria-label="Ask about Snehal’s work" style="flex:1;min-width:0;font-family:inherit;font-size:14px;color:#111827;background:#ffffff;border:1px solid #E5E7EB;border-radius:999px;padding:12px 18px;outline-color:#FDBA74">
+      <input value="{{ askInput }}" onChange="{{ onAskInput }}" onKeyDown="{{ onAskKey }}" placeholder="Ask about a project, skill, or outcome…" aria-label="Ask about Snehal’s work" style="flex:1;min-width:0;font-family:inherit;font-size:14px;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:12px 18px;outline-color:#FDBA74">
       <button onClick="{{ sendAsk }}" style="cursor:pointer;font-family:inherit;font-size:14px;font-weight:600;padding:12px 20px;border-radius:999px;background:#F97316;color:#ffffff;border:none;flex:none;transition:background .15s" style-hover="background:#EA580C">Send</button>
     </div>
-    <p style="margin:0;font-size:11.5px;color:#9CA3AF">Answers are generated from portfolio content and limited to Snehal’s work and experience.</p>
+    <p style="margin:0;font-size:11.5px;color:var(--text-faint)">Answers are generated from portfolio content and limited to Snehal’s work and experience.</p>
   </div>
 </aside>
 </sc-if>
@@ -1314,100 +1361,100 @@ a{color:inherit}
 <!-- ============ MANAGE CONTENT ============ -->
 <sc-if value="{{ isManage }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="Manage content" style="max-width:1200px;margin:0 auto;padding:72px 24px 96px">
-  <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#EA580C;margin-bottom:12px">Content manager</div>
+  <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Content manager</div>
   <h1 style="margin:0 0 16px;font-size:clamp(34px,4.5vw,48px);line-height:1.08;letter-spacing:-0.045em;font-weight:750">Photos, links &amp; assets</h1>
-  <p style="margin:0 0 48px;font-size:16px;line-height:1.65;color:#4B5563;max-width:70ch">Drag an image onto any slot below (or click to browse) — uploads are saved automatically and appear everywhere the site uses them. Links save as you type.</p>
+  <p style="margin:0 0 48px;font-size:16px;line-height:1.65;color:var(--text-muted);max-width:70ch">Drag an image onto any slot below (or click to browse) — uploads are saved automatically and appear everywhere the site uses them. Links save as you type.</p>
 
   <h2 style="margin:0 0 20px;font-size:22px;font-weight:700;letter-spacing:-0.02em">Profile photos</h2>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:56px">
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Portrait — Home hero &amp; About</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">Portrait — Home hero &amp; About</div>
       <image-slot id="portrait" src="images/profile/portrait.jpg" radius="14" placeholder="Drop portrait photo" style="display:block;width:100%;aspect-ratio:0.92;height:auto"></image-slot>
     </div>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Speaking photo — Experience page</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">Speaking photo — Experience page</div>
       <image-slot id="speaking" src="images/profile/speaking.jpg" radius="14" placeholder="Drop speaking / conference photo" style="display:block;width:100%;aspect-ratio:4/3;height:auto"></image-slot>
     </div>
   </div>
 
   <h2 style="margin:0 0 20px;font-size:22px;font-weight:700;letter-spacing:-0.02em">Project thumbnails</h2>
-  <p style="margin:0 0 20px;font-size:14px;color:#6B7280">Shown on the Home and Work project cards.</p>
+  <p style="margin:0 0 20px;font-size:14px;color:var(--text-subtle)">Shown on the Home and Work project cards.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:56px">
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Enterprise Data Lineage</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">Enterprise Data Lineage</div>
       <image-slot id="thumb-data-lineage" radius="14" placeholder="Enterprise lineage diagram thumbnail" style="display:block;width:100%;aspect-ratio:16/10;height:auto"></image-slot>
     </div>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Asset Impact Diagram</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">Asset Impact Diagram</div>
       <image-slot id="thumb-asset-impact-diagram" radius="14" placeholder="Asset Impact Diagram — relationship view" style="display:block;width:100%;aspect-ratio:16/10;height:auto"></image-slot>
     </div>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">AI-generated Descriptions</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">AI-generated Descriptions</div>
       <image-slot id="thumb-ai-descriptions" radius="14" placeholder="AI review workflow UI" style="display:block;width:100%;aspect-ratio:16/10;height:auto"></image-slot>
     </div>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Business Term Linking</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">Business Term Linking</div>
       <image-slot id="thumb-term-linking" radius="14" placeholder="Recommendation review UI" style="display:block;width:100%;aspect-ratio:16/10;height:auto"></image-slot>
     </div>
   </div>
 
   <h2 style="margin:0 0 20px;font-size:22px;font-weight:700;letter-spacing:-0.02em">Case study hero images</h2>
-  <p style="margin:0 0 20px;font-size:14px;color:#6B7280">The large banner at the top of each case study.</p>
+  <p style="margin:0 0 20px;font-size:14px;color:var(--text-subtle)">The large banner at the top of each case study.</p>
   <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:56px">
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Enterprise Data Lineage — hero</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">Enterprise Data Lineage — hero</div>
       <image-slot id="case-hero-data-lineage" radius="14" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;height:auto"></image-slot>
     </div>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Asset Impact Diagram — hero</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">Asset Impact Diagram — hero</div>
       <image-slot id="case-hero-asset-impact-diagram" radius="14" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;height:auto"></image-slot>
     </div>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">AI-generated Descriptions — hero</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">AI-generated Descriptions — hero</div>
       <image-slot id="case-hero-ai-descriptions" radius="14" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;height:auto"></image-slot>
     </div>
-    <div style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div style="font-size:13px;font-weight:600;color:#6B7280">Business Term Linking — hero</div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div style="font-size:13px;font-weight:600;color:var(--text-subtle)">Business Term Linking — hero</div>
       <image-slot id="case-hero-term-linking" radius="14" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;height:auto"></image-slot>
     </div>
   </div>
 
   <h2 style="margin:0 0 20px;font-size:22px;font-weight:700;letter-spacing:-0.02em">Links</h2>
-  <p style="margin:0 0 20px;font-size:14px;color:#6B7280">Used by every Email, LinkedIn, and Download-resume button across the site. Saved automatically.</p>
+  <p style="margin:0 0 20px;font-size:14px;color:var(--text-subtle)">Used by every Email, LinkedIn, and Download-resume button across the site. Saved automatically.</p>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1000px">
-    <label style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px">
-      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF">Email address</span>
-      <input type="email" value="{{ linkEmail }}" onChange="{{ setLinkEmail }}" placeholder="you@example.com" style="width:100%;padding:12px 16px;border:1px solid #E5E7EB;border-radius:12px;font-family:inherit;font-size:14.5px;color:#111827;background:#ffffff">
+    <label style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint)">Email address</span>
+      <input type="email" value="{{ linkEmail }}" onChange="{{ setLinkEmail }}" placeholder="you@example.com" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-family:inherit;font-size:14.5px;color:var(--text);background:var(--surface)">
     </label>
-    <label style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px">
-      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF">LinkedIn URL</span>
-      <input type="url" value="{{ linkLinkedin }}" onChange="{{ setLinkLinkedin }}" placeholder="https://www.linkedin.com/in/…" style="width:100%;padding:12px 16px;border:1px solid #E5E7EB;border-radius:12px;font-family:inherit;font-size:14.5px;color:#111827;background:#ffffff">
+    <label style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint)">LinkedIn URL</span>
+      <input type="url" value="{{ linkLinkedin }}" onChange="{{ setLinkLinkedin }}" placeholder="https://www.linkedin.com/in/…" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-family:inherit;font-size:14.5px;color:var(--text);background:var(--surface)">
     </label>
-    <label style="background:#F9FAFB;border:1px solid #E5E7EB;border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px">
-      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9CA3AF">Resume URL</span>
-      <input type="url" value="{{ linkResume }}" onChange="{{ setLinkResume }}" placeholder="Link to your resume PDF" style="width:100%;padding:12px 16px;border:1px solid #E5E7EB;border-radius:12px;font-family:inherit;font-size:14.5px;color:#111827;background:#ffffff">
+    <label style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:10px">
+      <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint)">Resume URL</span>
+      <input type="url" value="{{ linkResume }}" onChange="{{ setLinkResume }}" placeholder="Link to your resume PDF" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:12px;font-family:inherit;font-size:14.5px;color:var(--text);background:var(--surface)">
     </label>
   </div>
 </main>
 </sc-if>
 
 <!-- ============ FOOTER ============ -->
-<footer style="border-top:1px solid #E5E7EB;background:#F9FAFB">
+<footer style="border-top:1px solid var(--border);background:var(--surface-subtle)">
   <div style="max-width:1200px;margin:0 auto;padding:48px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
     <div>
       <div style="font-size:16px;font-weight:700;letter-spacing:-0.04em">Snehal Kumar</div>
-      <div style="font-size:13px;color:#6B7280;margin-top:4px">Senior Product Designer · © 2026</div>
+      <div style="font-size:13px;color:var(--text-subtle);margin-top:4px">Senior Product Designer · © 2026</div>
     </div>
     <div style="display:flex;gap:4px;flex-wrap:wrap">
       <sc-for list="{{ navLinks }}" as="nl" hint-placeholder-count="5">
-        <a href="#" onClick="{{ nl.onClick }}" style="text-decoration:none;font-size:13.5px;font-weight:500;color:#6B7280;padding:6px 12px;border-radius:999px" style-hover="color:#111827;background:#F3F4F6">{{ nl.label }}</a>
+        <a href="#" onClick="{{ nl.onClick }}" style="text-decoration:none;font-size:13.5px;font-weight:500;color:var(--text-subtle);padding:6px 12px;border-radius:999px" style-hover="color:var(--text);background:var(--surface-muted)">{{ nl.label }}</a>
       </sc-for>
     </div>
     <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-      <span style="font-size:13px;color:#9CA3AF;font-variant-numeric:tabular-nums;white-space:nowrap">India · {{ clockTime }} IST</span>
-      <button onClick="{{ copyEmail }}" style="cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:600;color:#EA580C;background:#ffffff;border:1px solid #FED7AA;border-radius:999px;padding:7px 16px;transition:background .15s" style-hover="background:#FFF7ED">{{ copyEmailLabel }}</button>
-      <a href="{{ linkedinUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;font-size:13.5px;font-weight:600;color:#EA580C" style-hover="color:#C2410C">LinkedIn ↗</a>
-      <a href="#" onClick="{{ goManage }}" style="text-decoration:none;font-size:13.5px;font-weight:500;color:#9CA3AF" style-hover="color:#111827">Manage content</a>
+      <span style="font-size:13px;color:var(--text-faint);font-variant-numeric:tabular-nums;white-space:nowrap">India · {{ clockTime }} IST</span>
+      <button onClick="{{ copyEmail }}" style="cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--accent-text);background:var(--surface);border:1px solid var(--accent-tint-border);border-radius:999px;padding:7px 16px;transition:background .15s" style-hover="background:var(--accent-tint)">{{ copyEmailLabel }}</button>
+      <a href="{{ linkedinUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;font-size:13.5px;font-weight:600;color:var(--accent-text)" style-hover="color:var(--accent-text-strong)">LinkedIn ↗</a>
+      <a href="#" onClick="{{ goManage }}" style="text-decoration:none;font-size:13.5px;font-weight:500;color:var(--text-faint)" style-hover="color:var(--text)">Manage content</a>
     </div>
   </div>
 </footer>
@@ -2203,10 +2250,10 @@ class Component extends DCLogic {
       href: p.destination === 'external' ? p.externalUrl : '#',
       target: p.destination === 'external' ? '_blank' : null,
       badge: p.destination === 'comingSoon' ? 'Coming soon' : (p.destination === 'external' ? 'External' : (p.depth === 'flagship' ? 'Flagship' : 'Case study')),
-      badgeColor: p.destination === 'comingSoon' ? '#6B7280' : '#C2410C',
-      badgeBg: p.destination === 'comingSoon' ? '#F3F4F6' : '#FFF7ED',
+      badgeColor: p.destination === 'comingSoon' ? 'var(--text-subtle)' : 'var(--accent-text-strong)',
+      badgeBg: p.destination === 'comingSoon' ? 'var(--surface-muted)' : 'var(--accent-tint)',
       cta: p.destination === 'comingSoon' ? 'Coming soon' : (p.destination === 'external' ? 'Open project ↗' : 'View case study →'),
-      ctaColor: p.destination === 'comingSoon' ? '#9CA3AF' : '#EA580C',
+      ctaColor: p.destination === 'comingSoon' ? 'var(--text-faint)' : 'var(--accent-text)',
       opacity: p.destination === 'comingSoon' ? '0.75' : '1',
     }));
 
@@ -2226,9 +2273,9 @@ class Component extends DCLogic {
       levels: rawCs.levels ? rawCs.levels.map((lv, i) => ({
         ...lv,
         onClick: () => self.setState({ levelTab: i }),
-        chipBg: levelTab === i ? '#F97316' : '#ffffff',
-        chipColor: levelTab === i ? '#ffffff' : '#374151',
-        chipBorder: levelTab === i ? '#F97316' : '#E5E7EB',
+        chipBg: levelTab === i ? '#F97316' : 'var(--surface)',
+        chipColor: levelTab === i ? '#ffffff' : 'var(--text-secondary)',
+        chipBorder: levelTab === i ? '#F97316' : 'var(--border)',
       })) : null,
       activeLevel: rawCs.levels ? rawCs.levels[Math.min(levelTab, rawCs.levels.length - 1)] : null,
       enhancements: rawCs.enhancements ? rawCs.enhancements.map((en, i) => ({
@@ -2242,9 +2289,9 @@ class Component extends DCLogic {
       accessPoints: rawCs.accessPoints ? rawCs.accessPoints.map((ap, i) => ({
         ...ap,
         onClick: () => self.setState({ accessTab: i }),
-        chipBg: accessTab === i ? '#F97316' : '#ffffff',
-        chipColor: accessTab === i ? '#ffffff' : '#374151',
-        chipBorder: accessTab === i ? '#F97316' : '#E5E7EB',
+        chipBg: accessTab === i ? '#F97316' : 'var(--surface)',
+        chipColor: accessTab === i ? '#ffffff' : 'var(--text-secondary)',
+        chipBorder: accessTab === i ? '#F97316' : 'var(--border)',
       })) : null,
       activeAccessPoint: rawCs.accessPoints ? rawCs.accessPoints[Math.min(accessTab, rawCs.accessPoints.length - 1)] : null,
     } : null;
@@ -2257,8 +2304,8 @@ class Component extends DCLogic {
     const navLinks = navDefs.map(([label, r]) => ({
       label,
       onClick: this.nav(r),
-      color: activeRoute === r ? '#C2410C' : '#4B5563',
-      bg: activeRoute === r ? '#FFF7ED' : 'transparent',
+      color: activeRoute === r ? 'var(--accent-text-strong)' : 'var(--text-muted)',
+      bg: activeRoute === r ? 'var(--accent-tint)' : 'transparent',
       ariaCurrent: activeRoute === r ? 'page' : null,
     }));
 
@@ -2328,9 +2375,9 @@ class Component extends DCLogic {
               tabs: b.type === 'tabs' ? b.tabs.map((t, ti) => ({
                 label: t.label,
                 onClick: () => self.setState({ expTabs: { ...self.state.expTabs, [key]: ti } }),
-                bg: ti === active ? '#F97316' : '#ffffff',
-                color: ti === active ? '#ffffff' : '#374151',
-                border: ti === active ? '#F97316' : '#E5E7EB',
+                bg: ti === active ? '#F97316' : 'var(--surface)',
+                color: ti === active ? '#ffffff' : 'var(--text-secondary)',
+                border: ti === active ? '#F97316' : 'var(--border)',
               })) : null,
             };
           }),
@@ -2367,10 +2414,10 @@ class Component extends DCLogic {
           avatar: isUser ? 'You' : 'S',
           avatarBg: isUser ? '#111827' : '#F97316',
           avatarColor: '#ffffff',
-          bubbleBg: isUser ? '#111827' : '#ffffff',
-          bubbleBorder: isUser ? '#111827' : '#E5E7EB',
+          bubbleBg: isUser ? '#111827' : 'var(--surface)',
+          bubbleBorder: isUser ? '#111827' : 'var(--border)',
           radius: isUser ? '18px 4px 18px 18px' : '4px 18px 18px 18px',
-          textColor: isUser ? '#F9FAFB' : '#374151',
+          textColor: isUser ? '#F9FAFB' : 'var(--text-secondary)',
           avatarFontSize: isUser ? '10px' : '13px',
           cards: (m.projectIds || []).map(id => {
             const p = projects.find(pp => pp.id === id);
@@ -2412,9 +2459,9 @@ class Component extends DCLogic {
       filterChips: filterNames.map(name => ({
         label: name,
         onClick: () => self.setState({ filter: name }),
-        bg: filter === name ? '#F97316' : '#ffffff',
-        color: filter === name ? '#ffffff' : '#374151',
-        border: filter === name ? '#F97316' : '#E5E7EB',
+        bg: filter === name ? '#F97316' : 'var(--surface)',
+        color: filter === name ? '#ffffff' : 'var(--text-secondary)',
+        border: filter === name ? '#F97316' : 'var(--border)',
       })),
       filteredLarge: filtered.filter(p => p.depth === 'flagship'),
       filteredCompact: filtered.filter(p => p.depth !== 'flagship'),
@@ -2423,13 +2470,13 @@ class Component extends DCLogic {
 
       timeline: timelineData.map(([period, role, company, description], i) => ({
         period, role, company, description,
-        lineColor: i === timelineData.length - 1 ? 'transparent' : '#E5E7EB',
+        lineColor: i === timelineData.length - 1 ? 'transparent' : 'var(--border)',
       })),
       skills: ['Strategy', 'UX Design', 'Research', 'Design Systems', 'Interaction Design', 'Workshops', 'Wireframing', 'Prototyping', 'Usability Testing', 'Information Architecture', 'Content Strategy', 'AI-assisted workflows'],
 
       experiments,
       miniTimeline: miniTimelineData.map(([title, sub], i) => ({
-        title, sub, lineColor: i === miniTimelineData.length - 1 ? 'transparent' : '#E5E7EB',
+        title, sub, lineColor: i === miniTimelineData.length - 1 ? 'transparent' : 'var(--border)',
       })),
       values: ['Clarity over complexity', 'Systems over screens', 'Research-informed decisions', 'Design for trust', 'Accessible and inclusive experiences', 'AI as a design partner, not a shortcut'],
       interests: ['Enterprise AI UX', 'Data visualization', 'Data catalog and lineage', 'Design systems', 'Product strategy', 'AI-assisted prototyping', 'Design education'],

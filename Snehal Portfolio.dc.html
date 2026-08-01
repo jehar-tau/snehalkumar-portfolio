@@ -905,7 +905,7 @@ a{color:inherit}
     <div style="display:flex;flex-direction:column;gap:40px">
       <sc-for list="{{ cs.modules }}" as="mo" hint-placeholder-count="3">
         <div>
-          <image-slot id="{{ mo.slotId }}" radius="24" placeholder="Final UI — {{ mo.title }}" style="display:block;width:100%;aspect-ratio:16/8;border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:18px"></image-slot>
+          <image-slot id="{{ mo.slotId }}" fit="{{ mo.fit }}" radius="24" placeholder="Final UI — {{ mo.title }}" style="display:block;width:100%;aspect-ratio:16/8;border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:18px"></image-slot>
           <div style="max-width:720px">
             <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ mo.title }}</div>
             <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-muted)">{{ mo.description }}</p>
@@ -2012,10 +2012,7 @@ class Component extends DCLogic {
         ],
         videoUrl: 'https://youtu.be/LkcBiQOwuAc', videoEmbedUrl: 'https://www.youtube.com/embed/LkcBiQOwuAc',
         modules: [
-          { title: 'Usability test script', description: 'Moderator questions used to test the card view, table view, navigation, and mobile experience.' },
-          { title: 'Workshop notes — planning', description: 'Working notes from early design discussions. Names redacted for privacy.' },
-          { title: 'Workshop notes — stakeholder discussion', description: 'Notes from a design discussion with a product stakeholder. Names redacted for privacy.' },
-          { title: 'Workshop notes — feedback incorporated', description: 'Stakeholder feedback already folded into the design. Names redacted for privacy.' },
+          { title: 'Feature requirements from BA & PM', description: 'Usability-test planning and requirements handed to design before wireframes and final designs — not workshop notes. Names redacted for privacy.', fit: 'contain' },
           { title: 'Information architecture', description: '72 screens across 40 templates, mapped end to end.' },
           { title: '"movehome" visual identity', description: 'Typography, color palette, components, and states used throughout the CRM.' },
           { title: 'Client brand — Movement Mortgage', description: 'The client’s own marketing site, used as a brand reference.' },

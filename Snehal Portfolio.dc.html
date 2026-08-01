@@ -643,6 +643,10 @@ a{color:inherit}
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
     <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Research &amp; discovery</div>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Understanding the workflow first</h2>
+    <sc-if value="{{ cs.artifact0 }}" hint-placeholder-val="{{ false }}">
+      <image-slot id="artifact0-{{ csSlug }}" fit="contain" radius="24" placeholder="{{ cs.artifact0 }}" style="display:block;width:100%;aspect-ratio:16/9;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:14px"></image-slot>
+      <p style="margin:0 0 24px;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact0Caption }}</p>
+    </sc-if>
     <p style="margin:0;font-size:16.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.research }}</p>
   </section>
 
@@ -892,6 +896,12 @@ a{color:inherit}
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
     <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Final solution</div>
     <h2 style="margin:0 0 32px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">What shipped</h2>
+    <sc-if value="{{ cs.videoEmbedUrl }}" hint-placeholder-val="{{ false }}">
+      <div style="aspect-ratio:16/9;border-radius:24px;overflow:hidden;border:1px solid var(--border);margin-bottom:14px">
+        <iframe src="{{ cs.videoEmbedUrl }}" style="width:100%;height:100%;border:none;display:block" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" title="Product walkthrough"></iframe>
+      </div>
+      <a href="{{ cs.videoUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;font-size:13.5px;font-weight:600;color:var(--accent-text);display:inline-block;margin-bottom:40px" style-hover="color:var(--accent-text-strong)">Watch on YouTube ↗</a>
+    </sc-if>
     <div style="display:flex;flex-direction:column;gap:40px">
       <sc-for list="{{ cs.modules }}" as="mo" hint-placeholder-count="3">
         <div>
@@ -1984,7 +1994,8 @@ class Component extends DCLogic {
         contributed: ['Competitive benchmarking against leading CRMs', 'Visual identity and brand-guideline application', 'Iterative refinement from user feedback'],
         collaborated: ['A second designer on production screens', 'Business analyst on workflow requirements', 'Product manager and client stakeholders'],
         process: ['Understand', 'Define', 'Explore', 'Validate', 'Deliver', 'Reflect'],
-        research: 'A user survey found 76% of leads came from online listing platforms, 18% from realtors, and 6% from personal websites and social media. I benchmarked named competitors head to head: Fresh Sales was strong on integration, compliance, and experience but weak on customization and reporting; Allclients was strong on customization, workflow automation, and reporting but weak on experience and compliance. Every CRM we reviewed already covered document management and secure communication, so the real differentiator would be workflow and nurturing support, not table-stakes features. Workshops with loan officers then mapped pain points and opportunities across four personas — Senior Loan Officer, Experienced Borrower, First-Time Borrower, and LOA — against the shop-to-close journey.',
+        research: 'Before the primary research, I did desk research to understand the mortgage industry — how loan officers work, and which CRMs they already used. That included benchmarking named competitors head to head: Fresh Sales was strong on integration, compliance, and experience but weak on customization and reporting; Allclients was strong on customization, workflow automation, and reporting but weak on experience and compliance. Every CRM we reviewed already covered document management and secure communication, so the real differentiator would be workflow and nurturing support, not table-stakes features. From there, a user survey found 76% of leads came from online listing platforms, 18% from realtors, and 6% from personal websites and social media. Workshops with loan officers then mapped pain points and opportunities across four personas — Senior Loan Officer, Experienced Borrower, First-Time Borrower, and LOA — against the shop-to-close journey.',
+        artifact0: 'Competitive benchmark — Fresh Sales & Allclients', artifact0Caption: 'Desk research into the mortgage industry and the CRMs loan officers already used — done before the primary research, to ground it in how the domain actually works.',
         artifact2: 'Research synthesis — survey, benchmarking, workshops', artifact2Caption: 'Journey-mapping workshops: pain points and opportunities plotted per persona (Senior Loan Officer, Experienced Borrower, First-Time Borrower, LOA) against the shop-to-close journey, from hundreds of sticky notes down to prioritized themes.',
         insights: [
           { title: 'Experience beats rates alone', description: 'While interest rates remained important, borrowers also valued a positive overall lender experience.', influence: 'Framed the CRM around relationship-building actions, not just data storage.' },
@@ -1999,8 +2010,8 @@ class Component extends DCLogic {
           { decision: 'A visible loan process tracker on every lead', why: 'Neither officers nor borrowers could see where an application stood.', impact: 'Clear status reduced check-in calls and kept leads engaged.' },
           { decision: 'Centralized tools and resources inside the portal', why: 'Officers previously juggled separate systems for documents, rates, and comms.', impact: 'Streamlined tasks with guided processes after launch.' },
         ],
+        videoUrl: 'https://youtu.be/LkcBiQOwuAc', videoEmbedUrl: 'https://www.youtube.com/embed/LkcBiQOwuAc',
         modules: [
-          { title: 'Competitive benchmark', description: 'Fresh Sales vs. Allclients, compared on integration, customization, reporting, and compliance.' },
           { title: 'Usability test script', description: 'Moderator questions used to test the card view, table view, navigation, and mobile experience.' },
           { title: 'Workshop notes — planning', description: 'Working notes from early design discussions. Names redacted for privacy.' },
           { title: 'Workshop notes — stakeholder discussion', description: 'Notes from a design discussion with a product stakeholder. Names redacted for privacy.' },

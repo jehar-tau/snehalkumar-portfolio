@@ -469,9 +469,7 @@ a{color:inherit}
 
   <!-- Artifact: current state -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center">
-      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">{{ cs.artifact1 }}</span>
-    </div>
+    <image-slot id="artifact1-{{ csSlug }}" radius="24" placeholder="{{ cs.artifact1 }}" style="display:block;width:100%;aspect-ratio:16/7;border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact1Caption }}</p>
   </section>
 
@@ -676,9 +674,7 @@ a{color:inherit}
 
   <!-- Artifact: research -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center">
-      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">{{ cs.artifact2 }}</span>
-    </div>
+    <image-slot id="artifact2-{{ csSlug }}" radius="24" placeholder="{{ cs.artifact2 }}" style="display:block;width:100%;aspect-ratio:16/7;border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact2Caption }}</p>
   </section>
 
@@ -899,9 +895,7 @@ a{color:inherit}
     <div style="display:flex;flex-direction:column;gap:40px">
       <sc-for list="{{ cs.modules }}" as="mo" hint-placeholder-count="3">
         <div>
-          <div style="aspect-ratio:16/8;background:linear-gradient(135deg,var(--accent-tint),var(--surface-muted));border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:18px">
-            <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Final UI — {{ mo.title }}</span>
-          </div>
+          <image-slot id="{{ mo.slotId }}" radius="24" placeholder="Final UI — {{ mo.title }}" style="display:block;width:100%;aspect-ratio:16/8;border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:18px"></image-slot>
           <div style="max-width:720px">
             <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ mo.title }}</div>
             <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-muted)">{{ mo.description }}</p>
@@ -2009,6 +2003,15 @@ class Component extends DCLogic {
           { title: 'Lead dashboard & prioritization', description: 'A scannable lead list with hot/warm indicators and a "Next Best Action" prompt on every record, so officers focus on the leads most likely to convert first.' },
           { title: 'Nurturing actions & communication', description: 'Notes, action history, and marketing activity in one timeline — call, email, or text a lead without leaving the record.' },
           { title: 'Loan process tracker', description: 'Personal, work, loan, and co-borrower information alongside a visible process status, incorporating Movement Mortgage brand guidelines throughout — plus a companion mobile view for officers on the go.' },
+          { title: 'Lead-sourcing research', description: 'Survey of lead sources: 76% online listing platforms, 18% realtors, 6% personal websites and social media.' },
+          { title: 'Competitive benchmark', description: 'Fresh Sales vs. Allclients, compared on integration, customization, reporting, and compliance.' },
+          { title: 'Usability test script', description: 'Moderator questions used to test the card view, table view, navigation, and mobile experience.' },
+          { title: 'Workshop notes — planning', description: 'Working notes from early design discussions. Names redacted for privacy.' },
+          { title: 'Workshop notes — stakeholder discussion', description: 'Notes from a design discussion with a product stakeholder. Names redacted for privacy.' },
+          { title: 'Workshop notes — feedback incorporated', description: 'Stakeholder feedback already folded into the design. Names redacted for privacy.' },
+          { title: 'Information architecture', description: '72 screens across 40 templates, mapped end to end.' },
+          { title: '"movehome" visual identity', description: 'Typography, color palette, components, and states used throughout the CRM.' },
+          { title: 'Client brand — Movement Mortgage', description: 'The client’s own marketing site, used as a brand reference.' },
         ],
         deliverables: ['User research & survey synthesis', 'Competitive benchmark report', 'Persona-based journey maps', 'Information architecture — 72 screens across 40 templates', 'High-fidelity mockups', '"movehome" visual identity & style guide', 'Iterative usability findings'],
         outcomes: [
@@ -2295,6 +2298,7 @@ class Component extends DCLogic {
         chipBorder: accessTab === i ? '#F97316' : 'var(--border)',
       })) : null,
       activeAccessPoint: rawCs.accessPoints ? rawCs.accessPoints[Math.min(accessTab, rawCs.accessPoints.length - 1)] : null,
+      modules: rawCs.modules ? rawCs.modules.map((mo, i) => ({ ...mo, slotId: 'module-' + slug + '-' + i })) : null,
     } : null;
     const relatedProjects = rawCs ? projects.filter(p => rawCs.related.includes(p.id)) : [];
 

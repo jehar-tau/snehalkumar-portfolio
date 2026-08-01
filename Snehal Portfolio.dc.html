@@ -682,6 +682,22 @@ a{color:inherit}
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact2Caption }}</p>
   </section>
 
+  <!-- Artifact: scope/flow diagram (custom aspect ratio — frame sized to fit the image, not the reverse) -->
+  <sc-if value="{{ cs.artifact3 }}" hint-placeholder-val="{{ false }}">
+  <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
+    <image-slot id="artifact3-{{ csSlug }}" radius="24" placeholder="{{ cs.artifact3 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact3Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact3Caption }}</p>
+  </section>
+  </sc-if>
+
+  <!-- Artifact: visual identity (custom aspect ratio) -->
+  <sc-if value="{{ cs.artifact4 }}" hint-placeholder-val="{{ false }}">
+  <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
+    <image-slot id="artifact4-{{ csSlug }}" radius="24" placeholder="{{ cs.artifact4 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact4Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact4Caption }}</p>
+  </section>
+  </sc-if>
+
   <!-- What we learned -->
   <sc-if value="{{ cs.findings }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
@@ -905,11 +921,13 @@ a{color:inherit}
     <div style="display:flex;flex-direction:column;gap:40px">
       <sc-for list="{{ cs.modules }}" as="mo" hint-placeholder-count="3">
         <div>
-          <image-slot id="{{ mo.slotId }}" fit="{{ mo.fit }}" radius="24" placeholder="Final UI — {{ mo.title }}" style="display:block;width:100%;aspect-ratio:16/8;border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:18px"></image-slot>
-          <div style="max-width:720px">
-            <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ mo.title }}</div>
-            <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-muted)">{{ mo.description }}</p>
-          </div>
+          <image-slot id="{{ mo.slotId }}" fit="{{ mo.fit }}" radius="24" placeholder="{{ mo.placeholder }}" style="display:block;width:100%;aspect-ratio:{{ mo.aspectRatio }};border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:18px"></image-slot>
+          <sc-if value="{{ mo.title }}" hint-placeholder-val="{{ true }}">
+            <div style="max-width:720px">
+              <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ mo.title }}</div>
+              <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-muted)">{{ mo.description }}</p>
+            </div>
+          </sc-if>
         </div>
       </sc-for>
     </div>
@@ -1997,6 +2015,8 @@ class Component extends DCLogic {
         research: 'Before the primary research, I did desk research to understand the mortgage industry — how loan officers work, and which CRMs they already used. That included benchmarking named competitors head to head: Fresh Sales was strong on integration, compliance, and experience but weak on customization and reporting; Allclients was strong on customization, workflow automation, and reporting but weak on experience and compliance. Every CRM we reviewed already covered document management and secure communication, so the real differentiator would be workflow and nurturing support, not table-stakes features. From there, a user survey found 76% of leads came from online listing platforms, 18% from realtors, and 6% from personal websites and social media. Workshops with loan officers then mapped pain points and opportunities across four personas — Senior Loan Officer, Experienced Borrower, First-Time Borrower, and LOA — against the shop-to-close journey.',
         artifact0: 'Competitive benchmark — Fresh Sales & Allclients', artifact0Caption: 'Desk research into the mortgage industry and the CRMs loan officers already used — done before the primary research, to ground it in how the domain actually works.',
         artifact2: 'Research synthesis — survey, benchmarking, workshops', artifact2Caption: 'Journey-mapping workshops: pain points and opportunities plotted per persona (Senior Loan Officer, Experienced Borrower, First-Time Borrower, LOA) against the shop-to-close journey, from hundreds of sticky notes down to prioritized themes.',
+        artifact3: 'Page flow & application scope', artifact3Aspect: '3674/4096', artifact3Caption: 'A rough mapping of where each page would live, the interactions on it, and how a user would move between pages — done just after research, to scope how big the application needed to be before wireframes started.',
+        artifact4: '"movehome" visual identity', artifact4Aspect: '4096/2738', artifact4Caption: 'Typography, color palette, components, and states used throughout the CRM, established once the page flow and scope were settled.',
         insights: [
           { title: 'Experience beats rates alone', description: 'While interest rates remained important, borrowers also valued a positive overall lender experience.', influence: 'Framed the CRM around relationship-building actions, not just data storage.' },
           { title: 'Fully online is the expectation', description: 'Consumer preference had shifted to a fully online loan process, away from hybrid approaches.', influence: 'Prioritized digital outreach and an end-to-end online process tracker.' },
@@ -2013,11 +2033,9 @@ class Component extends DCLogic {
         videoUrl: 'https://youtu.be/LkcBiQOwuAc', videoEmbedUrl: 'https://www.youtube.com/embed/LkcBiQOwuAc',
         modules: [
           { title: 'Feature requirements from BA & PM', description: 'Usability-test planning and requirements handed to design before wireframes and final designs — not workshop notes. Names redacted for privacy.', fit: 'contain' },
-          { title: 'Information architecture', description: '72 screens across 40 templates, mapped end to end.' },
-          { title: '"movehome" visual identity', description: 'Typography, color palette, components, and states used throughout the CRM.' },
-          { title: 'Client brand — Movement Mortgage', description: 'The client’s own marketing site, used as a brand reference.' },
+          { aspectRatio: '1728/964', fit: 'contain' },
         ],
-        deliverables: ['User research & survey synthesis', 'Competitive benchmark report', 'Persona-based journey maps', 'Information architecture — 72 screens across 40 templates', 'High-fidelity mockups', '"movehome" visual identity & style guide', 'Iterative usability findings'],
+        deliverables: ['User research & survey synthesis', 'Competitive benchmark report', 'Persona-based journey maps', 'Page flow & application-scope mapping', 'High-fidelity mockups', '"movehome" visual identity & style guide', 'Iterative usability findings'],
         outcomes: [
           { label: 'Measured impact', description: 'Lead conversion time reduced from 9 days to 4 days after the May 2021 launch.' },
           { label: 'User impact', description: 'Enhanced loan officer workflow with streamlined, guided tasks.' },
@@ -2302,7 +2320,12 @@ class Component extends DCLogic {
         chipBorder: accessTab === i ? '#F97316' : 'var(--border)',
       })) : null,
       activeAccessPoint: rawCs.accessPoints ? rawCs.accessPoints[Math.min(accessTab, rawCs.accessPoints.length - 1)] : null,
-      modules: rawCs.modules ? rawCs.modules.map((mo, i) => ({ ...mo, slotId: 'module-' + slug + '-' + i })) : null,
+      modules: rawCs.modules ? rawCs.modules.map((mo, i) => ({
+        ...mo,
+        slotId: 'module-' + slug + '-' + i,
+        aspectRatio: mo.aspectRatio || '16/8',
+        placeholder: mo.title ? 'Final UI — ' + mo.title : 'Final UI',
+      })) : null,
     } : null;
     const relatedProjects = rawCs ? projects.filter(p => rawCs.related.includes(p.id)) : [];
 

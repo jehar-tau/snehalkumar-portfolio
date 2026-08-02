@@ -1362,16 +1362,31 @@ class Component extends DCLogic {
     const history = [...this.state.askMessages, { role: 'user', text: q }];
     this.setState({ askMessages: history, askInput: '', askLoading: true }, () => this.scrollChat());
     try {
-      const raw = await window.claude.complete({
-        system: `You are the portfolio assistant on Snehal Kumar's personal website. Visitors are often recruiters and hiring managers.\n\nAnswer ONLY questions about Snehal Kumar — his projects, design process, experience, skills, education, and how to contact him — using the knowledge base below. Be concise (2-5 sentences), specific, and professional. Speak about Snehal in the third person.\n\nIf a question is outside this scope (general knowledge, other people, coding help, anything unrelated), politely reply that you're only designed to answer questions about Snehal Kumar's work and projects, and suggest asking about one of his projects instead. Do not answer the off-topic question itself.\n\nRespond ONLY with valid JSON, no markdown fences:\n{"answer": "your answer text", "projects": ["projectId", ...]}\n\n"projects" = ids (max 3) of projects directly relevant to your answer, or [] if none / off-topic.\n\nKNOWLEDGE BASE:\n${this.knowledgeBase()}`,
-        messages: history.map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text })),
-        max_tokens: 700,
+      const res = await fetch('https://portfolio-ask-ai.snehalkumar.workers.dev', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          system: `You are the portfolio assistant on Snehal Kumar's personal website. Visitors are often recruiters and hiring managers.\n\nAnswer ONLY questions about Snehal Kumar — his projects, design process, experience, skills, education, and how to contact him — using the knowledge base below. Be concise (2-5 sentences), specific, and professional. Speak about Snehal in the third person.\n\nIf a question is outside this scope (general knowledge, other people, coding help, anything unrelated), politely reply that you're only designed to answer questions about Snehal Kumar's work and projects, and suggest asking about one of his projects instead. Do not answer the off-topic question itself.\n\nRespond ONLY with valid JSON, no markdown fences:\n{"answer": "your answer text", "projects": ["projectId", ...]}\n\n"projects" = ids (max 3) of projects directly relevant to your answer, or [] if none / off-topic.\n\nKNOWLEDGE BASE:\n${this.knowledgeBase()}`,
+          messages: history.map(m => ({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text })),
+          max_tokens: 700,
+        }),
       });
+      if (!res.ok) throw new Error('worker error: ' + res.status);
+      const raw = (await res.json()).text;
       let parsed;
+      const cleaned = raw.replace(/^```(json)?/m, '').replace(/```\s*$/m, '').trim();
       try {
-        parsed = JSON.parse(raw.replace(/^```(json)?/m, '').replace(/```\s*$/m, '').trim());
+        parsed = JSON.parse(cleaned);
       } catch (e) {
-        parsed = { answer: raw, projects: [] };
+        // Smaller open-source models sometimes prepend a stray sentence
+        // before the JSON object despite the system prompt — fall back to
+        // extracting the {...} block from anywhere in the text.
+        const match = cleaned.match(/\{[\s\S]*\}/);
+        try {
+          parsed = match ? JSON.parse(match[0]) : { answer: raw, projects: [] };
+        } catch (e2) {
+          parsed = { answer: raw, projects: [] };
+        }
       }
       const known = this.projects().map(p => p.id);
       const ids = Array.isArray(parsed.projects) ? parsed.projects.filter(id => known.includes(id)).slice(0, 3) : [];

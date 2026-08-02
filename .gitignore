@@ -1,2 +1,4 @@
 .DS_Store
 docs/
+worker/node_modules/
+worker/.wrangler/

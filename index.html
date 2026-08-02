@@ -662,6 +662,16 @@ a{color:inherit}
   </section>
   </sc-if>
 
+  <!-- Artifact: current-state reference, image left / text right -->
+  <sc-if value="{{ cs.artifact5 }}" hint-placeholder-val="{{ false }}">
+  <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center">
+      <image-slot id="artifact5-{{ csSlug }}" fit="contain" radius="24" placeholder="{{ cs.artifact5 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact5Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+      <p style="margin:0;font-size:15.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.artifact5Text }}</p>
+    </div>
+  </section>
+  </sc-if>
+
   <!-- What we learned -->
   <sc-if value="{{ cs.findings }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:72px 24px 0">
@@ -1824,6 +1834,7 @@ class Component extends DCLogic {
         process: ['Understand', 'Define', 'Explore', 'Validate', 'Deliver', 'Reflect'],
         research: 'I benchmarked the online account opening of Bank of America and Chase — form design, information hierarchy, error handling, and mobile responsiveness. Requirements workshops with the Consumer Business Head, compliance, legal, and technology teams established the priorities: smooth information flow, easy document submission, add-on sales opportunities, and strict regulatory adherence.',
         artifact2: 'Benchmarking & requirements synthesis', artifact2Aspect: '3020/1200', artifact2Caption: 'Comparing leading US banks surfaced patterns for form design and error handling that shaped the flow structure.',
+        artifact5: 'Existing branch-based onboarding journey', artifact5Aspect: '1400/1454', artifact5Text: 'The pre-digital journey required in-person visits and paper documents — untenable during the pandemic and slow at the best of times.',
         insights: [
           { title: 'Grouping beats length', description: 'Long onboarding feels manageable when information is grouped clearly and presented step by step.', influence: 'Structured the flow into clear stages using the Hershey Method for readability.' },
           { title: 'Trust needs transparency', description: 'Customers hesitate at sensitive steps without knowing why information is needed.', influence: 'Added contextual explanations at key steps to build trust.' },
@@ -1837,8 +1848,6 @@ class Component extends DCLogic {
           { decision: 'Seamless upload with smooth verification', why: 'Document submission was the highest-friction step in the journey.', impact: 'Removed the main reason customers previously needed a branch visit.' },
         ],
         modules: [
-          { title: 'Customer information collection', description: 'Personal, financial, account, and regulatory details grouped into clear, guided stages.', fit: 'contain', aspectRatio: '1400/1454' },
-          { title: 'Every screen size', description: 'Each flow had to work responsively across mobile, tablet, and web.', fit: 'contain', aspectRatio: '700/1517' },
           { title: 'Live today at bdo.com.ph', description: 'BDO became the first bank in the Philippines to offer fully digital customer onboarding, launched February 2021.', fit: 'contain', aspectRatio: '1400/1455' },
         ],
         deliverables: ['User needs analysis', 'Competitive benchmark report', 'End-to-end onboarding flows (×3 audiences)', 'Wireframes and prototypes', 'Responsive UI for mobile, tablet, and web', 'Stakeholder-reviewed final designs'],

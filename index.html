@@ -333,7 +333,7 @@ a{color:inherit}
         <span style="font-size:13.5px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:8px 16px">{{ im }}</span>
       </sc-for>
     </div>
-    <image-slot id="case-hero-{{ csSlug }}" radius="28" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:21/9;margin-top:40px;border:1px solid var(--border);border-radius:28px;height:auto"></image-slot>
+    <image-slot id="case-hero-{{ csSlug }}" fit="{{ cs.heroFit }}" radius="28" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:{{ cs.heroAspect }};margin-top:40px;border:1px solid var(--border);border-radius:28px;height:auto"></image-slot>
     <div style="display:none">
       <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Hero image — final experience overview</span>
     </div>
@@ -430,10 +430,12 @@ a{color:inherit}
   </sc-if>
 
   <!-- Artifact: current state -->
+  <sc-if value="{{ cs.artifact1 }}" hint-placeholder-val="{{ true }}">
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <image-slot id="artifact1-{{ csSlug }}" radius="24" placeholder="{{ cs.artifact1 }}" style="display:block;width:100%;aspect-ratio:16/7;border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <image-slot id="artifact1-{{ csSlug }}" fit="{{ cs.artifact1Fit }}" radius="24" placeholder="{{ cs.artifact1 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact1Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact1Caption }}</p>
   </section>
+  </sc-if>
 
   <!-- Evolution timeline -->
   <sc-if value="{{ cs.evolution }}" hint-placeholder-val="{{ false }}">
@@ -640,7 +642,7 @@ a{color:inherit}
 
   <!-- Artifact: research -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <image-slot id="artifact2-{{ csSlug }}" radius="24" placeholder="{{ cs.artifact2 }}" style="display:block;width:100%;aspect-ratio:16/7;border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <image-slot id="artifact2-{{ csSlug }}" fit="{{ cs.artifact2Fit }}" radius="24" placeholder="{{ cs.artifact2 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact2Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact2Caption }}</p>
   </section>
 
@@ -1794,6 +1796,7 @@ class Component extends DCLogic {
         title: 'Digital Account Onboarding for BDO Bank', company: 'Infosys', product: 'BDO Bank Philippines · CA/SA Onboarding',
         summary: 'Digitized the current and savings account opening process for BDO Bank Philippines — a new online experience for existing and new customers, plus a tablet-based in-branch flow.',
         impact: ['First fully digital onboarding by a bank in the Philippines', 'Streamlined account opening for ETB, NTB & in-branch customers', 'Fully responsive across mobile, tablet, and web'],
+        heroAspect: '1800/1038',
         snapshot: [
           { label: 'Company', value: 'Infosys' }, { label: 'Client', value: 'BDO Bank Philippines' },
           { label: 'Project type', value: 'Digital onboarding experience' }, { label: 'My role', value: 'UX Designer (sole designer)' },
@@ -1804,7 +1807,6 @@ class Component extends DCLogic {
         scopeNote: 'This case study covers the end-to-end design of account opening for existing (ETB), new (NTB), and in-branch customers, delivered as enterprise client work at Infosys.',
         contextTitle: 'Opening a bank account, without the branch',
         context: 'During the COVID-19 pandemic, a digital account opening process became urgent. BDO Bank sought a new online experience for onboarding both Existing To Bank (ETB) and New To Bank (NTB) customers, along with a new tablet-based onboarding process for in-branch use. As the sole designer on the 4-month project, I owned the entire UX/UI workflow — from user needs analysis to the polished, delivered solution.',
-        artifact1: 'Existing branch-based onboarding journey', artifact1Caption: 'The pre-digital journey required in-person visits and paper documents — untenable during the pandemic and slow at the best of times.',
         challenges: [
           { title: 'Three distinct audiences', description: 'ETB, NTB, and in-branch customers each needed a tailored onboarding experience.' },
           { title: 'Strict compliance', description: 'Government regulations and bank compliance shaped every step of the flow.' },
@@ -1821,7 +1823,7 @@ class Component extends DCLogic {
         collaborated: ['Consumer Business Head on goals and scope', 'Compliance and legal teams on regulations', 'Technology team on feasibility and delivery'],
         process: ['Understand', 'Define', 'Explore', 'Validate', 'Deliver', 'Reflect'],
         research: 'I benchmarked the online account opening of Bank of America and Chase — form design, information hierarchy, error handling, and mobile responsiveness. Requirements workshops with the Consumer Business Head, compliance, legal, and technology teams established the priorities: smooth information flow, easy document submission, add-on sales opportunities, and strict regulatory adherence.',
-        artifact2: 'Benchmarking & requirements synthesis', artifact2Caption: 'Comparing leading US banks surfaced patterns for form design and error handling that shaped the flow structure.',
+        artifact2: 'Benchmarking & requirements synthesis', artifact2Aspect: '3020/1200', artifact2Caption: 'Comparing leading US banks surfaced patterns for form design and error handling that shaped the flow structure.',
         insights: [
           { title: 'Grouping beats length', description: 'Long onboarding feels manageable when information is grouped clearly and presented step by step.', influence: 'Structured the flow into clear stages using the Hershey Method for readability.' },
           { title: 'Trust needs transparency', description: 'Customers hesitate at sensitive steps without knowing why information is needed.', influence: 'Added contextual explanations at key steps to build trust.' },
@@ -1836,8 +1838,6 @@ class Component extends DCLogic {
         ],
         modules: [
           { title: 'Customer information collection', description: 'Personal, financial, account, and regulatory details grouped into clear, guided stages.', fit: 'contain', aspectRatio: '1400/1454' },
-          { title: 'Document submission & verification', description: 'Easy uploads with a smooth verification process and transparent status.' },
-          { title: 'Activation & add-on products', description: 'Account summary, online activation of web and mobile banking, and a considered add-on sales moment.' },
           { title: 'Every screen size', description: 'Each flow had to work responsively across mobile, tablet, and web.', fit: 'contain', aspectRatio: '700/1517' },
           { title: 'Live today at bdo.com.ph', description: 'BDO became the first bank in the Philippines to offer fully digital customer onboarding, launched February 2021.', fit: 'contain', aspectRatio: '1400/1455' },
         ],
@@ -2019,6 +2019,9 @@ class Component extends DCLogic {
     const accessTab = this.state.accessTab || 0;
     const cs = rawCs ? {
       ...rawCs,
+      heroAspect: rawCs.heroAspect || '21/9', heroFit: rawCs.heroFit || 'cover',
+      artifact1Aspect: rawCs.artifact1Aspect || '16/7', artifact1Fit: rawCs.artifact1Fit || 'cover',
+      artifact2Aspect: rawCs.artifact2Aspect || '16/7', artifact2Fit: rawCs.artifact2Fit || 'cover',
       challenges: rawCs.challenges.map((c, i) => ({ ...c, n: String(i + 1).padStart(2, '0') })),
       insights: rawCs.insights.map((c, i) => ({ ...c, n: String(i + 1).padStart(2, '0') })),
       process: rawCs.process.map((label, i) => ({ label, arrowColor: i === rawCs.process.length - 1 ? 'transparent' : '#FB923C' })),

@@ -13,6 +13,37 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<script>
+  // Local-editing support: when this page is served by serve.py (see
+  // .claude/launch.json), every <image-slot> on every page becomes directly
+  // editable in place — drag a file onto it, click it (or its Replace
+  // button) to browse, or click Remove to clear it. Plain static hosts
+  // (GitHub Pages) never get this, so slots there correctly stay read-only.
+  var isLocalDev = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  if (isLocalDev) {
+    if (!window.omelette) window.omelette = {};
+    if (!window.omelette.writeFile) {
+      window.omelette.writeFile = function (path, content) {
+        return fetch('/__write?path=' + encodeURIComponent(path), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: content,
+        }).then(function (res) {
+          if (!res.ok) throw new Error('save failed: ' + res.status);
+        });
+      };
+    }
+    // image-slot's "Replace" button on an already-filled slot dispatches
+    // this event for a host-owned picker (the real design-canvas tool shows
+    // an Unsplash-or-local-file modal). We have no such host here, so just
+    // open that slot's own hidden file input directly.
+    document.addEventListener('image-slot:pick', function (e) {
+      var root = e.target && e.target.shadowRoot;
+      var input = root && root.querySelector('input[type=file]');
+      if (input) input.click();
+    });
+  }
+</script>
 <script src="./image-slot.js"></script>
 <style>
 :root{

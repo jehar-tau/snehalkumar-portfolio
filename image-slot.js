@@ -332,6 +332,7 @@
     '  background:rgba(0,0,0,.65);color:#fff;font:11px/1 system-ui,-apple-system,sans-serif;' +
     '  backdrop-filter:blur(6px)}' +
     '.ctl button:hover{background:rgba(0,0,0,.8)}' +
+    '.ctl button[data-act="remove"]:hover{background:#c0362c}' +
     '.err{position:absolute;left:8px;bottom:8px;right:8px;color:#b3261e;font-size:11px;' +
     '  background:rgba(255,255,255,.85);padding:4px 6px;border-radius:5px;pointer-events:none}' +
     '.credit{position:absolute;left:6px;bottom:6px;max-width:calc(100% - 12px);display:none;' +
@@ -457,7 +458,8 @@
         '  <div class="handle" data-c="sw"></div><div class="handle" data-c="se"></div>' +
         '</div>' +
         '<div class="ctl" popover="manual"><button data-act="replace" title="Replace image">Replace</button>' +
-        '  <button data-act="edit" title="Reframe image">Edit</button></div>' +
+        '  <button data-act="edit" title="Reframe image">Edit</button>' +
+        '  <button data-act="remove" title="Remove image">Remove</button></div>' +
         '<input type="file" accept="' + ACCEPT.join(',') + '" hidden>';
       this._frame = root.querySelector('.frame');
       this._ring = root.querySelector('.ring');
@@ -500,6 +502,10 @@
           if (!this._reframes()) return;
           if (this.hasAttribute('data-reframe')) this._exitReframe(true);
           else this._enterReframe();
+        }
+        if (act === 'remove') {
+          this._exitReframe(true);
+          setSlot(this.id || '', null);
         }
       });
       this._input.addEventListener('change', () => {

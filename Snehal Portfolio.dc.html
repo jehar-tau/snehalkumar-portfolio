@@ -215,44 +215,6 @@ a{color:inherit}
         </a>
       </sc-for>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px">
-      <sc-for list="{{ compactProjects }}" as="p" hint-placeholder-count="4">
-        <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:var(--accent-tint-border)">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-            <span style="font-size:12px;color:var(--text-subtle)">{{ p.company }}</span>
-            <span style="font-size:11px;font-weight:600;color:{{ p.badgeColor }};background:{{ p.badgeBg }};border-radius:999px;padding:3px 9px;white-space:nowrap">{{ p.badge }}</span>
-          </div>
-          <div style="font-size:16px;font-weight:700;letter-spacing:-0.02em;line-height:1.3;color:var(--text)">{{ p.title }}</div>
-          <p style="margin:0;font-size:13px;line-height:1.5;color:var(--text-muted);flex:1">{{ p.summary }}</p>
-          <div style="font-size:13px;font-weight:600;color:{{ p.ctaColor }}">{{ p.cta }}</div>
-        </a>
-      </sc-for>
-    </div>
-  </section>
-
-  <!-- Experiments preview -->
-  <section style="max-width:1200px;margin:0 auto;padding:64px 24px">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px">
-      <div>
-        <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Experiments</div>
-        <h2 style="margin:0 0 12px;font-size:clamp(28px,3.5vw,38px);line-height:1.1;letter-spacing:-0.04em;font-weight:750">Built to test ideas quickly</h2>
-        <p style="margin:0;font-size:16px;line-height:1.6;color:var(--text-muted);max-width:64ch">AI-assisted builds, interface experiments, design automation explorations, and small tools created to test ideas quickly.</p>
-      </div>
-      <a href="#" onClick="{{ goExperiments }}" style="text-decoration:none;font-size:14px;font-weight:600;color:var(--accent-text);white-space:nowrap;padding-bottom:6px" style-hover="color:var(--accent-text-strong)">All experiments →</a>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
-      <sc-for list="{{ homeExperiments }}" as="e" hint-placeholder-count="3">
-        <a href="{{ e.href }}" target="{{ e.target }}" rel="noopener noreferrer" onClick="{{ e.onClick }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:22px;transition:transform .15s,border-color .15s" style-hover="transform:translateY(-2px);border-color:var(--accent-tint-border)">
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <span style="font-size:11px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:3px 10px">{{ e.status }}</span>
-            <span style="font-size:12px;color:var(--text-faint)">{{ e.category }}</span>
-          </div>
-          <div style="font-size:17px;font-weight:700;letter-spacing:-0.02em;color:var(--text)">{{ e.title }}</div>
-          <p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted);flex:1">{{ e.summary }}</p>
-          <div style="font-size:13px;font-weight:600;color:var(--accent-text)">{{ e.cta }}</div>
-        </a>
-      </sc-for>
-    </div>
   </section>
 
   <!-- About preview -->
@@ -1130,117 +1092,6 @@ a{color:inherit}
 </main>
 </sc-if>
 
-<!-- ============ EXPERIMENTS ============ -->
-<sc-if value="{{ isExperiments }}" hint-placeholder-val="{{ false }}">
-<main data-screen-label="Experiments" style="max-width:1200px;margin:0 auto;padding:72px 24px 96px">
-  <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Experiments</div>
-  <h1 style="margin:0 0 16px;font-size:clamp(38px,5vw,56px);line-height:1.05;letter-spacing:-0.045em;font-weight:750">Experiments</h1>
-  <p style="margin:0 0 48px;font-size:17px;line-height:1.6;color:var(--text-muted);max-width:66ch">Small builds, AI-assisted experiments, interaction concepts, and product ideas created to learn faster and test possibilities.</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
-    <sc-for list="{{ experiments }}" as="e" hint-placeholder-count="4">
-      <a href="{{ e.href }}" target="{{ e.target }}" rel="noopener noreferrer" onClick="{{ e.onClick }}" style="text-decoration:none;display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:var(--accent-tint-border)">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <span style="font-size:11px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:4px 12px">{{ e.status }}</span>
-          <span style="font-size:12.5px;color:var(--text-faint)">{{ e.category }}</span>
-        </div>
-        <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em;color:var(--text)">{{ e.title }}</div>
-        <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-muted);flex:1">{{ e.summary }}</p>
-        <div style="display:flex;flex-wrap:wrap;gap:6px">
-          <sc-for list="{{ e.tags }}" as="t" hint-placeholder-count="3">
-            <span style="font-size:11px;font-weight:500;color:var(--text-subtle);background:var(--surface-muted);border-radius:999px;padding:4px 10px">{{ t }}</span>
-          </sc-for>
-        </div>
-        <div style="font-size:14px;font-weight:600;color:var(--accent-text);margin-top:4px">{{ e.cta }}</div>
-      </a>
-    </sc-for>
-  </div>
-</main>
-</sc-if>
-
-<!-- ============ EXPERIMENT BLOG ============ -->
-<sc-if value="{{ isExperimentPost }}" hint-placeholder-val="{{ false }}">
-<main data-screen-label="Experiment blog" style="padding-bottom:96px">
-  <div style="max-width:760px;margin:0 auto;padding:56px 24px 0">
-    <a href="#" onClick="{{ goExperiments }}" style="text-decoration:none;font-size:13.5px;font-weight:600;color:var(--text-subtle)" style-hover="color:var(--accent-text)">← All experiments</a>
-    <div style="display:flex;align-items:center;gap:10px;margin:28px 0 16px">
-      <span style="font-size:11px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:4px 12px">{{ post.status }}</span>
-      <span style="font-size:13px;color:var(--text-faint)">{{ post.category }}</span>
-      <span style="font-size:13px;color:var(--text-faint)">·</span>
-      <span style="font-size:13px;color:var(--text-faint)">{{ post.readTime }}</span>
-    </div>
-    <h1 style="margin:0 0 16px;font-size:clamp(32px,4.5vw,46px);line-height:1.08;letter-spacing:-0.045em;font-weight:750">{{ post.title }}</h1>
-    <p style="margin:0 0 24px;font-size:17px;line-height:1.65;color:var(--text-muted)">{{ post.intro }}</p>
-    <sc-if value="{{ post.hasExternal }}" hint-placeholder-val="{{ false }}">
-      <a href="{{ post.externalUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:11px 20px;border-radius:999px;background:#F97316;color:#ffffff;margin-bottom:8px" style-hover="background:#EA580C">Open project ↗</a>
-    </sc-if>
-  </div>
-
-  <div style="max-width:760px;margin:0 auto;padding:32px 24px 0;display:flex;flex-direction:column;gap:28px">
-    <sc-for list="{{ post.blocks }}" as="b" hint-placeholder-count="6">
-      <div>
-        <sc-if value="{{ b.isH2 }}" hint-placeholder-val="{{ false }}">
-          <h2 style="margin:24px 0 0;font-size:clamp(22px,2.5vw,28px);line-height:1.2;letter-spacing:-0.03em;font-weight:750">{{ b.text }}</h2>
-        </sc-if>
-        <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}">
-          <p style="margin:0;font-size:16px;line-height:1.75;color:var(--text-secondary)">{{ b.text }}</p>
-        </sc-if>
-        <sc-if value="{{ b.isCallout }}" hint-placeholder-val="{{ false }}">
-          <div style="background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:16px;padding:20px 24px">
-            <p style="margin:0;font-size:15px;line-height:1.65;color:var(--accent-text-deep);font-weight:500">{{ b.text }}</p>
-          </div>
-        </sc-if>
-        <sc-if value="{{ b.isImg }}" hint-placeholder-val="{{ false }}">
-          <div>
-            <div style="aspect-ratio:{{ b.ratio }};background:linear-gradient(135deg,var(--accent-tint),var(--surface-muted));border:1px solid var(--border);border-radius:20px;display:flex;align-items:center;justify-content:center">
-              <span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 14px">{{ b.label }}</span>
-            </div>
-            <p style="margin:12px 0 0;font-size:13px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ b.caption }}</p>
-          </div>
-        </sc-if>
-        <sc-if value="{{ b.isTabs }}" hint-placeholder-val="{{ false }}">
-          <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:22px">
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:14px">{{ b.label }} — try it</div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-              <sc-for list="{{ b.tabs }}" as="t" hint-placeholder-count="3">
-                <button onClick="{{ t.onClick }}" style="cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;padding:8px 16px;border-radius:999px;background:{{ t.bg }};color:{{ t.color }};border:1px solid {{ t.border }};transition:border-color .15s" style-hover="border-color:#FDBA74">{{ t.label }}</button>
-              </sc-for>
-            </div>
-            <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px">
-              <div style="font-size:14.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ b.activeTitle }}</div>
-              <p style="margin:0;font-size:14px;line-height:1.65;color:var(--text-muted)">{{ b.activeText }}</p>
-            </div>
-          </div>
-        </sc-if>
-      </div>
-    </sc-for>
-  </div>
-
-  <div style="max-width:760px;margin:0 auto;padding:56px 24px 0">
-    <div style="background:#111827;border-radius:24px;padding:36px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap">
-      <div>
-        <div style="font-size:17px;font-weight:700;letter-spacing:-0.02em;color:#ffffff;margin-bottom:4px">Want the full detail?</div>
-        <p style="margin:0;font-size:14px;color:#9CA3AF">{{ post.ctaNote }}</p>
-      </div>
-      <sc-if value="{{ post.hasExternal }}" hint-placeholder-val="{{ false }}">
-        <a href="{{ post.externalUrl }}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;font-size:14px;font-weight:600;padding:12px 22px;border-radius:999px;background:#F97316;color:#ffffff;white-space:nowrap" style-hover="background:#EA580C">Open project ↗</a>
-      </sc-if>
-      <sc-if value="{{ post.noExternal }}" hint-placeholder-val="{{ false }}">
-        <a href="#" onClick="{{ openAsk }}" style="text-decoration:none;font-size:14px;font-weight:600;padding:12px 22px;border-radius:999px;background:#F97316;color:#ffffff;white-space:nowrap" style-hover="background:#EA580C">Ask AI about it</a>
-      </sc-if>
-    </div>
-    <div style="display:flex;justify-content:space-between;gap:16px;margin-top:32px;flex-wrap:wrap">
-      <sc-for list="{{ otherPosts }}" as="op" hint-placeholder-count="2">
-        <a href="#" onClick="{{ op.openPost }}" style="text-decoration:none;flex:1;min-width:240px;display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:20px;transition:border-color .15s,transform .15s" style-hover="border-color:var(--accent-tint-border);transform:translateY(-2px)">
-          <span style="font-size:11.5px;color:var(--text-faint)">{{ op.category }}</span>
-          <span style="font-size:15px;font-weight:700;letter-spacing:-0.01em;color:var(--text)">{{ op.title }}</span>
-          <span style="font-size:13px;font-weight:600;color:var(--accent-text)">Read the story →</span>
-        </a>
-      </sc-for>
-    </div>
-  </div>
-</main>
-</sc-if>
-
 <!-- ============ ABOUT ============ -->
 <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="About" style="max-width:1200px;margin:0 auto;padding:72px 24px 96px">
@@ -1518,84 +1369,6 @@ class Component extends DCLogic {
   }
   componentWillUnmount() { clearInterval(this._clockT); clearTimeout(this._copyT); }
 
-  experimentPosts() {
-    return {
-      'ai-portfolio': {
-        readTime: '4 min read',
-        intro: 'How I use AI-assisted coding and image generation to go from product idea to working interface in hours instead of weeks — and what that changes about the design process itself.',
-        ctaNote: 'The live builds and visual explorations are on my experiments site.',
-        blocks: [
-          { type: 'p', text: 'Most design ideas die in the backlog. Not because they are bad, but because the cost of finding out — wireframes, mockups, a prototype, maybe an engineer’s spare afternoon — is higher than the idea seems worth. AI-assisted building collapses that cost.' },
-          { type: 'h2', text: 'The setup' },
-          { type: 'p', text: 'My working loop is simple: describe the product intent in plain language, let an AI coding assistant generate the first working version, then iterate on it the way I would critique a junior designer’s draft — specific, visual, and fast. The skill shifts from drawing screens to directing outcomes.' },
-          { type: 'img', label: 'Screenshot — AI-assisted build session', ratio: '16/9', caption: 'A typical session: prompt on the left, live interface taking shape on the right.' },
-          { type: 'tabs', label: 'What changes in the process', tabs: [
-            { label: 'Before AI', title: 'Idea → Figma → prototype → build', text: 'Each idea needed static mockups, a clickable prototype, and engineering time before anyone could react to something real. Feedback came late, and pivoting was expensive.' },
-            { label: 'With AI', title: 'Idea → working interface → critique', text: 'The first artifact is already interactive. Stakeholders react to real behavior, not simulated behavior — and throwing a version away costs minutes, not days.' },
-            { label: 'What stays human', title: 'Judgment, taste, and the problem', text: 'AI generates options; it doesn’t know which one is right. Framing the problem, spotting what’s wrong, and deciding what "good" looks like is still entirely the designer’s job.' },
-          ]},
-          { type: 'h2', text: 'What I learned' },
-          { type: 'p', text: 'The biggest surprise wasn’t speed — it was honesty. A working interface exposes weak ideas immediately, in a way a beautiful static mockup never does. Several concepts I was sure about fell apart within an hour of being real. That is a good thing.' },
-          { type: 'callout', text: 'Rule I now follow: if an idea can be tested as a working build in under a day, never test it as a static mockup.' },
-          { type: 'img', label: 'Gallery — generated visual explorations', ratio: '16/8', caption: 'Image-generation experiments used for mood, layout, and art-direction studies.' },
-        ],
-      },
-      'viz-teaching': {
-        readTime: '3 min read',
-        intro: 'Turning my conference talks on data visualization into a reusable teaching kit — how to help teams pick the right chart for the right question.',
-        ctaNote: 'Ask the AI assistant about the talks and materials behind this kit.',
-        blocks: [
-          { type: 'p', text: 'Most bad dashboards aren’t badly drawn — they answer the wrong question. After giving talks on matching data to visualization types, I started turning the material into a kit any product team can use without me in the room.' },
-          { type: 'h2', text: 'The core idea' },
-          { type: 'p', text: 'Chart choice is a question-answering decision, not an aesthetic one. The kit starts from the question a user is asking — "how much?", "compared to what?", "changing how?" — and only then maps to a visual form.' },
-          { type: 'tabs', label: 'Pick a question', tabs: [
-            { label: '“Compared to what?”', title: 'Comparison → bars', text: 'When users compare discrete things, bars beat almost everything. Length is the most accurately perceived visual encoding — pie charts force angle judgments, which humans do poorly.' },
-            { label: '“Changing how?”', title: 'Change over time → lines', text: 'Trends, seasonality, and drift are line-chart jobs. The eye reads slope naturally. The common mistake: too many series — beyond four lines, split into small multiples.' },
-            { label: '“Made of what?”', title: 'Composition → stacks, carefully', text: 'Part-to-whole works when there are few parts and the whole matters. If users mostly compare the parts to each other, go back to bars.' },
-          ]},
-          { type: 'img', label: 'Photo — conference session', ratio: '16/9', caption: 'Presenting the data-to-visualization mapping framework at a data conference.' },
-          { type: 'h2', text: 'Where it’s going' },
-          { type: 'p', text: 'The next iteration packages the framework as workshop exercises: real datasets, deliberately wrong charts, and teams competing to find the question each chart fails to answer. Finding the failure teaches faster than being shown the rule.' },
-        ],
-      },
-      'interface-prototypes': {
-        readTime: '3 min read',
-        intro: 'Small interaction concepts exploring progressive disclosure, review patterns, and dense-data UI behaviors — built to answer specific questions from my enterprise work.',
-        ctaNote: 'Ask the AI assistant which product problems each prototype fed into.',
-        blocks: [
-          { type: 'p', text: 'Enterprise screens fail in a specific way: everything is important, so everything is visible, so nothing is readable. These prototypes each isolate one tactic for managing density — and test where it breaks.' },
-          { type: 'h2', text: 'Progressive disclosure' },
-          { type: 'p', text: 'The question: how much can you hide before users stop trusting that the data is there? The prototype tested three levels of disclosure on the same asset-detail screen.' },
-          { type: 'tabs', label: 'Disclosure levels', tabs: [
-            { label: 'Show everything', title: 'All fields visible', text: 'Users found any value fast in testing — but scanning slowed dramatically and first-time users rated the screen "overwhelming". Works only for expert daily users.' },
-            { label: 'Summary + expand', title: 'Key fields, expandable groups', text: 'The winner for mixed audiences. Trust held as long as group labels told users exactly what was inside — vague labels ("More info") destroyed it.' },
-            { label: 'On-demand only', title: 'Search-driven detail', text: 'Cleanest screen, worst trust. Users assumed missing fields meant missing data. Hiding without signposting reads as absence.' },
-          ]},
-          { type: 'img', label: 'Prototype frames — review pattern studies', ratio: '16/8', caption: 'Review-pattern variations later reused in the AI description review workspace at Precisely.' },
-          { type: 'callout', text: 'Recurring finding: users forgive density; they don’t forgive uncertainty about whether information exists.' },
-          { type: 'h2', text: 'Why small prototypes' },
-          { type: 'p', text: 'Each of these took under a week and answered a question a full project couldn’t afford to explore. Several patterns graduated directly into shipped Precisely workflows.' },
-        ],
-      },
-      'automation': {
-        readTime: '2 min read',
-        intro: 'Exploring which parts of design work are honest candidates for automation — spec generation, state documentation, and handoff notes.',
-        ctaNote: 'This one is early — ask the AI assistant where it currently stands.',
-        blocks: [
-          { type: 'p', text: 'A meaningful slice of design time goes to work that isn’t design: writing interaction specs, documenting states, assembling handoff notes. The experiment: how much of that can be generated from the design itself?' },
-          { type: 'h2', text: 'What I’m testing' },
-          { type: 'tabs', label: 'Automation candidates', tabs: [
-            { label: 'Spec generation', title: 'From flows to written specs', text: 'Given a user flow, generate the first draft of the interaction spec — every state, transition, and edge case listed for the designer to correct rather than compose. Correction is much faster than composition.' },
-            { label: 'State documentation', title: 'Every state, enumerated', text: 'Empty, loading, error, partial, permission-denied — the states designers forget are exactly the ones a checklist generator never forgets.' },
-            { label: 'Handoff notes', title: 'Context for engineers', text: 'Generating the "why" alongside the "what": which research insight motivated each decision, pulled from linked research docs.' },
-          ]},
-          { type: 'p', text: 'The early pattern matches my AI-build experiments: automation is best at first drafts and exhaustiveness, humans at judgment and exceptions. The tools that respect that split get adopted; the ones that try to finish the job get abandoned.' },
-          { type: 'img', label: 'Concept sketch — spec generation pipeline', ratio: '16/7', caption: 'Concept: design artifacts in, reviewable first-draft documentation out.' },
-        ],
-      },
-    };
-  }
-
   chatRef = React.createRef();
 
   scrollChat() {
@@ -1667,7 +1440,7 @@ class Component extends DCLogic {
     return [
       {
         id: 'data-lineage', title: 'Enterprise Data Lineage', company: 'Precisely', product: 'Data Integrity Suite',
-        depth: 'flagship', destination: 'internal',
+        depth: 'flagship', destination: 'internal', homeFeatured: true,
         summary: 'Evolved Precisely’s lineage experience from an early product vision into a released, continuously improving enterprise capability.',
         role: 'Senior Product Designer', scopeShort: 'Lineage feature within data catalog',
         tags: ['Enterprise SaaS', 'Data Governance', 'Metadata Management', 'Data Lineage', 'Information Architecture', 'Usability Testing', 'Interaction Design'],
@@ -1676,7 +1449,7 @@ class Component extends DCLogic {
       },
       {
         id: 'asset-impact-diagram', title: 'Asset Impact Diagram', company: 'Precisely', product: 'Data Catalog',
-        depth: 'flagship', destination: 'internal',
+        depth: 'flagship', destination: 'internal', homeFeatured: true,
         summary: 'Visualizing complex asset relationships and dependencies as an interactive diagram — replacing a table-only experience.',
         role: 'Senior Product Designer', scopeShort: 'Interactive relationship diagram',
         tags: ['Enterprise SaaS', 'Data Visualization', 'Data Catalog', 'Interaction Design', 'Information Architecture'],
@@ -1703,7 +1476,7 @@ class Component extends DCLogic {
       },
       {
         id: 'mm-crm', title: 'Mortgage CRM for Loan Officers', company: 'Infosys · Movement Mortgage',
-        depth: 'medium', destination: 'internal',
+        depth: 'medium', destination: 'internal', homeFeatured: true,
         summary: 'Designed a CRM that boosts lead conversion through thoughtful interactions — cutting lead conversion time from 9 days to 4.',
         role: 'Offshore Design Lead', scopeShort: 'End-to-end CRM portal',
         tags: ['Enterprise SaaS', 'CRM', 'FinTech', 'User Research'],
@@ -1718,34 +1491,6 @@ class Component extends DCLogic {
         tags: ['Banking', 'Onboarding', 'Responsive Design', 'FinTech'],
         filters: ['Enterprise SaaS', 'Research'],
         imageLabel: 'Onboarding flow UI',
-      },
-      {
-        id: 'catalog-dashboard', title: 'Catalog Dashboard', company: 'Precisely',
-        depth: 'medium', destination: 'comingSoon',
-        summary: 'Dashboard views to help users understand catalog activity, adoption, search usage, and governance health.',
-        tags: ['Dashboard', 'Data Visualization', 'Enterprise SaaS'],
-        filters: ['Enterprise SaaS', 'Data Products'],
-      },
-      {
-        id: 'notifications', title: 'Notification Center & Settings', company: 'Precisely',
-        depth: 'small', destination: 'comingSoon',
-        summary: 'Notification experiences and settings patterns for platform alerts, system feedback, and user control.',
-        tags: ['Notifications', 'Platform UX', 'Settings'],
-        filters: ['Enterprise SaaS'],
-      },
-      {
-        id: 'report-builder', title: 'Report Builder & Dashboard Search', company: 'HCL Software',
-        depth: 'medium', destination: 'comingSoon',
-        summary: 'Improved reporting and dashboard discovery experiences for enterprise marketing workflows.',
-        tags: ['Dashboard', 'Search', 'Analytics'],
-        filters: ['Enterprise SaaS', 'Research'],
-      },
-      {
-        id: 'ux-patterns', title: 'Enterprise UX Patterns / Design System', company: 'Precisely · HCL',
-        depth: 'small', destination: 'comingSoon',
-        summary: 'Reusable UX patterns, components, and documentation to improve consistency and delivery speed.',
-        tags: ['Design Systems', 'Components', 'Accessibility'],
-        filters: ['Design Systems'],
       },
       {
         id: 'agri-workforce', title: 'Tackling Agricultural Workforce', company: 'NID · Academic',
@@ -2240,23 +1985,6 @@ class Component extends DCLogic {
     };
   }
 
-  experimentsData() {
-    return [
-      { id: 'ai-portfolio', title: 'AI Portfolio & Design Automation', category: 'AI-assisted builds', status: 'Live',
-        summary: 'Experiments using AI-assisted coding, image generation, and interface exploration to quickly prototype product ideas.',
-        tags: ['AI', 'Prototyping', 'Design Automation'], externalUrl: 'https://weekly-minimalist-898205.framer.app/works' },
-      { id: 'viz-teaching', title: 'Data Visualization Teaching Kit', category: 'Design education', status: 'In progress',
-        summary: 'Talks and materials on matching data to visualization types — turning conference sessions into a reusable teaching toolkit.',
-        tags: ['Data Viz', 'Teaching', 'Workshops'] },
-      { id: 'interface-prototypes', title: 'Interface Interaction Prototypes', category: 'Interface prototypes', status: 'Prototype',
-        summary: 'Small interaction concepts exploring progressive disclosure, review patterns, and dense-data UI behaviors.',
-        tags: ['Interaction', 'Prototyping', 'Enterprise UX'] },
-      { id: 'automation', title: 'Design Workflow Automation', category: 'Automation experiments', status: 'Concept',
-        summary: 'Exploring automation of repetitive design tasks — spec generation, state documentation, and handoff notes.',
-        tags: ['Automation', 'Tooling', 'AI'] },
-    ];
-  }
-
   renderVals() {
     const { route, slug, filter } = this.state;
     const self = this;
@@ -2329,7 +2057,7 @@ class Component extends DCLogic {
     const relatedProjects = rawCs ? projects.filter(p => rawCs.related.includes(p.id)) : [];
 
     const navDefs = [
-      ['Work', 'work'], ['Experience', 'experience'], ['Experiments', 'experiments'], ['About', 'about'], ['Contact', 'contact'],
+      ['Work', 'work'], ['Experience', 'experience'], ['About', 'about'], ['Contact', 'contact'],
     ];
     const activeRoute = route === 'case' ? 'work' : route;
     const navLinks = navDefs.map(([label, r]) => ({
@@ -2338,14 +2066,6 @@ class Component extends DCLogic {
       color: activeRoute === r ? 'var(--accent-text-strong)' : 'var(--text-muted)',
       bg: activeRoute === r ? 'var(--accent-tint)' : 'transparent',
       ariaCurrent: activeRoute === r ? 'page' : null,
-    }));
-
-    const experiments = this.experimentsData().map(ex => ({
-      ...ex,
-      href: '#',
-      target: null,
-      onClick: (e) => { if (e && e.preventDefault) e.preventDefault(); self.go('experiment', ex.id); },
-      cta: 'Read the story →',
     }));
 
     const miniTimelineData = [
@@ -2380,44 +2100,8 @@ class Component extends DCLogic {
       linkedinLabel: (this.safeUrl(this.state.links.linkedin) || '').replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''),
       resumeHref: this.safeUrl(this.state.links.resume) || '#',
       resumeTarget: this.safeUrl(this.state.links.resume) ? '_blank' : null,
-      isExperience: route === 'experience', isExperiments: route === 'experiments',
+      isExperience: route === 'experience',
       isAbout: route === 'about', isContact: route === 'contact',
-      isExperimentPost: route === 'experiment' && !!this.experimentPosts()[slug],
-
-      post: (() => {
-        const raw = this.experimentPosts()[slug];
-        if (!raw) return null;
-        const meta = this.experimentsData().find(x => x.id === slug) || {};
-        return {
-          ...raw,
-          title: meta.title, category: meta.category, status: meta.status,
-          externalUrl: meta.externalUrl || null,
-          hasExternal: !!meta.externalUrl,
-          noExternal: !meta.externalUrl,
-          blocks: raw.blocks.map((b, bi) => {
-            const key = slug + '-' + bi;
-            const active = this.state.expTabs[key] || 0;
-            return {
-              ...b,
-              isP: b.type === 'p', isH2: b.type === 'h2', isCallout: b.type === 'callout',
-              isImg: b.type === 'img', isTabs: b.type === 'tabs',
-              activeTitle: b.type === 'tabs' ? b.tabs[active].title : null,
-              activeText: b.type === 'tabs' ? b.tabs[active].text : null,
-              tabs: b.type === 'tabs' ? b.tabs.map((t, ti) => ({
-                label: t.label,
-                onClick: () => self.setState({ expTabs: { ...self.state.expTabs, [key]: ti } }),
-                bg: ti === active ? '#F97316' : 'var(--surface)',
-                color: ti === active ? '#ffffff' : 'var(--text-secondary)',
-                border: ti === active ? '#F97316' : 'var(--border)',
-              })) : null,
-            };
-          }),
-        };
-      })(),
-      otherPosts: route === 'experiment' ? this.experimentsData().filter(x => x.id !== slug).slice(0, 2).map(x => ({
-        title: x.title, category: x.category,
-        openPost: (e) => { if (e && e.preventDefault) e.preventDefault(); self.go('experiment', x.id); },
-      })) : [],
 
       askOpen: this.state.askOpen,
       openAsk: () => self.setState({ askOpen: true }),
@@ -2458,7 +2142,7 @@ class Component extends DCLogic {
       }),
 
       goHome: this.nav('home'), goWork: this.nav('work'), goExperience: this.nav('experience'),
-      goExperiments: this.nav('experiments'), goAbout: this.nav('about'), goContact: this.nav('contact'),
+      goAbout: this.nav('about'), goContact: this.nav('contact'),
 
       navLinks,
       heroChips: ['Enterprise SaaS', 'Data Products', 'AI Workflows', 'Design Systems', 'Product Strategy'],
@@ -2483,9 +2167,7 @@ class Component extends DCLogic {
         { value: '20+', label: 'Research & discovery efforts' },
         { value: '4+', label: 'AI workflow projects' },
       ],
-      flagshipProjects: projects.filter(p => p.depth === 'flagship'),
-      compactProjects: projects.filter(p => p.depth !== 'flagship' && p.depth !== 'experiment'),
-      homeExperiments: experiments.slice(0, 3),
+      flagshipProjects: projects.filter(p => p.homeFeatured),
 
       filterChips: filterNames.map(name => ({
         label: name,
@@ -2505,7 +2187,6 @@ class Component extends DCLogic {
       })),
       skills: ['Strategy', 'UX Design', 'Research', 'Design Systems', 'Interaction Design', 'Workshops', 'Wireframing', 'Prototyping', 'Usability Testing', 'Information Architecture', 'Content Strategy', 'AI-assisted workflows'],
 
-      experiments,
       miniTimeline: miniTimelineData.map(([title, sub], i) => ({
         title, sub, lineColor: i === miniTimelineData.length - 1 ? 'transparent' : 'var(--border)',
       })),

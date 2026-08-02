@@ -1058,12 +1058,10 @@ a{color:inherit}
     <h2 style="margin:0 0 28px;font-size:clamp(24px,3vw,32px);letter-spacing:-0.035em;font-weight:750">Education</h2>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:900px">
       <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:26px">
-        <div style="font-size:13px;font-weight:600;color:var(--accent-text);margin-bottom:8px">2016 – 2019</div>
         <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px">National Institute of Design, Bangalore</div>
         <div style="font-size:14px;color:var(--text-muted)">Universal Design</div>
       </div>
       <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:26px">
-        <div style="font-size:13px;font-weight:600;color:var(--accent-text);margin-bottom:8px">2008 – 2013</div>
         <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px">Trinity College of Engineering and Research, Pune</div>
         <div style="font-size:14px;color:var(--text-muted)">B.E. Mechanical Engineering</div>
       </div>
@@ -1084,7 +1082,6 @@ a{color:inherit}
   <div style="margin-top:56px;max-width:900px">
     <h2 style="margin:0 0 28px;font-size:clamp(24px,3vw,32px);letter-spacing:-0.035em;font-weight:750">Certification</h2>
     <div style="background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:20px;padding:26px;max-width:440px">
-      <div style="font-size:13px;font-weight:600;color:var(--accent-text-strong);margin-bottom:8px">May 2021</div>
       <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:4px">Rhode Island School of Design</div>
       <div style="font-size:14px;color:var(--text-muted)">Certificate course in Strategic Design</div>
     </div>
@@ -1393,7 +1390,7 @@ class Component extends DCLogic {
       if (p.destination === 'comingSoon') s += `\n  (case study coming soon)`;
       return s;
     }).join('\n');
-    return `PROJECTS:\n${proj}\n\nEXPERIENCE:\n- Oct 2024–Present: Senior Product Designer II at Precisely (Data Integrity Suite — catalog, lineage, AI-assisted workflows)\n- Oct 2021–Oct 2024: Senior Designer / Product Designer at HCL Software (Unica marketing products, dashboards, reporting)\n- 2019–2021: Lead User Experience at Infosys (enterprise client work: Movement Mortgage CRM, BDO Bank onboarding)\n- 2018: Product Design Intern at Magic Crate (educational DIY products for children)\n- 2017: Product Design Intern at INKL Design GmbH (accessible tactile maps and signage)\n- 2013–2015: Visual Designer at Jiffstore\n- Early career: Maintenance Engineer at Coca-Cola\n\nEDUCATION: National Institute of Design Bangalore (Universal Design, 2016–2019); Trinity College of Engineering Pune (B.E. Mechanical, 2008–2013). Certificate in Strategic Design, Rhode Island School of Design (2021).\n\nSKILLS: Strategy, UX design, research, design systems, interaction design, workshops, wireframing, prototyping, usability testing, information architecture, content strategy, AI-assisted workflows.\n\nCONTACT: work.snehalkumar@gmail.com · linkedin.com/in/snehalkumar-shinde`;
+    return `PROJECTS:\n${proj}\n\nEXPERIENCE:\n- Oct 2024–Present: Senior Product Designer II at Precisely (Data Integrity Suite — catalog, lineage, AI-assisted workflows)\n- Oct 2021–Oct 2024: Senior Designer / Product Designer at HCL Software (Unica marketing products, dashboards, reporting)\n- 2019–2021: Lead User Experience at Infosys (enterprise client work: Movement Mortgage CRM, BDO Bank onboarding)\n- 2018: Product Design Intern at Magic Crate (educational DIY products for children)\n- 2017: Product Design Intern at INKL Design GmbH (accessible tactile maps and signage)\n- 2013–2015: Visual Designer at Jiffstore\n- Early career: Maintenance Engineer at Coca-Cola\n\nEDUCATION: National Institute of Design Bangalore (Universal Design); Trinity College of Engineering Pune (B.E. Mechanical). Certificate in Strategic Design, Rhode Island School of Design.\n\nSKILLS: Strategy, UX design, research, design systems, interaction design, workshops, wireframing, prototyping, usability testing, information architecture, content strategy, AI-assisted workflows.\n\nCONTACT: work.snehalkumar@gmail.com · linkedin.com/in/snehalkumar-shinde`;
   }
 
   async sendAsk(text) {

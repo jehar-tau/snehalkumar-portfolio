@@ -7,6 +7,11 @@
 const ALLOWED_ORIGINS = new Set([
   'https://snehalkumar.com',
   'https://www.snehalkumar.com',
+  // GitHub's TLS cert for the custom domain hasn't finished provisioning as
+  // of this deploy, so the site is still served over plain HTTP — allow
+  // both until https_enforced is available, then the http:// ones can go.
+  'http://snehalkumar.com',
+  'http://www.snehalkumar.com',
   'https://jehar-tau.github.io',
   'http://localhost:8080',
   'http://127.0.0.1:8080',

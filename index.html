@@ -505,9 +505,7 @@ a{color:inherit}
         </div>
       </div>
     </sc-if>
-    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:16px">
-      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Early lineage vision prototype created before my ownership</span>
-    </div>
+    <image-slot id="vision-{{ csSlug }}" fit="contain" radius="24" placeholder="Early lineage vision prototype created before my ownership" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:16px"></image-slot>
     <p style="margin:0;font-size:16px;line-height:1.7;color:var(--text-secondary);max-width:80ch">{{ cs.visionDescription }}</p>
   </section>
   </sc-if>
@@ -524,9 +522,7 @@ a{color:inherit}
       </sc-for>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;max-width:600px">
-      <div style="aspect-ratio:16/7;background:var(--surface-subtle);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center">
-        <span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px;text-align:center">{{ cs.activeLevel.level }}-level lineage</span>
-      </div>
+      <image-slot id="{{ cs.activeLevel.slotId }}" fit="contain" radius="0" placeholder="{{ cs.activeLevel.level }}-level lineage" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border-bottom:1px solid var(--border);height:auto"></image-slot>
       <div style="padding:22px">
         <div style="font-size:15.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;color:var(--text)">{{ cs.activeLevel.level }} level</div>
         <p style="margin:0 0 10px;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ cs.activeLevel.purpose }}</p>
@@ -662,9 +658,7 @@ a{color:inherit}
         </sc-for>
       </div>
     </div>
-    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center;margin-top:20px">
-      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Usability study plan and interview guide</span>
-    </div>
+    <image-slot id="usability-{{ csSlug }}" fit="contain" radius="24" placeholder="Usability study plan and interview guide" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto;margin-top:20px"></image-slot>
     <sc-if value="{{ cs.usabilityNote }}" hint-placeholder-val="{{ false }}">
       <p style="margin:14px 0 0;font-size:13px;line-height:1.5;color:var(--text-faint);text-align:center;font-style:italic">{{ cs.usabilityNote }}</p>
     </sc-if>
@@ -786,9 +780,9 @@ a{color:inherit}
   <!-- Artifact: wireframes gallery -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px">Early concept A</span></div>
-      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px">Early concept B</span></div>
-      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px">Iteration — chosen direction</span></div>
+      <image-slot id="wireframe-{{ csSlug }}-0" fit="contain" radius="18" placeholder="Early concept A" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="wireframe-{{ csSlug }}-1" fit="contain" radius="18" placeholder="Early concept B" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="wireframe-{{ csSlug }}-2" fit="contain" radius="18" placeholder="Iteration — chosen direction" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
     </div>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">Wireframe explorations comparing alternate approaches before converging on the final direction.</p>
   </section>
@@ -810,9 +804,9 @@ a{color:inherit}
             <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">Design objective</div><p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ en.objective }}</p></div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-            <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:11.5px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px;text-align:center">Original interaction</span></div>
+            <image-slot id="{{ en.beforeSlotId }}" fit="contain" radius="16" placeholder="Original interaction" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;height:auto"></image-slot>
             <sc-if value="{{ en.isOpen }}" hint-placeholder-val="{{ true }}">
-              <div style="aspect-ratio:4/3;background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:11.5px;font-weight:600;color:var(--accent-text-strong);border:1px dashed #FDBA74;border-radius:10px;padding:8px 12px;text-align:center">Delivered production experience</span></div>
+              <image-slot id="{{ en.afterSlotId }}" fit="contain" radius="16" placeholder="Delivered production experience" style="display:block;width:100%;aspect-ratio:4/3;background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:16px;height:auto"></image-slot>
             </sc-if>
           </div>
           <button onClick="{{ en.onToggle }}" style="cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:var(--accent-text);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:8px 16px" style-hover="border-color:#FDBA74">{{ en.toggleLabel }}</button>
@@ -829,11 +823,11 @@ a{color:inherit}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:4px;border:1px solid var(--border);border-radius:24px;overflow:hidden">
       <div style="background:var(--surface-subtle);padding:20px">
         <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:12px">Initial lineage experience</div>
-        <div style="aspect-ratio:4/3;background:var(--surface);border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px;text-align:center">Before enhancement</span></div>
+        <image-slot id="beforeafter-{{ csSlug }}-before" fit="contain" radius="16" placeholder="Before enhancement" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface);border:1px solid var(--border);border-radius:16px;height:auto"></image-slot>
       </div>
       <div style="background:var(--accent-tint);padding:20px">
         <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent-text-strong);margin-bottom:12px">Enhanced experience after usability testing</div>
-        <div style="aspect-ratio:4/3;background:var(--surface);border:1px solid var(--accent-tint-border);border-radius:16px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 12px;text-align:center">After enhancement</span></div>
+        <image-slot id="beforeafter-{{ csSlug }}-after" fit="contain" radius="16" placeholder="After enhancement" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface);border:1px solid var(--accent-tint-border);border-radius:16px;height:auto"></image-slot>
       </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
@@ -907,9 +901,7 @@ a{color:inherit}
         </div>
       </div>
     </sc-if>
-    <div style="aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;display:flex;align-items:center;justify-content:center">
-      <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Transformation node design — join, union, or formula example</span>
-    </div>
+    <image-slot id="transform-node-{{ csSlug }}" fit="contain" radius="24" placeholder="Transformation node design — join, union, or formula example" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
   </section>
   </sc-if>
 
@@ -954,9 +946,7 @@ a{color:inherit}
         <span style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:4px 10px;white-space:nowrap">{{ cs.activeAccessPoint.status }}</span>
       </div>
       <p style="margin:0 0 16px;font-size:14.5px;line-height:1.6;color:var(--text-muted)">{{ cs.activeAccessPoint.description }}</p>
-      <div style="aspect-ratio:16/8;background:var(--surface);border:1px solid var(--border);border-radius:16px;display:flex;align-items:center;justify-content:center">
-        <span style="font-size:12.5px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:10px;padding:8px 14px;text-align:center">{{ cs.activeAccessPoint.imageLabel }}</span>
-      </div>
+      <image-slot id="{{ cs.activeAccessPoint.slotId }}" fit="contain" radius="16" placeholder="{{ cs.activeAccessPoint.imageLabel }}" style="display:block;width:100%;aspect-ratio:16/8;background:var(--surface);border:1px solid var(--border);border-radius:16px;height:auto"></image-slot>
     </div>
   </section>
   </sc-if>
@@ -975,9 +965,9 @@ a{color:inherit}
       </div>
     </sc-if>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
-      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);text-align:center;padding:8px 12px">Current graph complexity</span></div>
-      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);text-align:center;padding:8px 12px">Early decluttering concepts</span></div>
-      <div style="aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;display:flex;align-items:center;justify-content:center"><span style="font-size:12px;font-weight:600;color:var(--text-faint);text-align:center;padding:8px 12px">Path isolation exploration</span></div>
+      <image-slot id="currentwork-{{ csSlug }}-0" fit="contain" radius="18" placeholder="Current graph complexity" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="currentwork-{{ csSlug }}-1" fit="contain" radius="18" placeholder="Early decluttering concepts" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="currentwork-{{ csSlug }}-2" fit="contain" radius="18" placeholder="Path isolation exploration" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;height:auto"></image-slot>
     </div>
     <p style="margin:14px 0 0;font-size:12.5px;line-height:1.5;color:var(--text-faint);text-align:center;font-style:italic">Current exploration — not yet final.</p>
   </section>
@@ -2007,12 +1997,17 @@ class Component extends DCLogic {
         chipColor: levelTab === i ? '#ffffff' : 'var(--text-secondary)',
         chipBorder: levelTab === i ? '#F97316' : 'var(--border)',
       })) : null,
-      activeLevel: rawCs.levels ? rawCs.levels[Math.min(levelTab, rawCs.levels.length - 1)] : null,
+      activeLevel: rawCs.levels ? (() => {
+        const idx = Math.min(levelTab, rawCs.levels.length - 1);
+        return { ...rawCs.levels[idx], slotId: 'level-' + slug + '-' + idx };
+      })() : null,
       enhancements: rawCs.enhancements ? rawCs.enhancements.map((en, i) => ({
         ...en,
         isOpen: !!this.state.enhOpen[i],
         onToggle: () => self.setState({ enhOpen: { ...self.state.enhOpen, [i]: !self.state.enhOpen[i] } }),
         toggleLabel: this.state.enhOpen[i] ? '← Hide delivered version' : 'Show delivered version →',
+        beforeSlotId: 'enh-' + slug + '-' + i + '-before',
+        afterSlotId: 'enh-' + slug + '-' + i + '-after',
       })) : null,
       transformDemoOpen: this.state.transformDemoOpen,
       onToggleTransformDemo: () => self.setState({ transformDemoOpen: !self.state.transformDemoOpen }),
@@ -2023,7 +2018,10 @@ class Component extends DCLogic {
         chipColor: accessTab === i ? '#ffffff' : 'var(--text-secondary)',
         chipBorder: accessTab === i ? '#F97316' : 'var(--border)',
       })) : null,
-      activeAccessPoint: rawCs.accessPoints ? rawCs.accessPoints[Math.min(accessTab, rawCs.accessPoints.length - 1)] : null,
+      activeAccessPoint: rawCs.accessPoints ? (() => {
+        const idx = Math.min(accessTab, rawCs.accessPoints.length - 1);
+        return { ...rawCs.accessPoints[idx], slotId: 'access-' + slug + '-' + idx };
+      })() : null,
       modules: rawCs.modules ? rawCs.modules.map((mo, i) => ({
         ...mo,
         slotId: 'module-' + slug + '-' + i,

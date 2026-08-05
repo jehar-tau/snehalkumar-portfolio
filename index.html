@@ -403,6 +403,8 @@ a{color:inherit}
   </section>
   </sc-if>
 
+  <!-- ============ STANDARD CASE-STUDY BODY (structured template) ============ -->
+  <sc-if value="{{ cs.isFullTemplate }}" hint-placeholder-val="{{ true }}">
   <!-- Context -->
   <section style="max-width:820px;margin:0 auto;padding:72px 24px 0">
     <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Brief &amp; context</div>
@@ -1032,6 +1034,27 @@ a{color:inherit}
       </sc-for>
     </div>
   </section>
+  </sc-if>
+
+  <!-- ============ ARTICLE-STYLE CASE-STUDY BODY (long-form, mostly text) ============ -->
+  <sc-if value="{{ cs.article }}" hint-placeholder-val="{{ false }}">
+  <article style="max-width:720px;margin:72px auto 0;padding:0 24px 24px">
+    <sc-for list="{{ cs.article }}" as="bl" hint-placeholder-count="8">
+      <sc-if value="{{ bl.isH2 }}" hint-placeholder-val="{{ false }}">
+        <h2 style="margin:40px 0 16px;font-size:clamp(24px,3vw,30px);line-height:1.2;letter-spacing:-0.03em;font-weight:750">{{ bl.text }}</h2>
+      </sc-if>
+      <sc-if value="{{ bl.isP }}" hint-placeholder-val="{{ true }}">
+        <p style="margin:0 0 20px;font-size:16.5px;line-height:1.75;color:var(--text-secondary)">{{ bl.text }}</p>
+      </sc-if>
+      <sc-if value="{{ bl.isImg }}" hint-placeholder-val="{{ false }}">
+        <div style="margin:32px 0">
+          <image-slot id="{{ bl.slotId }}" fit="contain" radius="20" placeholder="{{ bl.caption }}" style="display:block;width:100%;aspect-ratio:{{ bl.aspect }};background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;height:auto"></image-slot>
+          <p style="margin:12px 0 0;font-size:13px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ bl.caption }}</p>
+        </div>
+      </sc-if>
+    </sc-for>
+  </article>
+  </sc-if>
 
   <!-- Related -->
   <section style="max-width:1000px;margin:0 auto;padding:88px 24px 0">
@@ -1425,22 +1448,13 @@ class Component extends DCLogic {
         imageLabel: 'Asset Impact Diagram — relationship view',
       },
       {
-        id: 'ai-descriptions', title: 'AI-generated Descriptions', company: 'Precisely', product: 'Data Integrity Suite',
+        id: 'ai-workflows', title: 'AI-Assisted Descriptions & Term Linking', company: 'Precisely', product: 'Data Integrity Suite',
         depth: 'flagship', destination: 'internal',
-        summary: 'Designed batch generation, review, validation, save/discard, and error-handling workflows for AI-generated metadata descriptions.',
-        role: 'Senior Product Designer II', scopeShort: 'AI workflow module',
-        tags: ['AI UX', 'Enterprise SaaS', 'Data Catalog', 'Workflow', 'Trust'],
+        summary: 'Two related AI-assisted review workflows — batch-generating and reviewing AI-written asset descriptions, and recommending business-term-to-technical-asset links — both built around making fast AI output safe to trust.',
+        role: 'Senior Product Designer II', scopeShort: 'Two AI review workflows',
+        tags: ['AI UX', 'Enterprise SaaS', 'Data Catalog', 'Data Governance', 'Workflow', 'Trust', 'Recommendation UX', 'Human-in-the-loop'],
         filters: ['Flagship', 'AI UX', 'Enterprise SaaS', 'Data Products'],
         imageLabel: 'AI review workflow UI',
-      },
-      {
-        id: 'term-linking', title: 'Business Term to Technical Asset Linking', company: 'Precisely', product: 'Data Integrity Suite',
-        depth: 'flagship', destination: 'internal',
-        summary: 'Designed AI-assisted recommendation flows for linking business terms with technical assets using approval, rejection, and review patterns.',
-        role: 'Senior Product Designer II', scopeShort: 'Recommendation flow',
-        tags: ['AI UX', 'Data Governance', 'Recommendation UX', 'Human-in-the-loop'],
-        filters: ['Flagship', 'AI UX', 'Data Products'],
-        imageLabel: 'Recommendation review UI',
       },
       {
         id: 'mm-crm', title: 'Mortgage CRM for Loan Officers', company: 'Infosys · Movement Mortgage',
@@ -1616,7 +1630,7 @@ class Component extends DCLogic {
           { title: 'What surprised me', description: 'Users often understood the data relationships but struggled with the interaction model used to express them.' },
           { title: 'What I would improve further', description: 'Test with realistic large-scale graphs sooner, and introduce decluttering mechanisms earlier.' },
         ],
-        related: ['ai-descriptions', 'term-linking', 'asset-impact-diagram'],
+        related: ['ai-workflows', 'asset-impact-diagram'],
       },
       'asset-impact-diagram': {
         title: 'Asset Impact Diagram', company: 'Precisely', product: 'Data Catalog',
@@ -1696,7 +1710,7 @@ class Component extends DCLogic {
           { title: 'Managing complexity', description: 'Clustering and progressive disclosure were the two real levers for taming complexity.' },
           { title: 'Reusable components', description: 'The asset, cluster, and side-panel components were built to be reused across other diagram-based experiences.' },
         ],
-        related: ['data-lineage', 'ai-descriptions'],
+        related: ['data-lineage', 'ai-workflows'],
       },
       'mm-crm': {
         title: 'Mortgage CRM for Loan Officers', company: 'Infosys', product: 'Movement Mortgage · CRM Portal',
@@ -1762,7 +1776,7 @@ class Component extends DCLogic {
           { title: 'What I would improve', description: 'Bring compliance stakeholders into design reviews earlier to reduce late-stage constraints.' },
           { title: 'What I would test next', description: 'How suggested-action quality affects officer trust and adoption over time.' },
         ],
-        related: ['ai-descriptions'],
+        related: ['ai-workflows'],
       },
       'bdo-onboarding': {
         title: 'Digital Account Onboarding for BDO Bank', company: 'Infosys', product: 'BDO Bank Philippines · CA/SA Onboarding',
@@ -1826,131 +1840,51 @@ class Component extends DCLogic {
         ],
         related: ['mm-crm'],
       },
-      'ai-descriptions': {
-        title: 'AI-generated Descriptions', company: 'Precisely', product: 'Data Integrity Suite',
-        summary: 'Designed batch generation, review, validation, save/discard, and error-handling workflows for AI-generated metadata descriptions.',
-        impact: ['Faster metadata coverage', 'Trustworthy review workflow', 'Clear human-in-the-loop control'],
+      'ai-workflows': {
+        title: 'AI-Assisted Descriptions & Term Linking', company: 'Precisely', product: 'Data Integrity Suite',
+        summary: 'Two related AI-assisted review workflows I designed for the Data Integrity Suite — batch-generating and reviewing AI-written asset descriptions, and recommending links between business glossary terms and technical assets — both built around making fast AI output safe to trust.',
+        impact: ['Faster review than manual, in both workflows', 'Meaningful metadata & glossary coverage growth', 'Human-in-the-loop control throughout'],
         snapshot: [
-          { label: 'Company', value: 'Precisely' }, { label: 'Product', value: 'Data Integrity Suite · Catalog' },
-          { label: 'Project type', value: 'New AI capability' }, { label: 'My role', value: 'Senior Product Designer II' },
-          { label: 'Team', value: 'PM, AI engineers, platform team' }, { label: 'Duration', value: '~3 months' },
-          { label: 'Scope', value: 'AI workflow module within catalog' }, { label: 'Status', value: 'Shipped' },
-          { label: 'Tools', value: 'Figma, FigJam' }, { label: 'Ownership', value: 'End-to-end AI UX' },
+          { label: 'Company', value: 'Precisely' }, { label: 'Product', value: 'Data Integrity Suite' },
+          { label: 'Project type', value: 'Two AI-assisted review workflows' }, { label: 'My role', value: 'Senior Product Designer II' },
+          { label: 'Team', value: 'PM, AI engineers, governance SMEs, platform team' }, { label: 'Duration', value: '~6 months combined' },
+          { label: 'Scope', value: 'Description generation & review, term-to-asset linking' }, { label: 'Status', value: 'Both shipped' },
+          { label: 'Tools', value: 'Figma, FigJam' }, { label: 'Ownership', value: 'End-to-end AI UX for both' },
         ],
-        scopeNote: 'This case study focuses on the AI description generation and review workflow within a larger data catalog platform.',
-        contextTitle: 'Empty metadata, at enterprise scale',
-        context: 'Most catalog assets lacked descriptions, which made search and governance weaker. AI could generate descriptions at scale — but enterprise users would not accept AI output blindly. The workflow had to make generation fast while keeping review, validation, and control fully in human hands.',
-        artifact1: 'Current-state metadata coverage snapshot', artifact1Caption: 'Sparse descriptions across assets framed the scale of the problem and the case for batch generation.',
-        challenges: [
-          { title: 'Trust in AI output', description: 'Users needed to verify descriptions before they became the source of truth.' },
-          { title: 'Batch scale', description: 'Reviewing hundreds of generated descriptions one-by-one would erase the time savings.' },
-          { title: 'Partial failure', description: 'Generation could fail for some assets and succeed for others in the same batch.' },
-          { title: 'Irreversibility fears', description: 'Users worried about overwriting existing human-written descriptions.' },
-        ],
-        success: [
-          { label: 'User success', description: 'Users can generate, review, and save descriptions in batches with full control.' },
-          { label: 'Business success', description: 'Metadata coverage improves measurably without added stewardship headcount.' },
-          { label: 'UX success', description: 'Clear generation states, safe defaults, and recoverable actions throughout.' },
-        ],
-        led: ['End-to-end workflow design for batch generation and review', 'AI state design: loading, streaming, partial failure, retry', 'Save/discard and overwrite-protection patterns'],
-        contributed: ['AI UX guidelines for the wider product', 'Prompt and output-quality discussions', 'Usability validation sessions'],
-        collaborated: ['AI engineering on generation constraints', 'PM on rollout phasing', 'Docs team on user guidance'],
-        process: ['Understand', 'Define', 'Explore', 'Validate', 'Deliver', 'Reflect'],
-        research: 'I mapped how stewards currently wrote descriptions, where they copied from, and what "good" looked like. I reviewed emerging AI review patterns across the industry and ran early concept checks on how much users trusted generated text at different confidence levels.',
-        artifact2: 'AI workflow states map', artifact2Caption: 'Mapping every generation state — queued, generating, succeeded, failed, edited — before drawing screens kept the workflow honest.',
-        insights: [
-          { title: 'Review is the product', description: 'The generation itself was cheap; user trust depended entirely on the review experience.', influence: 'Invested most design effort in the review and validation surface.' },
-          { title: 'Edits signal quality', description: 'Users trusted output more when editing felt easy — even if they rarely edited.', influence: 'Made inline editing a first-class action, not an afterthought.' },
-          { title: 'Batches need triage', description: 'Users wanted to accept obvious wins fast and slow down only on uncertain ones.', influence: 'Designed accept-all with per-item exceptions rather than item-by-item approval.' },
-        ],
-        principles: ['Human decision, AI suggestion', 'Never overwrite silently', 'Make every state visible', 'Fast path for obvious wins', 'Recoverable by default'],
-        explorations: 'I explored a modal review wizard, an inline table-based review, and a dedicated review workspace. The wizard felt safe but slow; inline review scaled poorly for long text. The dedicated workspace won: side-by-side asset context and generated text, with batch actions on top.',
-        decisions: [
-          { decision: 'Dedicated review workspace instead of inline table review', why: 'Long generated text needs room to be read and compared with context.', impact: 'Review became faster and more accurate in validation sessions.' },
-          { decision: 'Accept-all with per-item exceptions', why: 'Triage matched how users actually wanted to work through batches.', impact: 'Batch review time dropped dramatically versus item-by-item approval.' },
-          { decision: 'Explicit overwrite protection for human-written text', why: 'Fear of losing human work was the biggest trust blocker.', impact: 'Removed the main objection to enabling batch generation.' },
-        ],
-        modules: [
-          { title: 'Batch generation flow', description: 'Select assets, generate in bulk, and watch per-item progress with graceful partial-failure handling.' },
-          { title: 'Review workspace', description: 'Side-by-side context and generated text with inline editing, accept, reject, and regenerate per item.' },
-          { title: 'Save, discard & error handling', description: 'Safe defaults, explicit overwrite warnings, retry for failures, and a clear audit of what changed.' },
-        ],
-        deliverables: ['End-to-end user flow', 'High-fidelity Figma screens', 'Interactive prototype', 'AI state specifications', 'Edge-case states', 'Design handoff notes'],
+        scopeNote: 'This case study covers two related AI-assisted review workflows shipped within Precisely’s Data Integrity Suite — description generation and review, and business-term-to-technical-asset linking.',
+        confidentialityNote: 'Some product details and visuals have been simplified or anonymised to protect confidentiality.',
+        challenges: [], insights: [], process: [],
+        context: 'Most catalog assets lacked descriptions, weakening search and governance — an obvious case for AI generation at scale. Separately, governance teams needed business terms linked to the technical assets that implemented them; done by hand, that linking was slow and inconsistent. AI could help with both, but the cost of being wrong wasn’t symmetric — a wrong or overwritten description eroded catalog trust, and a wrong term link damaged trust in the entire glossary, worse than leaving something unlinked. Both workflows had to make reviewing AI output fast without making it feel unsafe.',
         outcomes: [
-          { label: 'Observed impact', description: 'Users completed batch reviews significantly faster than item-by-item flows in testing.' },
-          { label: 'Design impact', description: 'The AI review patterns became the reference for later AI features in the suite.' },
-          { label: 'Product impact', description: 'AI descriptions became a headline capability for the catalog.' },
-          { label: 'Expected impact', description: 'Meaningful metadata coverage growth as adoption expands.' },
+          { label: 'Description review', description: 'Batch review was significantly faster than item-by-item review in usability testing.' },
+          { label: 'Term linking', description: 'Stewards reviewed recommendations substantially faster than the manual linking process it replaced.' },
+          { label: 'Cross-pollination', description: 'The review workspace and evidence-card patterns from these two features became references for other AI capabilities built afterward.' },
         ],
-        reflection: [
-          { title: 'What I learned', description: 'AI UX is mostly state design — the happy path is the easy part.' },
-          { title: 'What I would improve', description: 'Prototype with real generated output earlier; lorem ipsum hides review problems.' },
-          { title: 'What I would test next', description: 'Confidence indicators and their effect on review speed and trust.' },
-        ],
-        related: ['term-linking', 'data-lineage', 'asset-impact-diagram'],
-      },
-      'term-linking': {
-        title: 'Business Term to Technical Asset Linking', company: 'Precisely', product: 'Data Integrity Suite',
-        summary: 'Designed AI-assisted recommendation flows for linking business terms with technical assets using approval, rejection, and review patterns.',
-        impact: ['Faster governance linking', 'Human-in-the-loop control', 'Scalable review patterns'],
-        snapshot: [
-          { label: 'Company', value: 'Precisely' }, { label: 'Product', value: 'Data Integrity Suite · Governance' },
-          { label: 'Project type', value: 'AI recommendation flow' }, { label: 'My role', value: 'Senior Product Designer II' },
-          { label: 'Team', value: 'PM, AI engineers, governance SMEs' }, { label: 'Duration', value: '~3 months' },
-          { label: 'Scope', value: 'Recommendation flow within governance' }, { label: 'Status', value: 'Shipped' },
-          { label: 'Tools', value: 'Figma, FigJam' }, { label: 'Ownership', value: 'End-to-end recommendation UX' },
-        ],
-        scopeNote: 'This case study focuses on the AI-assisted linking workflow within a larger data governance platform.',
-        contextTitle: 'Connecting business language to technical reality',
-        context: 'Governance teams define business terms — "Customer", "Revenue", "Churn" — that must be linked to the technical assets that implement them. Done manually, linking is slow and inconsistent. AI could recommend links, but wrong links are worse than missing ones: they erode trust in the entire glossary. The design had to make review rigorous without making it exhausting.',
-        artifact1: 'Manual linking workflow audit', artifact1Caption: 'The manual flow required deep technical knowledge per link — the bottleneck was judgment, not clicks.',
-        challenges: [
-          { title: 'Asymmetric error cost', description: 'A wrong link damages glossary trust more than a missing link.' },
-          { title: 'Recommendation opacity', description: 'Users needed to understand why the AI suggested a link before approving it.' },
-          { title: 'Review fatigue', description: 'Long recommendation queues risk rubber-stamping instead of real review.' },
-          { title: 'Mixed confidence', description: 'Some suggestions are near-certain; others are guesses. One flow had to serve both.' },
-        ],
-        success: [
-          { label: 'User success', description: 'Stewards approve or reject recommendations quickly, with enough evidence to decide.' },
-          { label: 'Business success', description: 'Higher glossary linkage coverage with maintained accuracy.' },
-          { label: 'UX success', description: 'Evidence visible per suggestion, batch triage, no silent auto-linking.' },
-        ],
-        led: ['End-to-end recommendation review flow', 'Evidence presentation and confidence display design', 'Approval, rejection, and bulk-action patterns'],
-        contributed: ['Governance IA discussions', 'AI explainability patterns for the suite', 'Validation sessions with governance SMEs'],
-        collaborated: ['AI engineering on confidence scoring', 'PM on rollout and defaults', 'Customer teams on steward workflows'],
-        process: ['Understand', 'Define', 'Explore', 'Validate', 'Deliver', 'Reflect'],
-        research: 'I shadowed how stewards manually verified links — what evidence they checked, in what order, and when they felt confident. This evidence checklist became the backbone of the recommendation card design.',
-        artifact2: 'Evidence checklist synthesis', artifact2Caption: 'Stewards checked the same 3–4 signals every time — surfacing those signals inline removed most navigation.',
-        insights: [
-          { title: 'Evidence beats confidence scores', description: 'A percentage meant little; seeing the matching signals meant everything.', influence: 'Led with evidence, kept the score secondary.' },
-          { title: 'Rejection needs a reason', description: 'Capturing why a suggestion was wrong improved future recommendations.', influence: 'Made rejection reasons one tap, never required typing.' },
-          { title: 'Confidence should shape the queue', description: 'High-confidence items suit batch approval; low-confidence need focus.', influence: 'Split the queue by confidence band rather than one long list.' },
-        ],
-        principles: ['Show the evidence, not just the score', 'Approval is always human', 'Make rejection cheap and useful', 'Triage by confidence', 'No silent changes to the glossary'],
-        explorations: 'I explored a table-first queue, a card-based review stream, and a term-centric view showing all suggestions per term. The card stream tested best for focused review; the term-centric view was kept as a secondary lens for stewards who work term-by-term.',
         decisions: [
-          { decision: 'Evidence-first recommendation cards', why: 'Stewards decided based on signals, not scores.', impact: 'Decisions were faster and better calibrated in validation.' },
-          { decision: 'Confidence-banded queues with batch approval on high band', why: 'Matches real triage behavior and protects attention for hard calls.', impact: 'Cut review time while keeping accuracy on uncertain items.' },
-          { decision: 'One-tap structured rejection reasons', why: 'Rejection data improves the model, but typing is friction.', impact: 'High rejection-reason capture rate without slowing review.' },
+          { decision: 'Dedicated review workspace with accept-all-plus-exceptions triage', why: 'Long generated text needed room to read, and batches needed a fast path.', impact: 'Batch review time dropped versus item-by-item approval.' },
+          { decision: 'Evidence-first recommendation cards over confidence scores', why: 'Stewards decided based on matching signals, not a percentage.', impact: 'Faster, better-calibrated approval decisions.' },
+          { decision: 'One-tap structured rejection reasons in both flows', why: 'Rejection data mattered for improving the model but typing was friction.', impact: 'High capture rate on rejection reasons without slowing review.' },
         ],
-        modules: [
-          { title: 'Recommendation queue', description: 'Confidence-banded queues with batch actions on high-confidence suggestions.' },
-          { title: 'Evidence card', description: 'Each suggestion shows the matching signals inline — name similarity, data patterns, usage context.' },
-          { title: 'Approval & rejection flow', description: 'One-tap approve/reject with structured reasons and a full audit trail.' },
+        article: [
+          { type: 'p', text: 'I designed two related AI-assisted review workflows for Precisely’s Data Integrity Suite, shipped roughly back to back: batch-generating and reviewing AI-written descriptions for catalog assets, and recommending links between business glossary terms and the technical assets that implement them. Both features shared the same underlying tension — AI could do the work at a scale humans couldn’t match, but enterprise users would never accept its output blindly. The design problem, in both cases, was how to make review fast without making it feel unsafe.' },
+          { type: 'h2', text: 'The shared problem: fast AI, cautious humans' },
+          { type: 'p', text: 'Most catalog assets had no description at all, which weakened both search and governance — an obvious case for AI generation at scale. Separately, governance teams needed the business terms they defined, things like “Customer” or “Revenue,” linked to the technical assets that actually implemented them; done by hand, that linking was slow and inconsistent. AI could generate descriptions and recommend links in both cases, but the cost of being wrong wasn’t symmetric: an incorrect or overwritten description eroded trust in the catalog, and a wrong term link damaged trust in the entire glossary — worse, in fact, than leaving something unlinked. Neither workflow could just hand users AI output; both had to make reviewing that output fast, legible, and hard to get wrong by accident.' },
+          { type: 'h2', text: 'Generating and reviewing AI descriptions' },
+          { type: 'p', text: 'I started by mapping how stewards currently wrote descriptions — what they copied from, what “good” looked like — and reviewing how other products handled AI review, alongside early concept checks on how much users trusted generated text at different confidence levels. That research pointed to one conclusion: the generation itself was cheap, but trust depended entirely on the review experience, so I put most of the design effort there. I explored a modal review wizard, an inline table-based review, and a dedicated review workspace; the wizard felt safe but slow, and inline review scaled poorly once the generated text got long. The workspace won — asset context and generated text side by side, with batch actions layered on top.' },
+          { type: 'p', text: 'Three decisions shaped what shipped. Users could accept an entire batch and only slow down to review individual exceptions, which matched how they actually wanted to triage large batches rather than approving item by item. Editing was made a first-class action rather than an afterthought, because users trusted the output more when changing it felt easy — even when they rarely needed to. And any description that would overwrite existing human-written text triggered an explicit warning, because the fear of silently losing someone’s own writing was the single biggest objection to turning batch generation on at all.' },
+          { type: 'img', slotKey: 'ai-descriptions', aspect: '16/9', caption: 'The review workspace — generated text and asset context side by side, with accept, reject, edit, and regenerate per item.' },
+          { type: 'h2', text: 'Recommending and reviewing business-term links' },
+          { type: 'p', text: 'For term linking, I shadowed how stewards manually verified a link — which evidence they checked, and in what order — before drawing a single screen. That checklist, it turned out, was almost always the same three or four signals, and surfacing them inline became the backbone of the recommendation card design. I explored a table-first queue, a card-based review stream, and a term-centric view showing every suggestion for one term at a time; the card stream tested best for focused review, and the term-centric view survived as a secondary lens for stewards who preferred working term by term.' },
+          { type: 'p', text: 'The recommendation cards led with the matching evidence, not a confidence percentage — a score meant little to reviewers, but seeing the actual signals meant everything. Suggestions were grouped into confidence bands, with batch approval available on the high-confidence band and closer attention reserved for the uncertain ones, matching how stewards already triaged their queues. And rejecting a suggestion took one tap with a structured reason attached, never a required text field, because that rejection data mattered for improving future recommendations but couldn’t come at the cost of review speed.' },
+          { type: 'img', slotKey: 'term-linking', aspect: '16/9', caption: 'Evidence-first recommendation cards, grouped into confidence bands with batch approval on high-confidence suggestions.' },
+          { type: 'h2', text: 'What carried across both' },
+          { type: 'p', text: 'The two workflows ended up teaching each other. The description-review workspace became the reference pattern for other AI features built afterward in the suite; the evidence-card pattern from term linking was, in turn, adopted for other recommendation surfaces. Underneath both was the same small set of rules: never change anything silently, keep the human decision explicit, and show the reasoning behind a suggestion rather than a bare score. Rejection got as much design attention as approval in both cases — a reason is data the model can learn from, and asking for it needed to cost the reviewer almost nothing.' },
+          { type: 'h2', text: 'Outcomes' },
+          { type: 'p', text: 'In usability sessions, batch description review was significantly faster than reviewing items one by one, and stewards worked through term-link recommendations substantially faster than the manual process it replaced. Metadata coverage and glossary linkage both grew as a result, and the review and evidence-card patterns from these two features became reference points other AI capabilities in the suite were built on.' },
+          { type: 'h2', text: 'What I’d do differently' },
+          { type: 'p', text: 'AI UX turned out to be mostly state design — the happy path is the easy part — and I’d prototype with real generated output earlier next time, since placeholder text hides exactly the review problems that matter. I’d also test with longer, messier real queues sooner; clean demo data flatters a review flow in ways a genuinely large, uneven batch does not. Left to test further: how confidence indicators affect review speed and trust in the description workflow, and whether confidence-banded batch approval holds up on term-link queues ten times the size we validated.' },
         ],
-        deliverables: ['End-to-end user flow', 'High-fidelity Figma screens', 'Interactive prototype', 'Interaction specifications', 'Edge-case states', 'Design handoff notes'],
-        outcomes: [
-          { label: 'Observed impact', description: 'Stewards reviewed recommendations substantially faster than manual linking in sessions.' },
-          { label: 'Design impact', description: 'Evidence-card pattern adopted for other recommendation surfaces in the suite.' },
-          { label: 'Product impact', description: 'AI-assisted linking became a differentiator in governance demos.' },
-          { label: 'Expected impact', description: 'Sustained glossary coverage growth with maintained trust.' },
-        ],
-        reflection: [
-          { title: 'What I learned', description: 'In human-in-the-loop UX, the rejection path deserves as much design as approval.' },
-          { title: 'What I would improve', description: 'Test with longer, messier real queues earlier — clean demo data flatters the design.' },
-          { title: 'What I would test next', description: 'Whether confidence-banded batch approval holds accuracy at 10× queue size.' },
-        ],
-        related: ['ai-descriptions', 'data-lineage'],
+        related: ['data-lineage', 'asset-impact-diagram', 'mm-crm'],
       },
     };
   }
@@ -1990,6 +1924,12 @@ class Component extends DCLogic {
     const accessTab = this.state.accessTab || 0;
     const cs = rawCs ? {
       ...rawCs,
+      isFullTemplate: !rawCs.article,
+      article: rawCs.article ? rawCs.article.map((bl, i) => ({
+        ...bl,
+        isH2: bl.type === 'h2', isP: bl.type === 'p', isImg: bl.type === 'img',
+        slotId: bl.type === 'img' ? ('article-' + slug + '-' + (bl.slotKey || i)) : null,
+      })) : null,
       heroAspect: rawCs.heroAspect || '21/9', heroFit: rawCs.heroFit || 'cover',
       artifact1Aspect: rawCs.artifact1Aspect || '16/7', artifact1Fit: rawCs.artifact1Fit || 'cover',
       artifact2Aspect: rawCs.artifact2Aspect || '16/7', artifact2Fit: rawCs.artifact2Fit || 'cover',

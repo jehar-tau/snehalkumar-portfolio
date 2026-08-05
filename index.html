@@ -330,9 +330,6 @@ a{color:inherit}
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
     <sc-for list="{{ filteredCompact }}" as="p" hint-placeholder-count="3">
       <a href="{{ p.href }}" target="{{ p.target }}" rel="noopener noreferrer" onClick="{{ p.openMaybe }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px;transition:transform .15s,box-shadow .15s,border-color .15s;opacity:{{ p.opacity }}" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:var(--accent-tint-border)">
-        <div style="aspect-ratio:16/9;margin:-22px -22px 0;border-radius:20px 20px 0 0;overflow:hidden;border-bottom:1px solid var(--surface-muted)">
-          <image-slot id="thumb-{{ p.id }}" shape="rect" placeholder="{{ p.imageLabel }}" style="display:block;width:100%;height:100%"></image-slot>
-        </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
           <span style="font-size:12px;color:var(--text-subtle)">{{ p.company }}</span>
           <span style="font-size:11px;font-weight:600;color:{{ p.badgeColor }};background:{{ p.badgeBg }};border-radius:999px;padding:3px 9px;white-space:nowrap">{{ p.badge }}</span>
@@ -1449,11 +1446,11 @@ class Component extends DCLogic {
       },
       {
         id: 'ai-workflows', title: 'AI-Assisted Descriptions & Term Linking', company: 'Precisely', product: 'Data Integrity Suite',
-        depth: 'flagship', destination: 'internal',
+        depth: 'medium', destination: 'internal',
         summary: 'Two related AI-assisted review workflows — batch-generating and reviewing AI-written asset descriptions, and recommending business-term-to-technical-asset links — both built around making fast AI output safe to trust.',
         role: 'Senior Product Designer II', scopeShort: 'Two AI review workflows',
         tags: ['AI UX', 'Enterprise SaaS', 'Data Catalog', 'Data Governance', 'Workflow', 'Trust', 'Recommendation UX', 'Human-in-the-loop'],
-        filters: ['Flagship', 'AI UX', 'Enterprise SaaS', 'Data Products'],
+        filters: ['AI UX', 'Enterprise SaaS', 'Data Products'],
         imageLabel: 'AI review workflow UI',
       },
       {

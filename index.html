@@ -145,7 +145,7 @@ a{color:inherit}
     <div style="display:flex;justify-content:flex-end;padding:20px 8px 20px 0">
       <sc-if value="{{ heroMinimal }}" hint-placeholder-val="{{ false }}">
       <div style="width:100%;max-width:360px;background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:12px;box-shadow:0 12px 40px rgba(17,24,39,0.08)">
-        <image-slot id="portrait" src="images/profile/portrait.jpg" radius="20" placeholder="Drop portrait photo" style="display:block;width:100%;aspect-ratio:0.92;height:auto"></image-slot>
+        <image-slot id="portrait" hint="~1472×1600px — crops to fill this frame" src="images/profile/portrait.jpg" radius="20" placeholder="Drop portrait photo" style="display:block;width:100%;aspect-ratio:0.92;height:auto"></image-slot>
         <div style="padding:14px 8px 6px">
           <div style="font-size:15px;font-weight:700;letter-spacing:-0.02em">Snehalkumar</div>
           <div style="font-size:13px;color:var(--text-subtle)">Senior Product Designer II</div>
@@ -156,7 +156,7 @@ a{color:inherit}
       <div style="position:relative;width:100%;max-width:370px">
         <div style="position:absolute;inset:-16px 16px 16px -16px;background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:32px;transform:rotate(-3deg)"></div>
         <div style="position:relative;background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:12px;box-shadow:0 20px 50px rgba(17,24,39,0.10);transform:rotate(2deg);transition:transform .35s,box-shadow .35s" style-hover="transform:rotate(0deg) translateY(-4px);box-shadow:0 28px 64px rgba(17,24,39,0.14)">
-          <image-slot id="portrait" src="images/profile/portrait.jpg" radius="20" placeholder="Drop portrait photo" style="display:block;width:100%;aspect-ratio:0.92;height:auto"></image-slot>
+          <image-slot id="portrait" hint="~1472×1600px — crops to fill this frame" src="images/profile/portrait.jpg" radius="20" placeholder="Drop portrait photo" style="display:block;width:100%;aspect-ratio:0.92;height:auto"></image-slot>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 8px 6px">
             <div>
               <div style="font-size:15px;font-weight:700;letter-spacing:-0.02em">Snehalkumar</div>
@@ -227,7 +227,7 @@ a{color:inherit}
       <sc-for list="{{ flagshipProjects }}" as="p" hint-placeholder-count="3">
         <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 12px 32px rgba(17,24,39,0.08);border-color:var(--accent-tint-border)">
           <div style="aspect-ratio:16/10;border-bottom:1px solid var(--surface-muted)">
-            <image-slot id="thumb-{{ p.id }}" shape="rect" placeholder="{{ p.imageLabel }}" style="display:block;width:100%;height:100%"></image-slot>
+            <image-slot id="thumb-{{ p.id }}" hint="~1600×1000px — crops to fill this frame" shape="rect" placeholder="{{ p.imageLabel }}" style="display:block;width:100%;height:100%"></image-slot>
           </div>
           <div style="padding:24px;display:flex;flex-direction:column;gap:10px;flex:1">
             <div style="display:flex;align-items:center;gap:8px">
@@ -304,7 +304,7 @@ a{color:inherit}
     <sc-for list="{{ filteredLarge }}" as="p" hint-placeholder-count="2">
       <a href="#" onClick="{{ p.open }}" style="text-decoration:none;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 12px 32px rgba(17,24,39,0.08);border-color:var(--accent-tint-border)">
         <div style="aspect-ratio:16/8.5;border-bottom:1px solid var(--surface-muted)">
-          <image-slot id="thumb-{{ p.id }}" shape="rect" placeholder="{{ p.imageLabel }}" style="display:block;width:100%;height:100%"></image-slot>
+          <image-slot id="thumb-{{ p.id }}" hint="~1600×850px — crops to fill this frame" shape="rect" placeholder="{{ p.imageLabel }}" style="display:block;width:100%;height:100%"></image-slot>
         </div>
         <div style="padding:26px;display:flex;flex-direction:column;gap:10px;flex:1">
           <div style="display:flex;align-items:center;gap:8px">
@@ -364,7 +364,7 @@ a{color:inherit}
         <span style="font-size:13.5px;font-weight:600;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:8px 16px">{{ im }}</span>
       </sc-for>
     </div>
-    <image-slot id="case-hero-{{ csSlug }}" fit="{{ cs.heroFit }}" radius="28" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:{{ cs.heroAspect }};margin-top:40px;border:1px solid var(--border);border-radius:28px;height:auto"></image-slot>
+    <image-slot id="case-hero-{{ csSlug }}" hint="{{ cs.heroHint }}" fit="{{ cs.heroFit }}" radius="28" placeholder="Hero image — final experience overview" style="display:block;width:100%;aspect-ratio:{{ cs.heroAspect }};margin-top:40px;border:1px solid var(--border);border-radius:28px;height:auto"></image-slot>
     <div style="display:none">
       <span style="font-size:13px;font-weight:600;color:var(--text-faint);border:1px dashed var(--border-dashed);border-radius:12px;padding:12px 20px">Hero image — final experience overview</span>
     </div>
@@ -465,7 +465,7 @@ a{color:inherit}
   <!-- Artifact: current state -->
   <sc-if value="{{ cs.artifact1 }}" hint-placeholder-val="{{ true }}">
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <image-slot id="artifact1-{{ csSlug }}" fit="{{ cs.artifact1Fit }}" radius="24" placeholder="{{ cs.artifact1 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact1Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <image-slot id="artifact1-{{ csSlug }}" hint="{{ cs.artifact1Hint }}" fit="{{ cs.artifact1Fit }}" radius="24" placeholder="{{ cs.artifact1 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact1Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact1Caption }}</p>
   </section>
   </sc-if>
@@ -507,7 +507,7 @@ a{color:inherit}
         </div>
       </div>
     </sc-if>
-    <image-slot id="vision-{{ csSlug }}" fit="contain" radius="24" placeholder="Early lineage vision prototype created before my ownership" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:16px"></image-slot>
+    <image-slot id="vision-{{ csSlug }}" hint="Any size fits — roughly 1600×700px looks best" fit="contain" radius="24" placeholder="Early lineage vision prototype created before my ownership" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:16px"></image-slot>
     <p style="margin:0;font-size:16px;line-height:1.7;color:var(--text-secondary);max-width:80ch">{{ cs.visionDescription }}</p>
   </section>
   </sc-if>
@@ -524,7 +524,7 @@ a{color:inherit}
       </sc-for>
     </div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;max-width:600px">
-      <image-slot id="{{ cs.activeLevel.slotId }}" fit="contain" radius="0" placeholder="{{ cs.activeLevel.level }}-level lineage" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border-bottom:1px solid var(--border);height:auto"></image-slot>
+      <image-slot id="{{ cs.activeLevel.slotId }}" hint="Any size fits — roughly 1600×700px looks best" fit="contain" radius="0" placeholder="{{ cs.activeLevel.level }}-level lineage" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border-bottom:1px solid var(--border);height:auto"></image-slot>
       <div style="padding:22px">
         <div style="font-size:15.5px;font-weight:700;letter-spacing:-0.01em;margin-bottom:10px;color:var(--text)">{{ cs.activeLevel.level }} level</div>
         <p style="margin:0 0 10px;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ cs.activeLevel.purpose }}</p>
@@ -637,7 +637,7 @@ a{color:inherit}
     <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Research &amp; discovery</div>
     <h2 style="margin:0 0 16px;font-size:clamp(26px,3vw,34px);line-height:1.15;letter-spacing:-0.035em;font-weight:750">Understanding the workflow first</h2>
     <sc-if value="{{ cs.artifact0 }}" hint-placeholder-val="{{ false }}">
-      <image-slot id="artifact0-{{ csSlug }}" fit="contain" radius="24" placeholder="{{ cs.artifact0 }}" style="display:block;width:100%;aspect-ratio:16/9;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:14px"></image-slot>
+      <image-slot id="artifact0-{{ csSlug }}" hint="Any size fits — roughly 1600×900px looks best" fit="contain" radius="24" placeholder="{{ cs.artifact0 }}" style="display:block;width:100%;aspect-ratio:16/9;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:14px"></image-slot>
       <p style="margin:0 0 24px;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact0Caption }}</p>
     </sc-if>
     <p style="margin:0;font-size:16.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.research }}</p>
@@ -660,7 +660,7 @@ a{color:inherit}
         </sc-for>
       </div>
     </div>
-    <image-slot id="usability-{{ csSlug }}" fit="contain" radius="24" placeholder="Usability study plan and interview guide" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto;margin-top:20px"></image-slot>
+    <image-slot id="usability-{{ csSlug }}" hint="Any size fits — roughly 1600×700px looks best" fit="contain" radius="24" placeholder="Usability study plan and interview guide" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto;margin-top:20px"></image-slot>
     <sc-if value="{{ cs.usabilityNote }}" hint-placeholder-val="{{ false }}">
       <p style="margin:14px 0 0;font-size:13px;line-height:1.5;color:var(--text-faint);text-align:center;font-style:italic">{{ cs.usabilityNote }}</p>
     </sc-if>
@@ -669,14 +669,14 @@ a{color:inherit}
 
   <!-- Artifact: research -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <image-slot id="artifact2-{{ csSlug }}" fit="{{ cs.artifact2Fit }}" radius="24" placeholder="{{ cs.artifact2 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact2Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <image-slot id="artifact2-{{ csSlug }}" hint="{{ cs.artifact2Hint }}" fit="{{ cs.artifact2Fit }}" radius="24" placeholder="{{ cs.artifact2 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact2Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact2Caption }}</p>
   </section>
 
   <!-- Artifact: scope/flow diagram (custom aspect ratio — frame sized to fit the image, not the reverse) -->
   <sc-if value="{{ cs.artifact3 }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <image-slot id="artifact3-{{ csSlug }}" radius="24" placeholder="{{ cs.artifact3 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact3Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <image-slot id="artifact3-{{ csSlug }}" hint="{{ cs.artifact3Hint }}" radius="24" placeholder="{{ cs.artifact3 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact3Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact3Caption }}</p>
   </section>
   </sc-if>
@@ -684,7 +684,7 @@ a{color:inherit}
   <!-- Artifact: visual identity (custom aspect ratio) -->
   <sc-if value="{{ cs.artifact4 }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <image-slot id="artifact4-{{ csSlug }}" radius="24" placeholder="{{ cs.artifact4 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact4Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <image-slot id="artifact4-{{ csSlug }}" hint="{{ cs.artifact4Hint }}" radius="24" placeholder="{{ cs.artifact4 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact4Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact4Caption }}</p>
   </section>
   </sc-if>
@@ -693,7 +693,7 @@ a{color:inherit}
   <sc-if value="{{ cs.artifact5 }}" hint-placeholder-val="{{ false }}">
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px;align-items:center">
-      <image-slot id="artifact5-{{ csSlug }}" fit="contain" radius="24" placeholder="{{ cs.artifact5 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact5Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+      <image-slot id="artifact5-{{ csSlug }}" hint="{{ cs.artifact5Hint }}" fit="contain" radius="24" placeholder="{{ cs.artifact5 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact5Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
       <p style="margin:0;font-size:15.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.artifact5Text }}</p>
     </div>
   </section>
@@ -782,9 +782,9 @@ a{color:inherit}
   <!-- Artifact: wireframes gallery -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-      <image-slot id="wireframe-{{ csSlug }}-0" fit="contain" radius="18" placeholder="Early concept A" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
-      <image-slot id="wireframe-{{ csSlug }}-1" fit="contain" radius="18" placeholder="Early concept B" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
-      <image-slot id="wireframe-{{ csSlug }}-2" fit="contain" radius="18" placeholder="Iteration — chosen direction" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="wireframe-{{ csSlug }}-0" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="18" placeholder="Early concept A" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="wireframe-{{ csSlug }}-1" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="18" placeholder="Early concept B" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="wireframe-{{ csSlug }}-2" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="18" placeholder="Iteration — chosen direction" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
     </div>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">Wireframe explorations comparing alternate approaches before converging on the final direction.</p>
   </section>
@@ -806,9 +806,9 @@ a{color:inherit}
             <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">Design objective</div><p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ en.objective }}</p></div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
-            <image-slot id="{{ en.beforeSlotId }}" fit="contain" radius="16" placeholder="Original interaction" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;height:auto"></image-slot>
+            <image-slot id="{{ en.beforeSlotId }}" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="16" placeholder="Original interaction" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;height:auto"></image-slot>
             <sc-if value="{{ en.isOpen }}" hint-placeholder-val="{{ true }}">
-              <image-slot id="{{ en.afterSlotId }}" fit="contain" radius="16" placeholder="Delivered production experience" style="display:block;width:100%;aspect-ratio:4/3;background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:16px;height:auto"></image-slot>
+              <image-slot id="{{ en.afterSlotId }}" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="16" placeholder="Delivered production experience" style="display:block;width:100%;aspect-ratio:4/3;background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:16px;height:auto"></image-slot>
             </sc-if>
           </div>
           <button onClick="{{ en.onToggle }}" style="cursor:pointer;font-family:inherit;font-size:13px;font-weight:600;color:var(--accent-text);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:8px 16px" style-hover="border-color:#FDBA74">{{ en.toggleLabel }}</button>
@@ -825,11 +825,11 @@ a{color:inherit}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:4px;border:1px solid var(--border);border-radius:24px;overflow:hidden">
       <div style="background:var(--surface-subtle);padding:20px">
         <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:12px">Initial lineage experience</div>
-        <image-slot id="beforeafter-{{ csSlug }}-before" fit="contain" radius="16" placeholder="Before enhancement" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface);border:1px solid var(--border);border-radius:16px;height:auto"></image-slot>
+        <image-slot id="beforeafter-{{ csSlug }}-before" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="16" placeholder="Before enhancement" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface);border:1px solid var(--border);border-radius:16px;height:auto"></image-slot>
       </div>
       <div style="background:var(--accent-tint);padding:20px">
         <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--accent-text-strong);margin-bottom:12px">Enhanced experience after usability testing</div>
-        <image-slot id="beforeafter-{{ csSlug }}-after" fit="contain" radius="16" placeholder="After enhancement" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface);border:1px solid var(--accent-tint-border);border-radius:16px;height:auto"></image-slot>
+        <image-slot id="beforeafter-{{ csSlug }}-after" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="16" placeholder="After enhancement" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface);border:1px solid var(--accent-tint-border);border-radius:16px;height:auto"></image-slot>
       </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
@@ -903,7 +903,7 @@ a{color:inherit}
         </div>
       </div>
     </sc-if>
-    <image-slot id="transform-node-{{ csSlug }}" fit="contain" radius="24" placeholder="Transformation node design — join, union, or formula example" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <image-slot id="transform-node-{{ csSlug }}" hint="Any size fits — roughly 1600×700px looks best" fit="contain" radius="24" placeholder="Transformation node design — join, union, or formula example" style="display:block;width:100%;aspect-ratio:16/7;background:var(--surface-subtle);border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
   </section>
   </sc-if>
 
@@ -920,7 +920,7 @@ a{color:inherit}
     <div style="display:flex;flex-direction:column;gap:40px">
       <sc-for list="{{ cs.modules }}" as="mo" hint-placeholder-count="3">
         <div>
-          <image-slot id="{{ mo.slotId }}" fit="{{ mo.fit }}" radius="24" placeholder="{{ mo.placeholder }}" style="display:block;width:100%;aspect-ratio:{{ mo.aspectRatio }};border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:18px"></image-slot>
+          <image-slot id="{{ mo.slotId }}" hint="{{ mo.hint }}" fit="{{ mo.fit }}" radius="24" placeholder="{{ mo.placeholder }}" style="display:block;width:100%;aspect-ratio:{{ mo.aspectRatio }};border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:18px"></image-slot>
           <sc-if value="{{ mo.title }}" hint-placeholder-val="{{ true }}">
             <div style="max-width:720px">
               <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ mo.title }}</div>
@@ -948,7 +948,7 @@ a{color:inherit}
         <span style="font-size:11px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--accent-text-strong);background:var(--accent-tint);border:1px solid var(--accent-tint-border);border-radius:999px;padding:4px 10px;white-space:nowrap">{{ cs.activeAccessPoint.status }}</span>
       </div>
       <p style="margin:0 0 16px;font-size:14.5px;line-height:1.6;color:var(--text-muted)">{{ cs.activeAccessPoint.description }}</p>
-      <image-slot id="{{ cs.activeAccessPoint.slotId }}" fit="contain" radius="16" placeholder="{{ cs.activeAccessPoint.imageLabel }}" style="display:block;width:100%;aspect-ratio:16/8;background:var(--surface);border:1px solid var(--border);border-radius:16px;height:auto"></image-slot>
+      <image-slot id="{{ cs.activeAccessPoint.slotId }}" hint="Any size fits — roughly 1600×800px looks best" fit="contain" radius="16" placeholder="{{ cs.activeAccessPoint.imageLabel }}" style="display:block;width:100%;aspect-ratio:16/8;background:var(--surface);border:1px solid var(--border);border-radius:16px;height:auto"></image-slot>
     </div>
   </section>
   </sc-if>
@@ -967,9 +967,9 @@ a{color:inherit}
       </div>
     </sc-if>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px">
-      <image-slot id="currentwork-{{ csSlug }}-0" fit="contain" radius="18" placeholder="Current graph complexity" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;height:auto"></image-slot>
-      <image-slot id="currentwork-{{ csSlug }}-1" fit="contain" radius="18" placeholder="Early decluttering concepts" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;height:auto"></image-slot>
-      <image-slot id="currentwork-{{ csSlug }}-2" fit="contain" radius="18" placeholder="Path isolation exploration" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="currentwork-{{ csSlug }}-0" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="18" placeholder="Current graph complexity" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="currentwork-{{ csSlug }}-1" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="18" placeholder="Early decluttering concepts" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;height:auto"></image-slot>
+      <image-slot id="currentwork-{{ csSlug }}-2" hint="Any size fits — roughly 1600×1200px looks best" fit="contain" radius="18" placeholder="Path isolation exploration" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px dashed var(--border-dashed);border-radius:18px;height:auto"></image-slot>
     </div>
     <p style="margin:14px 0 0;font-size:12.5px;line-height:1.5;color:var(--text-faint);text-align:center;font-style:italic">Current exploration — not yet final.</p>
   </section>
@@ -1045,7 +1045,7 @@ a{color:inherit}
       </sc-if>
       <sc-if value="{{ bl.isImg }}" hint-placeholder-val="{{ false }}">
         <div style="margin:32px 0">
-          <image-slot id="{{ bl.slotId }}" fit="contain" radius="20" placeholder="{{ bl.caption }}" style="display:block;width:100%;aspect-ratio:{{ bl.aspect }};background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;height:auto"></image-slot>
+          <image-slot id="{{ bl.slotId }}" hint="{{ bl.hint }}" fit="contain" radius="20" placeholder="{{ bl.caption }}" style="display:block;width:100%;aspect-ratio:{{ bl.aspect }};background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;height:auto"></image-slot>
           <p style="margin:12px 0 0;font-size:13px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ bl.caption }}</p>
         </div>
       </sc-if>
@@ -1084,7 +1084,7 @@ a{color:inherit}
       </div>
     </div>
     <div style="border-radius:28px;overflow:hidden;border:1px solid var(--border);box-shadow:0 12px 40px rgba(17,24,39,0.08)">
-      <image-slot id="speaking" src="images/profile/speaking.jpg" shape="rect" placeholder="Drop speaking / conference photo" style="display:block;width:100%;aspect-ratio:4/3;height:auto"></image-slot>
+      <image-slot id="speaking" hint="~1600×1200px — crops to fill this frame" src="images/profile/speaking.jpg" shape="rect" placeholder="Drop speaking / conference photo" style="display:block;width:100%;aspect-ratio:4/3;height:auto"></image-slot>
     </div>
   </div>
 
@@ -1154,7 +1154,7 @@ a{color:inherit}
       <h1 style="margin:0 0 20px;font-size:clamp(36px,4.5vw,52px);line-height:1.08;letter-spacing:-0.045em;font-weight:750">I’m Snehal Kumar — a designer who likes turning complex systems into clear, usable products.</h1>
     </div>
     <div style="display:flex;justify-content:flex-end">
-      <image-slot id="portrait" src="images/profile/portrait.jpg" radius="28" placeholder="Drop portrait photo" style="display:block;width:100%;max-width:340px;aspect-ratio:0.92;border:1px solid var(--border);border-radius:28px;box-shadow:0 12px 40px rgba(17,24,39,0.08);height:auto"></image-slot>
+      <image-slot id="portrait" hint="~1472×1600px — crops to fill this frame" src="images/profile/portrait.jpg" radius="28" placeholder="Drop portrait photo" style="display:block;width:100%;max-width:340px;aspect-ratio:0.92;border:1px solid var(--border);border-radius:28px;box-shadow:0 12px 40px rgba(17,24,39,0.08);height:auto"></image-slot>
     </div>
   </div>
 
@@ -1341,6 +1341,21 @@ class Component extends DCLogic {
     } catch (e) { return ''; }
   }
   componentWillUnmount() { clearInterval(this._clockT); clearTimeout(this._copyT); }
+
+  // Human-readable "what size should I upload" hint for an image-slot,
+  // derived from its aspect-ratio and fit mode. 'contain' never crops, so
+  // any size works — 'cover' crops to fill, so matching the ratio matters.
+  sizeHint(aspect, fit) {
+    const parts = String(aspect || '').split('/');
+    const w = parseFloat(parts[0]), h = parseFloat(parts[1]);
+    if (!w || !h) return '';
+    const long = 1600;
+    const rw = w >= h ? long : Math.round(long * (w / h));
+    const rh = h >= w ? long : Math.round(long * (h / w));
+    return fit === 'contain'
+      ? `Any size fits — roughly ${rw}×${rh}px looks best`
+      : `~${rw}×${rh}px — crops to fill this frame`;
+  }
 
   chatRef = React.createRef();
 
@@ -1926,10 +1941,17 @@ class Component extends DCLogic {
         ...bl,
         isH2: bl.type === 'h2', isP: bl.type === 'p', isImg: bl.type === 'img',
         slotId: bl.type === 'img' ? ('article-' + slug + '-' + (bl.slotKey || i)) : null,
+        hint: bl.type === 'img' ? this.sizeHint(bl.aspect || '16/9', 'contain') : null,
       })) : null,
       heroAspect: rawCs.heroAspect || '21/9', heroFit: rawCs.heroFit || 'cover',
+      heroHint: this.sizeHint(rawCs.heroAspect || '21/9', rawCs.heroFit || 'cover'),
       artifact1Aspect: rawCs.artifact1Aspect || '16/7', artifact1Fit: rawCs.artifact1Fit || 'cover',
+      artifact1Hint: this.sizeHint(rawCs.artifact1Aspect || '16/7', rawCs.artifact1Fit || 'cover'),
       artifact2Aspect: rawCs.artifact2Aspect || '16/7', artifact2Fit: rawCs.artifact2Fit || 'cover',
+      artifact2Hint: this.sizeHint(rawCs.artifact2Aspect || '16/7', rawCs.artifact2Fit || 'cover'),
+      artifact3Hint: this.sizeHint(rawCs.artifact3Aspect || '16/9', 'cover'),
+      artifact4Hint: this.sizeHint(rawCs.artifact4Aspect || '16/9', 'cover'),
+      artifact5Hint: this.sizeHint(rawCs.artifact5Aspect || '16/9', 'contain'),
       challenges: rawCs.challenges.map((c, i) => ({ ...c, n: String(i + 1).padStart(2, '0') })),
       insights: rawCs.insights.map((c, i) => ({ ...c, n: String(i + 1).padStart(2, '0') })),
       process: rawCs.process.map((label, i) => ({ label, arrowColor: i === rawCs.process.length - 1 ? 'transparent' : '#FB923C' })),
@@ -1970,6 +1992,7 @@ class Component extends DCLogic {
         slotId: 'module-' + slug + '-' + i,
         aspectRatio: mo.aspectRatio || '16/8',
         placeholder: mo.title ? 'Final UI — ' + mo.title : 'Final UI',
+        hint: this.sizeHint(mo.aspectRatio || '16/8', mo.fit || 'cover'),
       })) : null,
     } : null;
     const relatedProjects = rawCs ? projects.filter(p => rawCs.related.includes(p.id)) : [];

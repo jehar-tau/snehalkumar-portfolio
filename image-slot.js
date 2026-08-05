@@ -33,6 +33,8 @@
  *                corner-handles to scale; Escape / click-out commits). The
  *                crop persists alongside the image in the sidecar.
  *   placeholder  Empty-state caption.                      (default 'Drop an image')
+ *   hint         Small second line under the caption — e.g. a recommended
+ *                upload size ('1600×900px (16:9)'). Omit for no hint line.
  *   src          Optional initial/fallback image URL. A user drop overrides
  *                it; clearing the drop reveals src again.
  *   credit       Attribution text shown as a small overlay at the
@@ -285,6 +287,7 @@
     '  cursor:pointer;user-select:none}' +
     '.empty svg{opacity:.45}' +
     '.empty .cap{max-width:90%;font-weight:500;letter-spacing:.01em}' +
+    '.empty .hint{font-size:11px;opacity:.7;max-width:90%}' +
     '.empty .sub{font-size:11px}' +
     '.empty .sub u{text-underline-offset:2px;text-decoration-color:rgba(0,0,0,.25)}' +
     '.empty:hover .sub u{color:rgba(0,0,0,.75);text-decoration-color:currentColor}' +
@@ -374,7 +377,7 @@
 
   class ImageSlot extends HTMLElement {
     static get observedAttributes() {
-      return ['shape', 'radius', 'mask', 'fit', 'placeholder', 'src', 'id', 'credit', 'credit-href'];
+      return ['shape', 'radius', 'mask', 'fit', 'placeholder', 'hint', 'src', 'id', 'credit', 'credit-href'];
     }
 
     /** Duplicate-slide hook (called by deck-stage, see its
@@ -440,6 +443,7 @@
         '  <img part="image" alt="" draggable="false" style="display:none">' +
         '  <div class="empty" part="empty">' + icon +
         '    <div class="cap"></div>' +
+        '    <div class="hint"></div>' +
         '    <div class="sub">or <u>browse files</u></div></div>' +
         '  <div class="attr-error" part="attribution-error">' + warnIcon +
         '    <div class="cap">Unsplash photo needs attribution</div>' +
@@ -467,6 +471,7 @@
       this._empty = root.querySelector('.empty');
       this._cap = root.querySelector('.cap');
       this._sub = root.querySelector('.sub');
+      this._hint = root.querySelector('.hint');
       this._spill = root.querySelector('.spill');
       this._ctl = root.querySelector('.ctl');
       this._credit = root.querySelector('.credit');
@@ -953,6 +958,9 @@
         };
       }
       this._cap.textContent = this.getAttribute('placeholder') || 'Drop an image';
+      const hintText = this.getAttribute('hint') || '';
+      this._hint.textContent = hintText;
+      this._hint.style.display = hintText ? '' : 'none';
       // Toggle via style.display — the [hidden] attribute alone loses to
       // the display:flex / display:block rules in the stylesheet above.
       // An Unsplash src with no credit attribute must NOT render — showing

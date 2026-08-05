@@ -330,6 +330,9 @@ a{color:inherit}
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
     <sc-for list="{{ filteredCompact }}" as="p" hint-placeholder-count="3">
       <a href="{{ p.href }}" target="{{ p.target }}" rel="noopener noreferrer" onClick="{{ p.openMaybe }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px;transition:transform .15s,box-shadow .15s,border-color .15s;opacity:{{ p.opacity }}" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:var(--accent-tint-border)">
+        <div style="aspect-ratio:16/9;margin:-22px -22px 0;border-radius:20px 20px 0 0;overflow:hidden;border-bottom:1px solid var(--surface-muted)">
+          <image-slot id="thumb-{{ p.id }}" shape="rect" placeholder="{{ p.imageLabel }}" style="display:block;width:100%;height:100%"></image-slot>
+        </div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
           <span style="font-size:12px;color:var(--text-subtle)">{{ p.company }}</span>
           <span style="font-size:11px;font-weight:600;color:{{ p.badgeColor }};background:{{ p.badgeBg }};border-radius:999px;padding:3px 9px;white-space:nowrap">{{ p.badge }}</span>
@@ -1463,6 +1466,7 @@ class Component extends DCLogic {
         summary: 'Research-driven design project addressing agricultural workforce challenges — connecting farmers with farm-related businesses and services.',
         tags: ['Research', 'AgriTech', 'Service Design'],
         filters: ['Research', 'External Builds'],
+        imageLabel: 'Tackling Agricultural Workforce — project cover',
       },
       {
         id: 'geometry-kit', title: 'Geometry Kit for Blind Students', company: 'NID · Universal Design',
@@ -1470,6 +1474,7 @@ class Component extends DCLogic {
         summary: 'A tactile geometry kit that makes learning geometry accessible for visually impaired students — design improving lives through inclusion.',
         tags: ['Universal Design', 'Accessibility', 'Product Design'],
         filters: ['Research', 'External Builds'],
+        imageLabel: 'Geometry Kit for Blind Students — project cover',
       },
       {
         id: 'ai-experiments', title: 'AI Portfolio / Design Automation Experiments', company: 'Personal',
@@ -1477,6 +1482,7 @@ class Component extends DCLogic {
         summary: 'Experiments using AI-assisted coding, image generation, and interface exploration to quickly prototype product ideas.',
         tags: ['AI', 'Prototyping', 'Design Automation'],
         filters: ['Experiments', 'External Builds', 'AI UX'],
+        imageLabel: 'AI Portfolio / Design Automation Experiments — project cover',
       },
     ];
   }

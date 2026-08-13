@@ -4,3 +4,5 @@ worker/node_modules/
 worker/.wrangler/
 worker-guestbook/node_modules/
 worker-guestbook/.wrangler/
+worker-crawler-log/node_modules/
+worker-crawler-log/.wrangler/

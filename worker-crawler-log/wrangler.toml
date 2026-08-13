@@ -1,0 +1,7 @@
+name = "portfolio-crawler-log"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[[kv_namespaces]]
+binding = "SIGHTINGS"
+id = "89e46a9916504f10b7bff20aeef928de"

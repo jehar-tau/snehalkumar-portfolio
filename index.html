@@ -1603,6 +1603,19 @@ class Component extends DCLogic {
     ];
   }
 
+  // Placeholder sightings so the board isn't empty while waiting for real
+  // crawlers/agents to show up — client-side only, never written to the
+  // Worker's KV store, so they never mix with real logged sightings.
+  crawlerSeedSightings() {
+    const hour = 60 * 60 * 1000;
+    return [
+      { id: 'cseed-1', label: 'GPTBot (OpenAI)', userAgent: 'GPTBot/1.0', agentName: 'GPTBot', correct: true, ts: Date.now() - 30 * hour },
+      { id: 'cseed-2', label: 'ClaudeBot (Anthropic)', userAgent: 'ClaudeBot/1.0', agentName: 'ClaudeBot', correct: true, ts: Date.now() - 22 * hour },
+      { id: 'cseed-3', label: 'PerplexityBot', userAgent: 'PerplexityBot/1.0', agentName: null, correct: false, ts: Date.now() - 14 * hour },
+      { id: 'cseed-4', label: 'CCBot (Common Crawl)', userAgent: 'CCBot/2.0', agentName: null, correct: false, ts: Date.now() - 6 * hour },
+    ];
+  }
+
   guestbookField(field) {
     return (e) => {
       const value = e && e.target ? e.target.value : e;
@@ -2305,9 +2318,9 @@ class Component extends DCLogic {
 
       crawlerLoading: this.state.crawlerLoading,
       crawlerError: this.state.crawlerError,
-      crawlerEmpty: Array.isArray(this.state.crawlerSightings) && this.state.crawlerSightings.length === 0,
-      crawlerCount: (this.state.crawlerSightings || []).length,
-      crawlerSightings: (this.state.crawlerSightings || []).map((s) => ({
+      crawlerEmpty: Array.isArray(this.state.crawlerSightings) && this.state.crawlerSightings.length === 0 && this.crawlerSeedSightings().length === 0,
+      crawlerCount: (this.state.crawlerSightings || []).length + this.crawlerSeedSightings().length,
+      crawlerSightings: [...(this.state.crawlerSightings || []), ...this.crawlerSeedSightings()].sort((a, b) => b.ts - a.ts).map((s) => ({
         ...s,
         dateLabel: new Date(s.ts).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
         resultLabel: s.correct ? 'Solved it' : 'Visited, didn’t solve it',

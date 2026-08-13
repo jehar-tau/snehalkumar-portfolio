@@ -1197,7 +1197,7 @@ a{color:inherit}
     <div style="font-size:12.5px;font-weight:700;color:var(--text)">Pin your own note</div>
     <input type="text" value="{{ guestbookForm.name }}" onChange="{{ onGuestbookName }}" placeholder="Name" maxlength="60" style="padding:8px 10px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:12.5px;color:var(--text);background:var(--surface-subtle)">
     <input type="text" value="{{ guestbookForm.org }}" onChange="{{ onGuestbookOrg }}" placeholder="Organization (optional)" maxlength="80" style="padding:8px 10px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:12.5px;color:var(--text);background:var(--surface-subtle)">
-    <input type="email" value="{{ guestbookForm.email }}" onChange="{{ onGuestbookEmail }}" placeholder="Email (private)" maxlength="120" style="padding:8px 10px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:12.5px;color:var(--text);background:var(--surface-subtle)">
+    <input type="email" value="{{ guestbookForm.email }}" onChange="{{ onGuestbookEmail }}" placeholder="Email (optional, private)" maxlength="120" style="padding:8px 10px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:12.5px;color:var(--text);background:var(--surface-subtle)">
     <textarea rows="2" value="{{ guestbookForm.message }}" onChange="{{ onGuestbookMessage }}" placeholder="Your note…" maxlength="280" style="padding:8px 10px;border:1px solid var(--border);border-radius:9px;font-family:inherit;font-size:12.5px;color:var(--text);background:var(--surface-subtle);resize:vertical"></textarea>
     <label style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" tabindex="-1">
       Leave this field empty
@@ -1542,8 +1542,8 @@ class Component extends DCLogic {
   async submitGuestbookNote(e) {
     if (e && e.preventDefault) e.preventDefault();
     const f = this.state.guestbookForm;
-    if (!f.name.trim() || !f.message.trim() || !f.email.trim()) {
-      this.setState({ guestbookError: 'Name, email, and a message are required.' });
+    if (!f.name.trim() || !f.message.trim()) {
+      this.setState({ guestbookError: 'Name and a message are required.' });
       return;
     }
     this.setState({ guestbookSubmitting: true, guestbookError: '' });

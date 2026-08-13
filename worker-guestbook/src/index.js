@@ -117,8 +117,8 @@ export default {
       if (!name || !message) {
         return json({ error: 'name and message are required' }, 400, headers);
       }
-      if (!email || !isValidEmail(email)) {
-        return json({ error: 'a valid email is required' }, 400, headers);
+      if (email && !isValidEmail(email)) {
+        return json({ error: 'that email doesn’t look valid' }, 400, headers);
       }
 
       const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
@@ -130,7 +130,7 @@ export default {
 
       const note = {
         id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
-        name, org: org || null, email, message,
+        name, org: org || null, email: email || null, message,
         ts: Date.now(),
       };
       const notes = await getNotes(env);

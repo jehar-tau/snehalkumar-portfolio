@@ -1,0 +1,8 @@
+name = "portfolio-guestbook"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Populated by: wrangler kv namespace create NOTES
+[[kv_namespaces]]
+binding = "NOTES"
+id = "8d15d8966b2a4de09c046aef8c40d918"

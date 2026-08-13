@@ -2,3 +2,5 @@
 docs/
 worker/node_modules/
 worker/.wrangler/
+worker-guestbook/node_modules/
+worker-guestbook/.wrangler/

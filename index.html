@@ -1145,6 +1145,91 @@ a{color:inherit}
 </main>
 </sc-if>
 
+<!-- ============ PLAYGROUND ============ -->
+<sc-if value="{{ isPlayground }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Playground" style="max-width:1200px;margin:0 auto;padding:72px 24px 96px">
+  <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Playground</div>
+  <h1 style="margin:0 0 16px;font-size:clamp(38px,5vw,56px);line-height:1.05;letter-spacing:-0.045em;font-weight:750">Experimental ideas, built to be used, not just looked at.</h1>
+  <p style="margin:0 0 48px;font-size:17px;line-height:1.6;color:var(--text-muted);max-width:66ch">Small concepts I'm working on or have built on the side — each one is interactive, so try it rather than just reading about it.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+    <a href="#" onClick="{{ goGuestbook }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 8px 24px rgba(17,24,39,0.07);border-color:var(--accent-tint-border)">
+      <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-text-strong);background:var(--accent-tint);border-radius:999px;padding:4px 10px;width:fit-content">Live</span>
+      <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em;color:var(--text)">Guestbook Wall</div>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-muted);flex:1">A corkboard of sticky notes — like the ones cafes put up for visitors to leave a note. Leave your own, and see what others have written.</p>
+      <div style="font-size:13.5px;font-weight:600;color:var(--accent-text)">Open the board →</div>
+    </a>
+  </div>
+</main>
+</sc-if>
+
+<!-- ============ GUESTBOOK WALL ============ -->
+<sc-if value="{{ isGuestbook }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="Guestbook Wall" style="max-width:1000px;margin:0 auto;padding:64px 24px 96px">
+  <a href="#" onClick="{{ goPlayground }}" style="text-decoration:none;font-size:13.5px;font-weight:600;color:var(--text-subtle)" style-hover="color:var(--accent-text)">← Playground</a>
+  <div style="margin-top:20px;max-width:760px">
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Playground · Guestbook Wall</div>
+    <h1 style="margin:0 0 16px;font-size:clamp(32px,4.5vw,46px);line-height:1.08;letter-spacing:-0.045em;font-weight:750">Leave a note on the wall</h1>
+    <p style="margin:0;font-size:16.5px;line-height:1.7;color:var(--text-muted)">Some of my favorite cafes have a wall where visitors leave a sticky note behind — so this is that, for a portfolio. Say hi, leave feedback, or just leave your mark. Your email stays private; everything else shows up on the board below.</p>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px;margin-top:40px">
+    <div style="font-size:15px;font-weight:700;margin-bottom:18px;color:var(--text)">Add your sticky note</div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+        <label style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:12px;font-weight:600;color:var(--text-subtle)">Name</span>
+          <input type="text" value="{{ guestbookForm.name }}" onChange="{{ onGuestbookName }}" placeholder="Your name" maxlength="60" style="padding:11px 14px;border:1px solid var(--border);border-radius:12px;font-family:inherit;font-size:14.5px;color:var(--text);background:var(--surface-subtle)">
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px">
+          <span style="font-size:12px;font-weight:600;color:var(--text-subtle)">Organization (optional)</span>
+          <input type="text" value="{{ guestbookForm.org }}" onChange="{{ onGuestbookOrg }}" placeholder="Where you work" maxlength="80" style="padding:11px 14px;border:1px solid var(--border);border-radius:12px;font-family:inherit;font-size:14.5px;color:var(--text);background:var(--surface-subtle)">
+        </label>
+      </div>
+      <label style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:12px;font-weight:600;color:var(--text-subtle)">Email — kept private, never shown on the board</span>
+        <input type="email" value="{{ guestbookForm.email }}" onChange="{{ onGuestbookEmail }}" placeholder="you@example.com" maxlength="120" style="padding:11px 14px;border:1px solid var(--border);border-radius:12px;font-family:inherit;font-size:14.5px;color:var(--text);background:var(--surface-subtle)">
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:12px;font-weight:600;color:var(--text-subtle)">Your note</span>
+        <textarea rows="3" value="{{ guestbookForm.message }}" onChange="{{ onGuestbookMessage }}" placeholder="Say hi, leave feedback, or just leave your mark…" maxlength="280" style="padding:11px 14px;border:1px solid var(--border);border-radius:12px;font-family:inherit;font-size:14.5px;color:var(--text);background:var(--surface-subtle);resize:vertical"></textarea>
+      </label>
+      <label style="position:absolute;left:-9999px;opacity:0" aria-hidden="true" tabindex="-1">
+        Leave this field empty
+        <input type="text" value="{{ guestbookForm.website }}" onChange="{{ onGuestbookWebsite }}" tabindex="-1" autocomplete="off">
+      </label>
+      <sc-if value="{{ guestbookError }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:0;font-size:13.5px;color:#DC2626">{{ guestbookError }}</p>
+      </sc-if>
+      <button onClick="{{ submitGuestbookNote }}" disabled="{{ guestbookSubmitting }}" style="cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:600;padding:12px 24px;border-radius:999px;background:#F97316;color:#ffffff;border:none;align-self:flex-start;opacity:{{ guestbookSubmitOpacity }}" style-hover="background:#EA580C">{{ guestbookSubmitLabel }}</button>
+    </div>
+  </div>
+
+  <div style="margin-top:56px">
+    <div style="font-size:15px;font-weight:700;margin-bottom:20px;color:var(--text)">The wall</div>
+    <sc-if value="{{ guestbookLoading }}" hint-placeholder-val="{{ false }}">
+      <p style="margin:0;font-size:14px;color:var(--text-subtle)">Loading the wall…</p>
+    </sc-if>
+    <sc-if value="{{ guestbookEmpty }}" hint-placeholder-val="{{ false }}">
+      <p style="margin:0;font-size:14px;color:var(--text-subtle)">No notes yet — be the first to pin one.</p>
+    </sc-if>
+    <div style="display:flex;flex-wrap:wrap;gap:24px;padding:12px 0">
+      <sc-for list="{{ guestbookNotes }}" as="n" hint-placeholder-count="6">
+        <div style="width:220px;min-height:180px;background:{{ n.bg }};color:{{ n.fg }};border-radius:4px;padding:20px 18px;box-shadow:0 6px 16px rgba(17,24,39,0.15);transform:rotate({{ n.rotate }}deg);display:flex;flex-direction:column;gap:10px;font-family:var(--font-voice, inherit)">
+          <p style="margin:0;font-size:14.5px;line-height:1.55;font-weight:500;flex:1">{{ n.message }}</p>
+          <div>
+            <div style="font-size:13px;font-weight:700">{{ n.name }}</div>
+            <sc-if value="{{ n.org }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:11.5px;opacity:.75">{{ n.org }}</div>
+            </sc-if>
+            <div style="font-size:10.5px;opacity:.6;margin-top:4px">{{ n.dateLabel }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</main>
+</sc-if>
+
 <!-- ============ ABOUT ============ -->
 <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
 <main data-screen-label="About" style="max-width:1200px;margin:0 auto;padding:72px 24px 96px">
@@ -1311,7 +1396,7 @@ a{color:inherit}
   &quot;metricsBand&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;ticker&quot;, &quot;options&quot;: [&quot;ticker&quot;, &quot;grid&quot;], &quot;tsType&quot;: &quot;'ticker' | 'grid'&quot;, &quot;section&quot;: &quot;Metrics&quot; }
 }">
 class Component extends DCLogic {
-  state = { route: 'home', slug: null, filter: 'All', askMessages: [], askInput: '', askLoading: false, askOpen: false, expTabs: {}, copied: false, clockTime: '', levelTab: 0, enhOpen: {}, transformDemoOpen: false, accessTab: 0, links: { email: 'work.snehalkumar@gmail.com', linkedin: 'https://www.linkedin.com/in/snehalkumar-shinde/', resume: '' } };
+  state = { route: 'home', slug: null, filter: 'All', askMessages: [], askInput: '', askLoading: false, askOpen: false, expTabs: {}, copied: false, clockTime: '', levelTab: 0, enhOpen: {}, transformDemoOpen: false, accessTab: 0, links: { email: 'work.snehalkumar@gmail.com', linkedin: 'https://www.linkedin.com/in/snehalkumar-shinde/', resume: '' }, guestbookNotes: null, guestbookLoading: false, guestbookError: '', guestbookSubmitting: false, guestbookForm: { name: '', org: '', email: '', message: '', website: '' } };
 
   componentDidMount() {
     const tick = () => this.setState({ clockTime: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' }) });
@@ -1433,6 +1518,57 @@ class Component extends DCLogic {
   go(route, slug) {
     this.setState({ route, slug: slug || null });
     window.scrollTo(0, 0);
+    if (route === 'guestbook' && this.state.guestbookNotes === null && !this.state.guestbookLoading) {
+      this.loadGuestbookNotes();
+    }
+  }
+
+  guestbookField(field) {
+    return (e) => {
+      const value = e && e.target ? e.target.value : e;
+      this.setState({ guestbookForm: { ...this.state.guestbookForm, [field]: value } });
+    };
+  }
+
+  async loadGuestbookNotes() {
+    this.setState({ guestbookLoading: true, guestbookError: '' });
+    try {
+      const res = await fetch('https://portfolio-guestbook.snehalkumar.workers.dev/notes');
+      if (!res.ok) throw new Error('load failed: ' + res.status);
+      const data = await res.json();
+      this.setState({ guestbookNotes: Array.isArray(data.notes) ? data.notes : [], guestbookLoading: false });
+    } catch (err) {
+      this.setState({ guestbookNotes: [], guestbookLoading: false, guestbookError: 'Couldn’t load the board just now. Please try again in a moment.' });
+    }
+  }
+
+  async submitGuestbookNote(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const f = this.state.guestbookForm;
+    if (!f.name.trim() || !f.message.trim() || !f.email.trim()) {
+      this.setState({ guestbookError: 'Name, email, and a message are required.' });
+      return;
+    }
+    this.setState({ guestbookSubmitting: true, guestbookError: '' });
+    try {
+      const res = await fetch('https://portfolio-guestbook.snehalkumar.workers.dev/notes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: f.name.trim(), org: f.org.trim(), email: f.email.trim(), message: f.message.trim(), website: f.website }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        this.setState({ guestbookSubmitting: false, guestbookError: data.error || 'Something went wrong — please try again.' });
+        return;
+      }
+      this.setState({
+        guestbookSubmitting: false,
+        guestbookForm: { name: '', org: '', email: '', message: '', website: '' },
+        guestbookNotes: [...(this.state.guestbookNotes || []), data.note],
+      });
+    } catch (err) {
+      this.setState({ guestbookSubmitting: false, guestbookError: 'Something went wrong — please try again.' });
+    }
   }
 
   nav(route) {
@@ -1998,7 +2134,7 @@ class Component extends DCLogic {
     const relatedProjects = rawCs ? projects.filter(p => rawCs.related.includes(p.id)) : [];
 
     const navDefs = [
-      ['Work', 'work'], ['Experience', 'experience'], ['About', 'about'], ['Contact', 'contact'],
+      ['Work', 'work'], ['Experience', 'experience'], ['Playground', 'playground'], ['About', 'about'], ['Contact', 'contact'],
     ];
     const activeRoute = route === 'case' ? 'work' : route;
     const navLinks = navDefs.map(([label, r]) => ({
@@ -2042,11 +2178,40 @@ class Component extends DCLogic {
       resumeHref: this.safeUrl(this.state.links.resume) || '#',
       resumeTarget: this.safeUrl(this.state.links.resume) ? '_blank' : null,
       isExperience: route === 'experience',
+      isPlayground: route === 'playground', isGuestbook: route === 'guestbook',
       isAbout: route === 'about', isContact: route === 'contact',
 
       askOpen: this.state.askOpen,
       openAsk: () => self.setState({ askOpen: true }),
       closeAsk: () => self.setState({ askOpen: false }),
+
+      guestbookLoading: this.state.guestbookLoading,
+      guestbookSubmitting: this.state.guestbookSubmitting,
+      guestbookSubmitLabel: this.state.guestbookSubmitting ? 'Pinning your note…' : 'Pin it to the board',
+      guestbookSubmitOpacity: this.state.guestbookSubmitting ? '0.6' : '1',
+      guestbookError: this.state.guestbookError,
+      guestbookEmpty: Array.isArray(this.state.guestbookNotes) && this.state.guestbookNotes.length === 0,
+      guestbookForm: this.state.guestbookForm,
+      onGuestbookName: this.guestbookField('name'),
+      onGuestbookOrg: this.guestbookField('org'),
+      onGuestbookEmail: this.guestbookField('email'),
+      onGuestbookMessage: this.guestbookField('message'),
+      onGuestbookWebsite: this.guestbookField('website'),
+      submitGuestbookNote: (e) => this.submitGuestbookNote(e),
+      guestbookNotes: (this.state.guestbookNotes || []).slice().reverse().map((n, i) => {
+        const STICKY_COLORS = ['#FEF3C7', '#FDE2E2', '#DCFCE7', '#DBEAFE', '#FCE7F3', '#E0E7FF'];
+        const STICKY_TEXT = ['#78350F', '#7F1D1D', '#14532D', '#1E3A8A', '#831843', '#312E81'];
+        let hash = 0;
+        for (let c = 0; c < n.id.length; c++) hash = (hash * 31 + n.id.charCodeAt(c)) >>> 0;
+        const rotate = (hash % 9) - 4;
+        const colorIdx = hash % STICKY_COLORS.length;
+        const d = new Date(n.ts);
+        return {
+          ...n,
+          rotate, bg: STICKY_COLORS[colorIdx], fg: STICKY_TEXT[colorIdx],
+          dateLabel: d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }),
+        };
+      }),
 
       chatRef: this.chatRef,
       askInput: this.state.askInput,
@@ -2083,6 +2248,7 @@ class Component extends DCLogic {
       }),
 
       goHome: this.nav('home'), goWork: this.nav('work'), goExperience: this.nav('experience'),
+      goPlayground: this.nav('playground'), goGuestbook: this.nav('guestbook'),
       goAbout: this.nav('about'), goContact: this.nav('contact'),
 
       navLinks,

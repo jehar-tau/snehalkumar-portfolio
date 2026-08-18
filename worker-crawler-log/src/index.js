@@ -1,13 +1,17 @@
 // Cloudflare Worker: backend for the Playground "AI Crawler Sightings"
-// experiment. The site's HTML has a hidden HTML comment (invisible to human
-// visitors, present in raw page source) with a tiny instruction aimed at AI
-// agents/crawlers reading the page: reverse a word and GET this Worker's
-// /found endpoint with the answer. Every hit is logged — bot user-agent,
-// timestamp, and whether the answer was right — and displayed publicly on
-// the Playground page as "who showed up and actually followed the
-// instruction." Most bulk crawlers (GPTBot, CCBot) just fetch raw HTML and
-// never act on embedded text; this is really testing which *agentic*
-// browsing tools do.
+// experiment. The site's HTML has a hidden element (invisible to human
+// visitors, present in the DOM/text extraction) with a tiny instruction
+// aimed at AI agents/crawlers reading the page: reverse a word and GET this
+// Worker's /found endpoint with the answer. Every hit is logged — bot
+// user-agent, timestamp, and whether the answer was right.
+//
+// Separately, /visit is hit by a small beacon in the page's own JS on every
+// load, for *any* client whose user-agent matches a known crawler/bot
+// signature — this catches agents that visit and render the page (so they
+// execute JS) but never act on the hidden instruction. It still can't see
+// bulk crawlers that fetch raw HTML without executing JS (GPTBot, CCBot,
+// etc. typically don't) — GitHub Pages has no server-side request logging,
+// so that class of visitor is fundamentally invisible to this setup.
 
 const ALLOWED_ORIGINS = new Set([
   'https://snehalkumar.com',
@@ -24,7 +28,7 @@ function corsHeaders(origin) {
   const allow = ALLOWED_ORIGINS.has(origin) ? origin : '';
   return {
     'Access-Control-Allow-Origin': allow,
-    'Access-Control-Allow-Methods': 'GET, DELETE, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Vary': 'Origin',
   };
@@ -57,6 +61,10 @@ function labelAgent(ua) {
   return ua ? ua.slice(0, 60) : 'unknown';
 }
 
+// Generic fallback so unnamed but bot-shaped user-agents still count as a
+// "visit" sighting even if they're not in the known-name list above.
+const BOT_HINT = /bot|crawl|spider|slurp|fetch|scrape|GPT|Claude|Perplexity|agent/i;
+
 async function getSightings(env) {
   const raw = await env.SIGHTINGS.get('sightings');
   return raw ? JSON.parse(raw) : [];
@@ -84,6 +92,7 @@ export default {
         agentName: agentName || null,
         answer: answer.slice(0, 40),
         correct,
+        type: 'challenge',
         country: (request.cf && request.cf.country) || null,
       });
       while (sightings.length > MAX_SIGHTINGS) sightings.shift();
@@ -100,6 +109,42 @@ export default {
     const headers = corsHeaders(origin);
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers });
+    }
+
+    // /visit is called by our own page's JS, once per load, only when the
+    // browser's own user-agent looks bot-shaped. Logged as a "visit" sighting
+    // (no puzzle attempt) distinct from /found. Rate-limited per IP+UA pair
+    // so a bot that loads several internal routes in one session doesn't
+    // flood the log.
+    if (request.method === 'POST' && url.pathname === '/visit') {
+      if (!ALLOWED_ORIGINS.has(origin)) {
+        return json({ error: 'origin not allowed' }, 403, headers);
+      }
+      const ua = request.headers.get('User-Agent') || '';
+      if (!BOT_HINT.test(ua)) {
+        return json({ ok: true, logged: false }, 200, headers);
+      }
+      const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+      const rlKey = `visit-rl:${ip}:${ua.slice(0, 80)}`;
+      const seen = await env.SIGHTINGS.get(rlKey);
+      if (!seen) {
+        await env.SIGHTINGS.put(rlKey, '1', { expirationTtl: 30 * 60 });
+        const sightings = await getSightings(env);
+        sightings.push({
+          id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+          ts: Date.now(),
+          label: labelAgent(ua),
+          userAgent: ua.slice(0, 300),
+          agentName: null,
+          answer: null,
+          correct: null,
+          type: 'visit',
+          country: (request.cf && request.cf.country) || null,
+        });
+        while (sightings.length > MAX_SIGHTINGS) sightings.shift();
+        await env.SIGHTINGS.put('sightings', JSON.stringify(sightings));
+      }
+      return json({ ok: true, logged: !seen }, 200, headers);
     }
 
     if (request.method === 'GET' && url.pathname === '/sightings') {

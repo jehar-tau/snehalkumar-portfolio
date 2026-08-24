@@ -1,0 +1,5 @@
+worker/
+worker-guestbook/
+worker-crawler-log/
+.claude/
+serve.py

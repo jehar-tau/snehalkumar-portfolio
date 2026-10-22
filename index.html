@@ -1060,7 +1060,8 @@ a{color:inherit}
     <p style="margin:0;font-size:16.5px;line-height:1.7;color:var(--text-secondary)">{{ cs.explorations }}</p>
   </section>
 
-  <!-- Artifact: wireframes gallery -->
+  <!-- Artifact: wireframes gallery (case studies can opt out with noWireframes) -->
+  <sc-if value="{{ cs.showWireframes }}" hint-placeholder-val="{{ true }}">
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
       <image-slot id="wireframe-{{ csSlug }}-0" hint="Any size fits, roughly 1600×1200px looks best" fit="contain" radius="18" placeholder="Early concept A" style="display:block;width:100%;aspect-ratio:4/3;background:var(--surface-subtle);border:1px solid var(--border);border-radius:18px;height:auto"></image-slot>
@@ -1069,6 +1070,7 @@ a{color:inherit}
     </div>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">Wireframe explorations comparing alternate approaches before converging on the final direction.</p>
   </section>
+  </sc-if>
 
   <!-- Enhancement series -->
   <sc-if value="{{ cs.enhancements }}" hint-placeholder-val="{{ false }}">
@@ -2315,8 +2317,8 @@ class Component extends DCLogic {
         confidentialityNote: 'Some product details and visuals have been simplified to protect confidentiality.',
         impact: ['From table to interactive diagram', 'Dependencies understood across levels', 'Positive feedback from users and customers'],
         snapshot: [
-          { label: 'Role', value: 'Senior Product Designer II' }, { label: 'Team', value: 'Product management, engineering, design peers' },
-          { label: 'Duration', value: '[Add duration]' }, { label: 'Product area', value: 'Data Catalog' },
+          { label: 'Role', value: 'Designed the diagram end to end: interaction model, clustering, asset, cluster and side-panel components, search and filters, through to engineering handoff' }, { label: 'Team', value: 'Product management, engineering, design peers' },
+          { label: 'Duration', value: '2 months' }, { label: 'Product area', value: 'Data Catalog' },
           { label: 'Status', value: 'Launched' },
         ],
         responsibilities: ['Product design', 'Interaction design', 'Information architecture', 'Component design', 'Research synthesis', 'Collaboration with engineering'],
@@ -2365,13 +2367,11 @@ class Component extends DCLogic {
           { decision: 'Design explicitly for high-density scenarios', why: 'Real enterprise data produces far denser diagrams than typical mockups.', impact: 'The pattern holds up under real, messy, large-scale data.' },
           { decision: 'Define loading, empty, and edge states up front', why: 'A diagram-based experience fails visibly if these states are an afterthought.', impact: 'A complete, production-ready component set at handoff.' },
         ],
+        noWireframes: true,
         modules: [
-          { title: 'Starting asset', description: 'The diagram opens centered on a single asset in focus.' },
-          { title: 'Opening a relationship cluster', description: 'Selecting a cluster reveals the assets grouped inside it.' },
-          { title: 'Selecting an asset', description: 'Choosing an individual asset brings it into focus within the diagram.' },
-          { title: 'Viewing details in the side panel', description: 'Full asset detail opens in the contextual side panel, without leaving the diagram.' },
-          { title: 'Expanding another level', description: 'Users progressively expand outward to the next level of relationships.' },
-          { title: 'Searching or filtering the diagram', description: 'Search and filters narrow a large diagram down to what matters.' },
+          { title: 'Clusters first', description: 'The diagram opens on one asset, with its connected assets grouped into clusters by type. Open a cluster to see what’s inside.' },
+          { title: 'Detail on demand', description: 'Select any asset to bring it into focus. Full detail opens in the side panel, without leaving the diagram.' },
+          { title: 'Go further, or narrow down', description: 'Expand outward one level at a time, or use search and filters to cut a large diagram down to what matters.' },
         ],
         deliverables: ['Interaction model and component specifications', 'Asset, cluster, and side-panel component designs', 'Search and filter interaction spec', 'Loading, empty, and edge-state designs', 'Engineering handoff documentation'],
         outcomes: [
@@ -2605,6 +2605,7 @@ class Component extends DCLogic {
       ...rawCs,
       isFullTemplate: !rawCs.article,
       classicBody: !rawCs.story,
+      showWireframes: !rawCs.noWireframes,
       story: rawCs.story ? rawCs.story.map((b) => ({
         ...b,
         visible: !b.draftOnly || draftView,

@@ -746,7 +746,7 @@ a{color:inherit}
   <!-- Artifact: current state -->
   <sc-if value="{{ cs.artifact1 }}" hint-placeholder-val="{{ true }}">
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <image-slot id="artifact1-{{ csSlug }}" hint="{{ cs.artifact1Hint }}" fit="{{ cs.artifact1Fit }}" radius="24" placeholder="{{ cs.artifact1 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact1Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <image-slot id="artifact1-{{ csSlug }}" src="{{ cs.artifact1Src }}" hint="{{ cs.artifact1Hint }}" fit="{{ cs.artifact1Fit }}" radius="24" placeholder="{{ cs.artifact1 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact1Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact1Caption }}</p>
   </section>
   </sc-if>
@@ -950,7 +950,7 @@ a{color:inherit}
 
   <!-- Artifact: research -->
   <section style="max-width:1000px;margin:0 auto;padding:48px 24px 0">
-    <image-slot id="artifact2-{{ csSlug }}" hint="{{ cs.artifact2Hint }}" fit="{{ cs.artifact2Fit }}" radius="24" placeholder="{{ cs.artifact2 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact2Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
+    <image-slot id="artifact2-{{ csSlug }}" src="{{ cs.artifact2Src }}" hint="{{ cs.artifact2Hint }}" fit="{{ cs.artifact2Fit }}" radius="24" placeholder="{{ cs.artifact2 }}" style="display:block;width:100%;aspect-ratio:{{ cs.artifact2Aspect }};border:1px solid var(--border);border-radius:24px;height:auto"></image-slot>
     <p style="margin:14px 0 0;font-size:13.5px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ cs.artifact2Caption }}</p>
   </section>
 
@@ -1203,7 +1203,7 @@ a{color:inherit}
     <div style="display:flex;flex-direction:column;gap:40px">
       <sc-for list="{{ cs.modules }}" as="mo" hint-placeholder-count="3">
         <div>
-          <image-slot id="{{ mo.slotId }}" hint="{{ mo.hint }}" fit="{{ mo.fit }}" radius="24" placeholder="{{ mo.placeholder }}" style="display:block;width:100%;aspect-ratio:{{ mo.aspectRatio }};border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:18px"></image-slot>
+          <image-slot id="{{ mo.slotId }}" src="{{ mo.src }}" hint="{{ mo.hint }}" fit="{{ mo.fit }}" radius="24" placeholder="{{ mo.placeholder }}" style="display:block;width:100%;aspect-ratio:{{ mo.aspectRatio }};border:1px solid var(--border);border-radius:24px;height:auto;margin-bottom:18px"></image-slot>
           <sc-if value="{{ mo.title }}" hint-placeholder-val="{{ true }}">
             <div style="max-width:720px">
               <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;margin-bottom:6px">{{ mo.title }}</div>
@@ -2349,7 +2349,7 @@ class Component extends DCLogic {
         collaborated: ['Product management on scope', 'Engineering on feasibility and handoff', 'Design peers in review'],
         process: ['Research', 'Concepts', 'Reviews', 'Iterate', 'Detail', 'Handoff'],
         research: 'Competitor research found no directly comparable solution, so the interaction model was built from first principles rather than adapted from an existing pattern.',
-        artifact2: 'Interaction model overview: clustering, expansion, and side panel', artifact2Caption: 'The core interaction model behind every design decision in this case study.',
+        artifact2: 'Interaction model overview: clustering, expansion, and side panel', artifact2Src: 'images/case-studies/asset-impact-diagram/interaction-model-hld.webp', artifact2Aspect: '1400/768', artifact2Caption: 'The high-level design: one asset in the centre, its relationships grouped into clusters by type.',
         insights: [
           { title: 'No pattern to borrow', description: 'No existing competitor solution matched this problem directly.', influence: 'The interaction model was designed from first principles.' },
           { title: 'Overview and detail are in tension', description: 'Showing everything at once conflicts with staying readable.', influence: 'Led to clustering and progressive disclosure as core mechanisms.' },
@@ -2369,9 +2369,9 @@ class Component extends DCLogic {
         ],
         noWireframes: true,
         modules: [
-          { title: 'Clusters first', description: 'The diagram opens on one asset, with its connected assets grouped into clusters by type. Open a cluster to see what’s inside.' },
-          { title: 'Detail on demand', description: 'Select any asset to bring it into focus. Full detail opens in the side panel, without leaving the diagram.' },
-          { title: 'Go further, or narrow down', description: 'Expand outward one level at a time, or use search and filters to cut a large diagram down to what matters.' },
+          { title: 'Clusters first', src: 'images/case-studies/asset-impact-diagram/clusters-first.webp', aspectRatio: '1400/768', description: 'The diagram opens on one asset, with its connected assets grouped into clusters by type. Open a cluster to see what’s inside.' },
+          { title: 'Detail on demand', src: 'images/case-studies/asset-impact-diagram/detail-on-demand.webp', aspectRatio: '1400/768', description: 'Select any asset to bring it into focus. Full detail opens in the side panel, without leaving the diagram.' },
+          { title: 'Go further, or narrow down', src: 'images/case-studies/asset-impact-diagram/search-and-filter.webp', aspectRatio: '1400/768', description: 'Expand outward one level at a time, or use search and filters to cut a large diagram down to what matters.' },
         ],
         deliverables: ['Interaction model and component specifications', 'Asset, cluster, and side-panel component designs', 'Search and filter interaction spec', 'Loading, empty, and edge-state designs', 'Engineering handoff documentation'],
         outcomes: [

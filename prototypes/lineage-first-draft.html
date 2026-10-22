@@ -1,0 +1,2120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lineage Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --background:#f2f2f2; --card:#fff; --foreground:#121212; --muted-foreground:#606060;
+    --border:#dedede; --primary:#8017e1; --primary-light:#f3e9ff; --primary-dark:#39006b;
+    --pink:#e5007e; --orange:#fd7e08; --blue:#001b4c; --radius:8px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--foreground);background:var(--background);font-size:14px;display:flex;min-height:100vh}
+  a{color:inherit;cursor:pointer}
+
+  /* sidebar */
+  .sidebar{width:220px;flex:none;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;position:sticky;top:0}
+  .ws-switcher{display:flex;align-items:center;gap:8px;padding:14px 14px 12px;cursor:pointer;border-bottom:1px solid var(--border)}
+  .ws-icon{width:22px;height:22px;border-radius:5px;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;flex:none}
+  .ws-text{flex:1;line-height:1.25;overflow:hidden}
+  .ws-name{font-weight:700;font-size:12.5px}
+  .ws-region{color:var(--muted-foreground);font-size:11px}
+  .logo-row{padding:16px 14px 10px;cursor:pointer}
+  .nav-scroll{flex:1;overflow-y:auto;padding:4px 10px}
+  .nav-group-label{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-foreground);margin:14px 10px 6px}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--radius);font-size:13.5px;margin-bottom:2px;text-decoration:none}
+  .nav-item svg{flex:none}
+  .nav-item:hover{background:#f7f5fb}
+  .nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:700}
+  .sidebar-bottom{padding:8px 10px 14px;border-top:1px solid var(--border)}
+  .sidebar-bottom .nav-item{font-size:13px}
+  .sidebar-bottom .nav-item.user{font-weight:600}
+
+  /* main */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+  .topbar{padding:16px 32px 0;background:var(--card);border-bottom:1px solid var(--border);position:relative}
+  .breadcrumb{color:var(--muted-foreground);font-size:12.5px;margin-bottom:12px}
+  .breadcrumb .sep{margin:0 6px}
+  .top-tabs{display:flex;gap:24px;flex-wrap:wrap}
+  .top-tabs a{padding:0 2px 12px;color:var(--muted-foreground);text-decoration:none;font-size:14px;border-bottom:2px solid transparent}
+  .top-tabs a.active{color:var(--foreground);font-weight:700;border-bottom-color:var(--primary)}
+  .sub-tabs{display:flex;gap:20px;padding:10px 32px 0;background:var(--card);border-bottom:1px solid var(--border)}
+  .sub-tabs a{padding:0 2px 10px;color:var(--muted-foreground);font-size:13px;position:relative}
+  .sub-tabs a.active{color:var(--foreground);font-weight:700}
+  .sub-tabs a.active::after{content:"";position:absolute;left:50%;bottom:4px;width:5px;height:5px;border-radius:50%;background:var(--primary);transform:translateX(-50%)}
+  .content{flex:1;padding:22px 32px 40px}
+  .topbar-inline-search{position:absolute;top:16px;right:32px}
+  .topbar-inline-search input{font:inherit;padding:7px 12px 7px 30px;border:1px solid var(--border);border-radius:var(--radius);width:220px;font-size:13px}
+  .topbar-inline-search::before{content:"⌕";position:absolute;left:10px;top:7px;color:var(--muted-foreground);font-size:13px}
+  .module-search-row{padding:14px 32px 0}
+
+  .btn{font:inherit;padding:8px 16px;border-radius:var(--radius);cursor:pointer;border:1px solid transparent;background:#fff}
+  .btn.primary{background:var(--primary);color:#fff}
+  .btn.outline{border-color:var(--border)}
+  .btn.ghost{background:none}
+  .btn.sm{padding:5px 11px;font-size:12.5px}
+
+  .asset-header{margin-bottom:16px}
+  .asset-title-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+  .asset-icon-lg{width:34px;height:34px;border-radius:8px;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;flex:none}
+  .asset-title{font-size:20px;font-weight:700;display:flex;align-items:center;gap:8px}
+  .asset-subtitle{color:var(--muted-foreground);font-size:13px;margin-top:3px}
+  .asset-subtitle a{color:var(--primary);text-decoration:none}
+  .score-badge{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+  .score-badge.good{background:#dcfce7;color:#15803d}
+  .score-badge.bad{background:#fde7f0;color:#b91c1c}
+  .status-badge{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
+  .status-badge.certified{background:#dcfce7;color:#15803d}
+  .status-badge.review{background:#ffedd5;color:#b45309}
+  .status-badge.pii{background:#fde7f0;color:#a3006b}
+  .asset-card-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .asset-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+  .asset-card-top{display:flex;gap:10px;margin-bottom:10px}
+  .asset-card-icon{width:34px;height:34px;border-radius:7px;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;flex:none}
+  .asset-card-name{font-weight:700;font-size:14px}
+  .asset-card-type{color:var(--muted-foreground);font-size:12px}
+  .asset-card-path{font-size:12px;color:var(--primary);margin-bottom:10px}
+  .dis-empty{text-align:center;padding:70px 20px;color:var(--muted-foreground)}
+  .dis-empty p{max-width:420px;margin:0 auto 18px;line-height:1.5}
+
+  /* toolbar */
+  .lin-toolbar{display:flex;align-items:center;gap:9px;margin-bottom:10px;flex-wrap:wrap}
+  .lin-search{position:relative;flex:1;min-width:200px}
+  .lin-search input{font:inherit;width:100%;padding:8px 12px 8px 32px;border:1px solid var(--border);border-radius:var(--radius);background:#fff}
+  .lin-search::before{content:"⌕";position:absolute;left:11px;top:8px;color:var(--muted-foreground)}
+  .seg{display:inline-flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:#fff}
+  .seg button{font:inherit;font-size:12.5px;padding:7px 12px;border:none;background:#fff;color:var(--muted-foreground);cursor:pointer;border-right:1px solid var(--border)}
+  .seg button:last-child{border-right:none}
+  .seg button.active{background:var(--primary);color:#fff;font-weight:600}
+  .seg.sm button{padding:4px 9px;font-size:11.5px}
+  .pill-btn{display:inline-flex;align-items:center;gap:7px;font:inherit;font-size:13px;padding:8px 15px;border-radius:999px;border:1px solid var(--border);background:#fff;cursor:pointer;white-space:nowrap}
+  .pill-btn.on{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
+  .pill-btn:disabled{opacity:.4;cursor:default}
+  .toolbar-select{font:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius);background:#fff}
+  .switch-lbl{display:inline-flex;align-items:center;gap:7px;font-size:13px;white-space:nowrap;cursor:pointer}
+  .sw-track{width:34px;height:18px;border-radius:999px;background:#cfcfd8;position:relative;flex:none;transition:background .15s}
+  .sw-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s}
+  input[type=checkbox].sw{display:none}
+  input[type=checkbox].sw:checked + .sw-track{background:var(--primary)}
+  input[type=checkbox].sw:checked + .sw-track .sw-knob{left:18px}
+
+  /* chip strip */
+  /* status, not action — so no purple, and quieter than the controls above it */
+  .viewstrip{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:transparent;
+    border-bottom:1px solid var(--border);padding:0 2px 8px;margin-bottom:10px}
+  .vchip{display:inline-flex;align-items:center;gap:5px;font-size:11px;line-height:1.6;padding:2px 8px;
+    border-radius:4px;background:#f4f4f7;color:var(--foreground);border:1px solid #e4e4ec}
+  .vchip b{font-weight:600;color:var(--muted-foreground)}
+  .vchip .x{cursor:pointer;color:#a8a8b4;font-size:10px;margin-left:1px}
+  .vchip .x:hover{color:var(--foreground)}
+  .viewstrip .spacer{flex:1}
+  .viewstrip .saved{font-size:11px;color:#a0a0ae}
+  .viewstrip .saved b{color:var(--muted-foreground);font-weight:600}
+
+  /* canvas */
+  .lin-layout{display:grid;gap:14px;align-items:start}
+  .lin-layout.docked{grid-template-columns:1fr 300px}
+  .lin-layout.full{grid-template-columns:1fr}
+  /* overflow hidden: panning is transform-only, so canvas↔screen is one clean
+     mapping and the minimap viewport can be derived from it */
+  .canvas-wrap{position:relative;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 2px 8px rgba(0,0,0,.05);overflow:hidden;height:660px;cursor:grab}
+  .canvas-wrap.fs{position:fixed;inset:0;z-index:200;height:100vh;border-radius:0}
+  .canvas-wrap.panning{cursor:grabbing}
+  .canvas{position:relative;transform-origin:0 0;background:#fff}
+  .cedges{position:absolute;left:0;top:0;pointer-events:none}
+
+  .ncard{position:absolute;width:172px;background:#fff;border:1px solid #d8d8e0;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.09);cursor:grab}
+  .ncard:active{cursor:grabbing}
+  /* no distinct treatment for a hand-placed node — the cursor is the affordance
+     (Req 6 AC2) and people tend to move a node and move it back */
+  .ncard .ft,.ncard .fld,.ncard .nchip,.ncard .nkebab{cursor:pointer}
+  .ncard.focus{border:1.5px solid var(--primary);box-shadow:0 2px 10px rgba(128,23,225,.2)}
+  .ncard.dim{opacity:.22}
+  .ncard.hit{border:1.5px solid var(--orange);box-shadow:0 0 0 3px rgba(253,126,8,.18)}
+  .ncard .barhome{height:14px;background:var(--primary);border-radius:5px 5px 0 0;display:grid;place-items:center;color:#fff;font-size:8px}
+  .ncard .body{padding:6px 8px 5px}
+  .ncard .r1{display:flex;gap:6px;align-items:flex-start}
+  .ncard .ico{width:14px;height:14px;border-radius:3px;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;font-size:7px;flex:none;margin-top:1px}
+  .ncard .nm{font-size:9px;font-weight:700;letter-spacing:.02em;line-height:1.2;text-transform:uppercase;word-break:break-word}
+  .ncard .pth{font-size:7px;color:var(--muted-foreground);line-height:1.35;margin-top:1px}
+  /* nowrap: four tags is the worst case and it just fits. Wrapping would grow
+     this row inside a card whose height the layout already fixed, so clip instead. */
+  .ncard .tags{display:flex;gap:4px;margin-top:4px;flex-wrap:nowrap;overflow:hidden}
+  .ncard .tg{font-size:7px;padding:1px 5px;border-radius:999px;font-weight:700;line-height:1.5}
+  .ncard .tg.dq{background:#dcfce7;color:#15803d}
+  .ncard .tg.dq.bad{background:#fde7f0;color:#b91c1c}
+  .ncard .tg.gov{background:#e8ebff;color:#3730a3}
+  .ncard .tg.gov.low{background:#fdf0dc;color:#9a5b00}
+  .ncard .tg.cert{background:#eef1f6;color:#475569}
+  .ncard .tg.pii{background:#fde7f0;color:#a3006b}
+  .ncard .tg.xf{background:var(--primary-light);color:var(--primary-dark)}
+  /* ---- business layer: the acetate sheet. Same boxes, repainted contents. ---- */
+  .canvas.biz{background:#e3e3e9}
+  .canvas-wrap.biz{background:#e3e3e9}
+  .ncard.biz{background:#fff;border-color:#c9c9d6;box-shadow:0 2px 7px rgba(0,0,0,.12)}
+  .ncard.biz.focus{background:#fff;border-color:var(--primary);box-shadow:0 3px 14px rgba(128,23,225,.25)}
+  .ncard .bhead{padding:5px 8px 3px}
+  .ncard .bterm{font-size:12.5px;font-weight:700;color:var(--primary-dark);line-height:1.15;letter-spacing:-.1px;word-break:break-word}
+  /* unmapped: the technical name stands in for the missing term, visibly demoted */
+  .ncard .bterm.unmapped{font-size:9.5px;font-weight:600;color:#8c8c99;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:0}
+  .ncard.biz .bterm.unmapped{border-left:2px solid #e2c8a0;padding-left:5px;margin-left:-1px}
+  .ncard .ghost{font-size:7px;color:#9a9aa8;opacity:.75;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .ncard .ghost.gh-un{color:#b08948;font-style:italic;font-family:inherit;opacity:.9}
+  /* policy: outlined band, navy — distinct from purple terms and pink PII */
+  .ncard .tmore{font-size:8px;font-weight:700;color:var(--primary);margin-left:3px;vertical-align:top}
+  .ncard .tcert{font-size:8px;font-weight:700;color:#15803d;margin-left:3px;vertical-align:top}
+  .ncard .ovrow .tcert{font-size:7px}
+  /* metrics: outlined band like policy, but teal-green and diamond-marked so the
+     two kinds of business context are never confused at a glance */
+  .ncard .bmet{font-size:7.5px;font-weight:700;color:#0f766e;background:#fff;
+    border:1px solid #bfdfd8;border-left:3px solid #0f766e;border-radius:3px;
+    padding:1px 5px;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ncard .bpol{font-size:7.5px;font-weight:700;color:var(--blue);background:#fff;
+    border:1px solid #c3cbe0;border-left:3px solid var(--blue);border-radius:3px;
+    padding:1px 5px;margin:0 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.01em}
+  /* field rows in business mode */
+  .ncard .fld.biz .fn.ft-term{font-size:8px;font-weight:700;color:var(--primary-dark)}
+  .ncard .fld.biz .fn.ft-un{font-size:7.5px;color:#8c8c99;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .ncard .fld .fn-ghost{font-size:6.5px;color:#a8a8b6;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    max-width:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:none}
+  .ncard .fld.biz.unmapped{background:#fffdf7}
+  .ncard .fld .fdq{flex:none}
+  .ncard .ov{margin-top:4px;padding-top:4px;border-top:1px dashed #e6dcf5}
+  .ncard .ovrow{font-size:7px;line-height:1.5;color:var(--primary-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ncard .ovrow span{color:var(--muted-foreground)}
+  .ncard .ft{border-top:1px solid #ececf2;padding:3px 8px;display:flex;align-items:center;justify-content:space-between;font-size:7.5px;color:var(--muted-foreground);cursor:pointer}
+  .ncard .ft:hover{background:#faf8fe;color:var(--primary)}
+  .ncard .flds{border-top:1px solid #ececf2;padding:2px 0 3px}
+  .ncard .fld{display:flex;align-items:center;gap:4px;height:15px;padding:0 8px;font-size:7.5px}
+  .ncard .fld .fn{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ncard .fld .fp{font-size:6.5px;background:#fde7f0;color:#a3006b;padding:0 3px;border-radius:2px;font-weight:700}
+  .ncard .fld.lin{background:#faf6ff}
+
+  .nchip{position:absolute;font:inherit;font-size:9px;font-weight:700;padding:2px 5px;border-radius:999px;border:1px solid var(--primary);background:#fff;color:var(--primary);cursor:pointer;white-space:nowrap;z-index:4}
+  .nchip:hover{background:var(--primary);color:#fff}
+  .nkebab{position:absolute;right:2px;top:2px;width:15px;height:15px;border-radius:3px;border:1px solid transparent;background:rgba(255,255,255,.8);color:var(--muted-foreground);font-size:10px;line-height:13px;text-align:center;cursor:pointer;z-index:5}
+  .nkebab:hover{border-color:var(--primary);color:var(--primary)}
+  .elabel{position:absolute;font-size:7.5px;background:#fff;border:1px solid #e6e6ee;border-radius:3px;padding:0 3px;color:var(--muted-foreground);z-index:2;white-space:nowrap}
+  .blabel{position:absolute;font-size:7.5px;background:#fff8ec;border:1px solid #f0dcbc;border-radius:3px;padding:0 3px;color:#8a4b00;z-index:2;font-weight:600;white-space:nowrap}
+
+  .zoombox{position:absolute;left:14px;bottom:14px;display:flex;flex-direction:column;border:1px solid var(--border);border-radius:6px;overflow:hidden;background:#fff;z-index:20}
+  .zoombox button{font:inherit;width:27px;height:24px;border:none;border-bottom:1px solid var(--border);background:#fff;cursor:pointer;font-size:12px}
+  .zoombox button:last-child{border-bottom:none}
+  .roundset{position:absolute;right:14px;bottom:14px;display:flex;gap:8px;z-index:20}
+  .roundset button{width:29px;height:29px;border-radius:50%;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:12px}
+  .roundset button:hover{border-color:var(--primary);color:var(--primary)}
+  .canvas-stat{position:absolute;left:14px;top:12px;font-size:11px;color:var(--muted-foreground);background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:6px;padding:4px 9px;z-index:20}
+  .canvas-stat b{color:var(--foreground)}
+  .canvas-stat .statlink{color:var(--primary);font-weight:700;cursor:pointer;margin-left:4px}
+  .canvas-stat .statlink:hover{text-decoration:underline}
+
+  /* newly revealed cards ring once */
+  @keyframes justadded{
+    0%{box-shadow:0 0 0 0 rgba(253,126,8,.85),0 1px 4px rgba(0,0,0,.09)}
+    35%{box-shadow:0 0 0 5px rgba(253,126,8,.42),0 1px 4px rgba(0,0,0,.09)}
+    100%{box-shadow:0 0 0 12px rgba(253,126,8,0),0 1px 4px rgba(0,0,0,.09)}
+  }
+  .ncard.justadded{animation:justadded 1.5s ease-out 1;border-color:var(--orange)}
+
+  /* minimap */
+  .minimap{position:absolute;right:14px;bottom:52px;width:180px;height:124px;padding:6px;
+    background:rgba(255,255,255,.96);border:1px solid var(--border);border-radius:7px;
+    box-shadow:0 3px 12px rgba(0,0,0,.12);z-index:22;cursor:crosshair;overflow:hidden}
+  .minimap .mm-inner{position:relative}
+  .minimap i{position:absolute;background:#c7c7d4;border-radius:1px}
+  .minimap i.mm-a{background:var(--primary)}
+  .minimap i.mm-m{background:#b98cea}
+  .minimap .mm-vp{position:absolute;border:1.5px solid var(--primary);background:rgba(128,23,225,.09);border-radius:2px;pointer-events:none}
+  .minimap .mm-label{position:absolute;right:6px;bottom:3px;font-size:9px;color:var(--muted-foreground);background:rgba(255,255,255,.85);padding:0 3px;border-radius:2px}
+  .canvas-wrap.biz .minimap{background:rgba(255,255,255,.97)}
+
+  .ctxmenu{position:fixed;z-index:300;background:#fff;border:1px solid var(--border);border-radius:7px;box-shadow:0 8px 26px rgba(0,0,0,.16);padding:5px;width:224px;display:none}
+  .ctxmenu.open{display:block}
+  .ctxmenu div{padding:6px 9px;font-size:12.5px;border-radius:5px;cursor:pointer}
+  .ctxmenu div:hover{background:var(--primary-light);color:var(--primary-dark)}
+  .ctxmenu .hd{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted-foreground);padding:4px 9px 6px;cursor:default;font-weight:700}
+  .ctxmenu .hd:hover{background:none;color:var(--muted-foreground)}
+  .ctxmenu .sep{height:1px;background:var(--border);margin:4px 2px;padding:0}
+  .ctxmenu .sep:hover{background:var(--border)}
+  .ctxmenu div.dis{opacity:.42;cursor:default}
+  .ctxmenu div.dis:hover{background:none;color:inherit}
+  .ctxmenu .cn{color:var(--primary);font-weight:700}
+  .ctxmenu div.dis .cn{color:var(--muted-foreground);font-weight:400;font-size:11.5px}
+
+  /* display panel — named to match the shipped Display control, and to leave
+     "view" to mean the saved view state rather than the control surface */
+  .vpanel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 2px 8px rgba(0,0,0,.05);max-height:660px;overflow-y:auto}
+  .vpanel.float{position:fixed;width:302px;z-index:150;box-shadow:0 14px 40px rgba(0,0,0,.2);max-height:78vh}
+  .vp-head{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:2}
+  .vp-head h3{margin:0;font-size:14px;font-weight:700;flex:1}
+  .vp-head .grip{cursor:grab;color:var(--muted-foreground);font-size:13px;letter-spacing:-1px}
+  .vp-head .ic{cursor:pointer;color:var(--muted-foreground);font-size:13px;padding:0 2px}
+  .vp-head .ic:hover{color:var(--primary)}
+  .vpanel.float .vp-head{cursor:grab}
+  .vpanel.dragging .vp-head{cursor:grabbing}
+  .vsec{border-bottom:1px solid var(--border);padding:11px 13px}
+  .vsec:last-of-type{border-bottom:none}
+  .vsec>h4{margin:0 0 8px;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted-foreground);display:flex;align-items:center;gap:6px}
+  .vsec>h4 .cnt{background:var(--primary-light);color:var(--primary);border-radius:999px;padding:0 5px;font-size:9.5px}
+  /* Req 6 — collapsible sections. The count stays visible when collapsed (AC3). */
+  .vsec>h4.sechead{cursor:pointer;user-select:none;margin-bottom:0}
+  .vsec>h4.sechead:hover{color:var(--foreground)}
+  .vsec>h4.sechead+*{margin-top:9px}
+  .vsec .caret{display:inline-block;width:10px;color:var(--muted-foreground);font-size:11px}
+  .vsec .hint{font-size:11px;color:var(--muted-foreground);line-height:1.45;margin-top:7px}
+  .vsec .hint b{color:var(--foreground);font-weight:600}
+  .anchor-row{display:flex;align-items:center;gap:8px}
+  .anchor-row .ic2{width:24px;height:24px;border-radius:5px;background:var(--primary-light);color:var(--primary);display:grid;place-items:center;font-size:11px;flex:none}
+  .anchor-row .nm{font-size:12.5px;font-weight:700;line-height:1.2;word-break:break-all}
+  .anchor-row .ty{font-size:10.5px;color:var(--muted-foreground)}
+  .reach-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .reach-row .rl{font-size:12.5px;flex:1}
+  .reach-presets{display:flex;gap:6px;margin-top:9px}
+  .reach-presets .btn{flex:1;font-size:11.5px;padding:5px 6px}
+  .stepper{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+  .stepper button{font:inherit;width:24px;height:24px;border:none;background:#fff;cursor:pointer}
+  .stepper button:hover{background:var(--primary-light);color:var(--primary)}
+  .stepper span{min-width:32px;text-align:center;font-size:12.5px;font-weight:700;border-left:1px solid var(--border);border-right:1px solid var(--border);height:24px;line-height:24px}
+  .radios label,.checks label{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:3px 0;cursor:pointer}
+  .radios label.off{opacity:.5;cursor:default}
+  .checks .grp{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted-foreground);margin:8px 0 2px;font-weight:700}
+  .checks .grp:first-child{margin-top:0}
+  .checks .grp.sub{margin-top:7px;font-size:9.5px;color:#8a8a96}
+  .checks .nest{padding-left:9px;border-left:2px solid #efeaf7;margin-left:1px}
+  .checks .inherit{font-size:10.5px;color:var(--muted-foreground);margin:0 0 5px;padding:3px 7px;
+    background:#f5f7fa;border-radius:4px;border-left:2px solid #cfd6e0}
+  .checks .inherit.diff{background:#fff8ec;border-left-color:var(--orange);color:#8a5b00}
+  .checks .inherit a{color:var(--primary);font-weight:700;cursor:pointer}
+  .bizhint{font-size:11px;color:var(--muted-foreground);line-height:1.45;margin:6px 0 12px}
+  .vsec .sublabel{font-size:11px;font-weight:700;color:var(--foreground);margin:0 0 6px}
+  .vsec .sublabel .dimnote{font-weight:400;color:var(--muted-foreground)}
+  .checks .dimnote{color:var(--muted-foreground);font-size:11px}
+  .seg.langseg button{padding:8px 12px;font-size:13px}
+  .checks label.locked{color:var(--muted-foreground);cursor:default;padding:4px 0}
+  .checks label.locked .lockic{color:var(--primary);font-size:10px;width:13px;text-align:center}
+  .filt-row{display:flex;align-items:center;gap:6px;background:#f7f6fb;border:1px solid #eceaf4;border-radius:6px;padding:5px 8px;margin-bottom:6px;font-size:11.5px}
+  .filt-row .fk{font-weight:700;white-space:nowrap}
+  .filt-row .fv{color:var(--primary-dark);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .filt-row .x{cursor:pointer;color:var(--muted-foreground)}
+  .addfilt{font-size:12px;color:var(--primary);font-weight:600;cursor:pointer}
+  .addbox{border:1px solid var(--border);border-radius:6px;padding:8px;margin-top:7px;background:#fbfaff}
+  .addbox select,.addbox input{font:inherit;font-size:12px;width:100%;padding:5px 7px;border:1px solid var(--border);border-radius:5px;margin-bottom:6px;background:#fff}
+  .vp-foot{padding:11px 13px;display:flex;gap:8px;position:sticky;bottom:0;background:#fff;border-top:1px solid var(--border)}
+  .vp-foot .btn{flex:1;font-size:12.5px;padding:7px 10px}
+  .savedsel{width:100%;font:inherit;font-size:12px;padding:6px 8px;border:1px solid var(--border);border-radius:6px;background:#fff;margin-bottom:7px}
+
+  /* list */
+  .ltable-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 2px 8px rgba(0,0,0,.05);overflow:auto;height:660px}
+  .ltable{width:100%;border-collapse:collapse;font-size:12.5px}
+  .ltable th{text-align:left;font-weight:600;padding:9px 12px;border-bottom:1px solid var(--border);background:#fafafb;position:sticky;top:0;white-space:nowrap;cursor:pointer;user-select:none}
+  .ltable th:hover{color:var(--primary)}
+  .ltable td{padding:7px 12px;border-bottom:1px solid #eee;white-space:nowrap}
+  .ltable tr:hover td{background:#faf9fe}
+  .ltable .up{color:#b45309;font-weight:600}
+  .ltable .dn{color:#1d4ed8;font-weight:600}
+  .ltable .an{color:var(--primary);font-weight:700}
+  .ltable .nmc{font-weight:700;cursor:pointer}
+  .ltable .nmc:hover{color:var(--primary)}
+
+  /* annotate */
+  body.annotate [data-req]{position:relative;outline:1.5px dashed rgba(128,23,225,.55);outline-offset:2px;border-radius:4px}
+  body.annotate [data-req]::after{content:attr(data-req);position:absolute;top:-9px;right:-10px;background:var(--primary);color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:999px;z-index:25;line-height:1.5;box-shadow:0 1px 3px rgba(0,0,0,.25);pointer-events:none;white-space:nowrap}
+
+  .proto-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#fffbe8;border:1px solid #f5e6a8;border-radius:var(--radius);padding:9px 14px;font-size:12.5px;color:#6b5700}
+  .proto-bar b{color:#4a3c00}
+  .proto-bar .spacer{flex:1}
+  .proto-bar label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+
+  .cov{margin-top:16px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 2px 8px rgba(0,0,0,.05);overflow:hidden}
+  .cov>summary{padding:13px 18px;font-weight:700;cursor:pointer;font-size:14px}
+  .cov table{width:100%;border-collapse:collapse;font-size:12.5px}
+  .cov th{text-align:left;padding:9px 18px;background:#fafafb;border-top:1px solid var(--border);border-bottom:1px solid var(--border);font-weight:600}
+  .cov td{padding:8px 18px;border-bottom:1px solid #eee;vertical-align:top;line-height:1.45}
+  .cov .n{font-weight:700;color:var(--primary);width:52px}
+  .cov .ly{color:var(--muted-foreground);white-space:nowrap}
+  .cov .rn{font-weight:700;color:var(--foreground);white-space:nowrap}
+  @media (max-width:1250px){.lin-layout.docked{grid-template-columns:1fr}.asset-card-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+<!-- Portfolio embed mode (?embed): hide the internal review tools. -->
+<script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add('portfolio-embed');</script>
+<style>.portfolio-embed .proto-bar,.portfolio-embed .variant-tabs,.portfolio-embed details.cov{display:none!important}</style>
+</head>
+<body>
+  <div class="sidebar" id="sidebar"></div>
+  <div class="main">
+    <div class="topbar" id="topbar"></div>
+    <div class="sub-tabs" id="subtabs" style="display:none"></div>
+    <div class="content" id="content"></div>
+  </div>
+  <div class="ctxmenu" id="ctx"></div>
+
+<script>
+"use strict";
+const FEATURE_NAME = "Lineage View Controls";
+const CONFIG_TOP_TABS=["Data","Catalog","Governance","Quality","Import","Security","AI","APIs"];
+const SUBTABS_BY_TOPTAB={"Catalog":["Semantic Types","Semantic Type Fields","Tag Types","Navigation"],
+ "Governance":["Technical Assets","Business Assets","Models","Policies","Relationships","Predicates","Reference Lists"]};
+const MODULE_TABS={"Catalog":["Overview","All Assets","Certified BusinessTerms","Datasources","Datasets","Fields","Technical","Business","Tags","Jobs"]};
+
+/* ==========================================================================
+   1. GRAPH  —  Customer / PII pipeline, ~200 datasets, edges harvested at
+   field level (datasets carry derived edges), strictly layered so acyclic.
+   ========================================================================== */
+function lcg(s){let x=s>>>0;return()=>((x=(x*1664525+1013904223)>>>0)/4294967296);}
+const rnd = lcg(20260904);
+const pick = a => a[Math.floor(rnd()*a.length)];
+function hash(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+
+const OWNERS=["M. Bank","D. Shuman","R. Patel","J. Okafor","L. Chen","S. Rao","A. Novak","T. Ferreira","K. Adeyemi","—"];
+const DOMAINS=["Customer","Marketing","Finance","Risk & Compliance","Product","HR"];
+const PII_ENTS=["CUSTOMER","CONTACT","ADDRESS","EMAIL","PHONE","IDENTITY","KYC","HOUSEHOLD","CONSENT","LEAD","DEMOGRAPHIC"];
+const RELS=["reads","transforms","copies","aggregates","writes"];
+
+/* Policies are named governance rules attached to an ASSET.
+   PII is a property of a FIELD and is shown on fields only — a node-level "PII"
+   policy was just restating the field badges. */
+const POLICY_POOL=[
+  {k:"GDPR",          long:"GDPR — Subject Data",                 kind:"pii"},
+  {k:"GDPR Art.17",   long:"GDPR Art. 17 — Right to Erasure",     kind:"pii"},
+  {k:"CCPA",          long:"CCPA — Consumer Data",                 kind:"pii"},
+  {k:"Masking",       long:"Masking Required — Non-Prod",          kind:"pii"},
+  {k:"Cross-Border",  long:"Cross-Border Transfer — Restricted",   kind:"pii"},
+  {k:"PCI-DSS",       long:"PCI-DSS 3.4 — Cardholder Data",        kind:"fin"},
+  {k:"SOX",           long:"SOX — Financial Reporting",            kind:"fin"},
+  {k:"Retention 7y",  long:"Data Retention — 7 years",             kind:"any"},
+  {k:"Internal Only", long:"Internal Use Only",                    kind:"any"},
+];
+const POLICY_KEYS=POLICY_POOL.map(p=>p.k);
+
+/* Metrics are business context too — DGOV-409 groups the technical asset's
+   business context as Terms, Metrics and Policies. Metrics attach to
+   aggregated and reporting assets far more than to raw ingest. */
+const METRIC_POOL=["Customer Lifetime Value","Churn Rate","Active Customer Count",
+  "Net Promoter Score","Customer Acquisition Cost","Retention Rate",
+  "Average Revenue Per Customer","Consent Opt-In Rate","Marketing Reachability",
+  "Household Penetration","Complaint Rate","First Contact Resolution"];
+const RELATED_TERM={"Customer":"Party","Address":"Location","Consent":"Consent Record",
+  "Customer 360":"Customer Profile","Master Customer":"Party","Customer Active":"Active Party"};
+function assignMetrics(id,h,layer){
+  const r=lcg(h^0x2f6d3ab1), out=[];
+  const chance = layer>=1 ? .62 : (layer>=0 ? .3 : .08);
+  if(r()>chance) return out;
+  const n = r()<.68 ? 1 : 2;
+  while(out.length<n){
+    const m=METRIC_POOL[Math.floor(r()*METRIC_POOL.length)];
+    if(!out.includes(m)) out.push(m);
+  }
+  return out;
+}
+function policyList(n){return n.policies||[];}
+function policyShort(n){
+  const ps=policyList(n); if(!ps.length) return null;
+  return "Policy: "+ps[0].k+(ps.length>1?` +${ps.length-1}`:"");
+}
+function policyFull(n){return policyList(n).map(p=>p.long).join(" · ")||"—";}
+
+const DS={};            // id -> dataset node
+const EDGES=[];         // {a,b,rel,xform}
+const UP={}, DOWN={};
+const ANCHOR="DIM_CUSTOMER";
+
+function assignPolicies(id,h,isPII){
+  const r=lcg(h^0x5bf03635), out=[];
+  const pii=POLICY_POOL.filter(p=>p.kind==="pii");
+  const fin=POLICY_POOL.filter(p=>p.kind==="fin");
+  const any=POLICY_POOL.filter(p=>p.kind==="any");
+  const take=pool=>{const p=pool[Math.floor(r()*pool.length)];if(p&&!out.includes(p))out.push(p);};
+  // An asset carrying personal data gets a personal-data policy first. Generic
+  // rules (retention, internal-only) come second, so the interesting policies
+  // land on the customer path where the demo actually looks.
+  if(isPII){ take(pii); if(r()<0.42) take(r()<0.6?pii:any); }
+  else if(h%4===0){ take(fin); if(r()<0.3) take(any); }
+  else if(r()<0.45){ take(any); }
+  return out;
+}
+function addDS(o){
+  if(DS[o.id]) return null;
+  const ent=(o.id.split("_").slice(1).join("_")||o.id);
+  const isPII=PII_ENTS.some(p=>o.id.includes(p));
+  const h=hash(o.id);
+  DS[o.id]=Object.assign({
+    dq: 58+(h%42),
+    // Governance score is its own thing in DIS — how well the asset is
+    // described and stewarded, not how clean the data is. Correlated with
+    // whether a term is assigned, which is what makes it a business signal.
+    gov: 0,
+    certified: (h%100)<24,
+    domain: DOMAINS[h%DOMAINS.length],
+    // Business terms are NOT assigned everywhere. Coverage thins out at the raw
+    // and export ends of the pipeline, which is the gap a CDO wants to see.
+    term: ((h%100)<26 || (Math.abs(o.layer)>=4 && (h%100)<64))
+            ? null
+            : ent.split("_").map(w=>w[0]+w.slice(1).toLowerCase()).join(" "),
+    policies: assignPolicies(o.id,h,isPII),
+    metrics: assignMetrics(o.id,h,o.layer),
+    owner: OWNERS[h%OWNERS.length],
+    pii: isPII,
+  }, o);
+  UP[o.id]=[];DOWN[o.id]=[];
+  const d=DS[o.id];
+  // DGOV-409 allows associations without predicate restrictions, so an asset can
+  // carry several terms. The headline shows the first, with "+n" for the rest.
+  d.terms = d.term ? (((h%9)===0 && RELATED_TERM[d.term]) ? [d.term,RELATED_TERM[d.term]] : [d.term]) : [];
+  if(!o.gov){
+    // described + stewarded + certified + policy-tagged → a governance score
+    let g=26;
+    if(d.term) g+=30;
+    if(d.owner!=="—") g+=18;
+    if(d.certified) g+=14;
+    if(policyList(d).length) g+=8;
+    d.gov=Math.max(8,Math.min(100,g+((h>>7)%9)-4));
+  }
+  UP[o.id]=[];DOWN[o.id]=[];
+  return d;
+}
+function addEdge(a,b){
+  if(a===b||!DS[a]||!DS[b]) return;
+  if(DOWN[a].includes(b)) return;
+  DOWN[a].push(b);UP[b].push(a);
+  EDGES.push({a,b,rel:pick(RELS),xform: rnd()>.74 ? (200+Math.floor(rnd()*10200)) : 0});
+}
+
+/* layer specs: prefixes × entities × a system, generated to an exact count */
+const LSPEC=[
+  {d:-5,groups:[
+    {n:6, sys:"Salesforce",type:"Object",src:"Salesforce · PROD",path:"Salesforce › PROD",pfx:["SF"],ents:["ACCOUNT","CONTACT","LEAD","OPPORTUNITY","CAMPAIGN_MEMBER","CONSENT"]},
+    {n:4, sys:"Oracle",type:"Table",src:"Oracle · HRDB",path:"Oracle › HRDB › HR",pfx:["HR"],ents:["EMPLOYEE","DEPARTMENT","ROLE","LOCATION"]},
+    {n:6, sys:"SQL Server",type:"Table",src:"SQL Server · CRMDB",path:"SQL Server › CRMDB › dbo",pfx:["CRM"],ents:["CUSTOMER","ADDRESS","PHONE","PREFERENCE","TICKET","INTERACTION"]},
+    {n:4, sys:"Kafka",type:"Topic",src:"Kafka · streams",path:"Kafka › streams",pfx:["EVT"],ents:["CUSTOMER_UPDATED","CONSENT_CHANGED","ORDER_PLACED","PAYMENT_RECEIVED"]},
+    {n:2, sys:"Db2",type:"Table",src:"Db2 · BILLING",path:"Db2 › BILLING",pfx:["BL"],ents:["INVOICE","PAYMENT"]},
+  ]},
+  {d:-4,groups:[
+    {n:18,sys:"Amazon S3",type:"File",src:"Amazon S3 · landing",path:"Amazon S3 › prcs-landing",pfx:["LND"],
+     ents:["SF_ACCOUNT","SF_CONTACT","SF_LEAD","CRM_CUSTOMER","CRM_ADDRESS","CRM_PHONE","HR_EMPLOYEE","BL_INVOICE","BL_PAYMENT","EVT_CUSTOMER","EVT_CONSENT","EVT_ORDER","SF_CONSENT","CRM_TICKET","CRM_PREFERENCE","HR_ROLE","EVT_PAYMENT","SF_CAMPAIGN"]},
+  ]},
+  {d:-3,groups:[
+    {n:20,sys:"Snowflake",type:"Table",src:"Snowflake · RAW",path:"Snowflake › PRCS › RAW",pfx:["RAW"],
+     ents:["CUSTOMER","CONTACT","ACCOUNT","LEAD","ADDRESS","PHONE","EMAIL","CONSENT","PREFERENCE","TICKET","INTERACTION","EMPLOYEE","INVOICE","PAYMENT","ORDER","CAMPAIGN","HOUSEHOLD","IDENTITY","KYC","DEMOGRAPHIC"]},
+  ]},
+  {d:-2,groups:[
+    {n:27,sys:"Snowflake",type:"Table",src:"Snowflake · STAGE",path:"Snowflake › PRCS › STAGE",pfx:["STG","SRC"],
+     ents:["CUSTOMER","CUSTOMER_ADDRESS","CUSTOMER_EMAIL","CUSTOMER_PHONE","CONTACT","ACCOUNT","LEAD","CONSENT","PREFERENCE","TICKET","INTERACTION","EMPLOYEE","INVOICE","PAYMENT","ORDER","CAMPAIGN","HOUSEHOLD","IDENTITY","KYC","DEMOGRAPHIC","GEO","CHANNEL","SEGMENT","LOYALTY"]},
+  ]},
+  /* the funnel: everything upstream converges on three CORE tables */
+  {d:-1,groups:[
+    {n:3, sys:"Snowflake",type:"Table",src:"Snowflake · CORE",path:"Snowflake › PRCS › CORE",pfx:["DIM"],
+     ents:["MASTER_CUSTOMER","ADDRESS","CONSENT"]},
+  ]},
+  /* and fans back out through four marts */
+  {d:1,groups:[
+    {n:3, sys:"Snowflake",type:"Table",src:"Snowflake · MART",path:"Snowflake › PRCS › MART",pfx:["MART"],
+     ents:["CUSTOMER_360","CUSTOMER_RISK","MARKETING_AUDIENCE"]},
+    {n:1, sys:"Snowflake",type:"View",src:"Snowflake · MART",path:"Snowflake › PRCS › MART",pfx:["VW"],
+     ents:["CUSTOMER_ACTIVE"]},
+  ]},
+  {d:2,groups:[
+    {n:16,sys:"Snowflake",type:"Table",src:"Snowflake · MART",path:"Snowflake › PRCS › MART",pfx:["MART","AGG"],
+     ents:["CUSTOMER_VALUE","CHURN_FEATURES","SEGMENT_ROLLUP","CONSENT_STATE","HOUSEHOLD_ROLLUP","CONTACT_REACHABILITY","LOYALTY_TIER","SERVICE_HISTORY","GEO_COVERAGE","COMPLAINTS","ONBOARDING_FUNNEL","REVENUE_BY_SEGMENT"]},
+    {n:10,sys:"Snowflake",type:"View",src:"Snowflake · MART",path:"Snowflake › PRCS › MART",pfx:["VW"],
+     ents:["CUSTOMER_PII_MASKED","CUSTOMER_EU","CUSTOMER_OPTED_IN","CUSTOMER_HIGH_VALUE","CUSTOMER_AT_RISK","CUSTOMER_NEW","CUSTOMER_DORMANT","CONTACT_PREFERRED","HOUSEHOLD_LINK","CONSENT_CURRENT"]},
+  ]},
+  {d:3,groups:[
+    {n:10,sys:"Databricks",type:"Notebook",src:"Databricks · feature_store",path:"Databricks › feature_store",pfx:["FS"],
+     ents:["CUSTOMER_FEATURES","CHURN_SCORE","PROPENSITY","NEXT_BEST_ACTION","LTV_MODEL","RISK_SCORE","SEGMENT_MODEL","CONSENT_AUDIT","ADDRESS_QUALITY","IDENTITY_RESOLUTION"]},
+    {n:8, sys:"Databricks",type:"Job",src:"Databricks · jobs",path:"Databricks › finance_jobs",pfx:["JOB"],
+     ents:["CUSTOMER_EXPORT","AUDIENCE_PUSH","CONSENT_SYNC","DQ_MONITOR","PII_SCAN","MART_REFRESH","FEATURE_REFRESH","PARTNER_EXTRACT"]},
+  ]},
+  {d:4,groups:[
+    {n:20,sys:"Tableau",type:"Workbook",src:"Tableau · analytics",path:"Tableau › preciselyanalytics",pfx:["TWB"],
+     ents:["CUSTOMER_360","CHURN_WATCH","CAMPAIGN_PERF","SERVICE_QUALITY","CONSENT_COMPLIANCE","SEGMENT_EXPLORER","GEO_FOOTPRINT","LOYALTY_REVIEW","AT_RISK_ACCOUNTS","NEW_CUSTOMERS","PII_EXPOSURE","DATA_QUALITY","HOUSEHOLD_VIEW","CONTACT_CENTRE","REACHABILITY","AUDIENCE_BUILD","EXEC_SUMMARY","MARKET_MIX","RETENTION","ONBOARDING"]},
+    {n:14,sys:"Power BI",type:"Report",src:"Power BI · Finance",path:"Power BI › Finance",pfx:["PBI"],
+     ents:["CUSTOMER_REVENUE","BILLING_HEALTH","COLLECTIONS","INVOICE_AGEING","PAYMENT_TRENDS","RISK_EXPOSURE","REGULATORY_PACK","BOARD_SUMMARY","COST_TO_SERVE","MARGIN_BY_SEGMENT","FORECAST","BUDGET_VS_ACTUAL","CASH_FLOW","AUDIT_TRAIL"]},
+  ]},
+  {d:5,groups:[
+    {n:10,sys:"Amazon S3",type:"File",src:"Amazon S3 · partner-out",path:"Amazon S3 › prcs-partner-out",pfx:["OUT"],
+     ents:["PARTNER_FEED","AUDIENCE_FEED","CONSENT_FEED","SUPPRESSION_LIST","ADDRESS_FEED","LOYALTY_FEED","RISK_FEED","BILLING_FEED","IDENTITY_FEED","ARCHIVE"]},
+    {n:6, sys:"Salesforce",type:"Object",src:"Salesforce · PROD",path:"Salesforce › PROD",pfx:["SFWB"],
+     ents:["CUSTOMER_SCORE","SEGMENT_TAG","CHURN_FLAG","NBA_RECOMMENDATION","CONSENT_STATE","LTV_BAND"]},
+    {n:10,sys:"Tableau",type:"Workbook",src:"Tableau · exec",path:"Tableau › exec",pfx:["EXEC"],
+     ents:["CDO_SCORECARD","GOVERNANCE_KPI","PII_HEATMAP","STEWARDSHIP","POLICY_COVERAGE","QUALITY_TREND","DOMAIN_HEALTH","ADOPTION","LINEAGE_GAPS","CERTIFICATION"]},
+  ]},
+];
+
+const LAYER_IDS={};
+LSPEC.forEach(L=>{
+  LAYER_IDS[L.d]=[];
+  L.groups.forEach(g=>{
+    let made=0, i=0;
+    while(made<g.n && i<g.ents.length*g.pfx.length+40){
+      const ent=g.ents[i%g.ents.length], pfx=g.pfx[Math.floor(i/g.ents.length)%g.pfx.length];
+      const id=`${pfx}_${ent}`;
+      i++;
+      if(DS[id]) continue;
+      addDS({id,sys:g.sys,type:g.type,src:g.src,path:g.path,layer:L.d});
+      LAYER_IDS[L.d].push(id); made++;
+    }
+  });
+});
+// the anchor
+addDS({id:ANCHOR,sys:"Snowflake",type:"Table",src:"Snowflake · CORE",path:"Snowflake › PRCS › CORE",layer:0,
+       dq:97,gov:89,certified:true,domain:"Customer",term:"Customer",owner:"M. Bank",pii:true,
+       policies:[POLICY_POOL[0],POLICY_POOL[4]],     // GDPR + Cross-Border
+       metrics:["Customer Lifetime Value","Active Customer Count"]});
+LAYER_IDS[0]=[ANCHOR];
+
+// wire consecutive layers; every node gets at least one parent
+const ORDERED=[-5,-4,-3,-2,-1,0,1,2,3,4,5];
+for(let k=0;k<ORDERED.length-1;k++){
+  const A=LAYER_IDS[ORDERED[k]], B=LAYER_IDS[ORDERED[k+1]];
+  B.forEach((b,i)=>addEdge(A[i%A.length],b));                       // guarantee a parent
+  A.forEach(a=>{ const n=1+Math.floor(rnd()*3);
+    for(let j=0;j<n;j++) addEdge(a, B[Math.floor(rnd()*B.length)]); });
+}
+// a few skip-layer edges for realism (still strictly downhill).
+// The anchor is excluded: its immediate degree stays deliberate, so the default
+// view is small and the size of the full graph comes from depth, not fan-out.
+for(let i=0;i<26;i++){
+  const k=Math.floor(rnd()*(ORDERED.length-2));
+  const A=LAYER_IDS[ORDERED[k]], B=LAYER_IDS[ORDERED[k+2]];
+  if(!A||!B) continue;
+  const a=A[Math.floor(rnd()*A.length)], b=B[Math.floor(rnd()*B.length)];
+  if(a===ANCHOR||b===ANCHOR) continue;
+  addEdge(a,b);
+}
+/* A deliberate terminal node, added after the wiring loops so nothing gives it
+   children: a workbook reading straight off the anchor with nothing downstream.
+   It makes Req 3 AC4 — "no hidden neighbours, no expand action" — demonstrable
+   in the default view instead of only at the far edge of the graph. */
+addDS({id:"TWB_CUSTOMER_SNAPSHOT",sys:"Tableau",type:"Workbook",src:"Tableau · analytics",
+       path:"Tableau › preciselyanalytics",layer:1,dq:91,gov:74,certified:false,
+       domain:"Customer",term:"Customer Snapshot",owner:"J. Okafor"});
+addEdge(ANCHOR,"TWB_CUSTOMER_SNAPSHOT");
+
+const TOTAL_DS=Object.keys(DS).length, TOTAL_EDGES=EDGES.length;
+const EDGE_OF={}; EDGES.forEach(e=>EDGE_OF[e.a+"→"+e.b]=e);
+
+/* fields — generated lazily, deterministic per dataset */
+const FIELD_POOL=[["CUSTOMER_ID",0],["ACCOUNT_ID",0],["FIRST_NAME",1],["LAST_NAME",1],["EMAIL",1],["PHONE",1],
+ ["DOB",1],["NATIONAL_ID",1],["ADDRESS_LINE1",1],["CITY",0],["POSTAL_CODE",1],["COUNTRY",0],["CONSENT_FLAG",0],
+ ["SEGMENT_CODE",0],["LIFETIME_VALUE",0],["CHANNEL",0],["STATUS",0],["AMOUNT",0],["CURRENCY",0],["RISK_SCORE",0]];
+/* Glossary terms exist for most field names, but assignment is patchier at
+   field level than at dataset level — which is the real-world pattern. */
+const FIELD_TERMS={CUSTOMER_ID:"Customer Identifier",ACCOUNT_ID:"Account Identifier",
+ FIRST_NAME:"Given Name",LAST_NAME:"Family Name",EMAIL:"Email Address",PHONE:"Telephone Number",
+ DOB:"Date of Birth",NATIONAL_ID:"National Identifier",ADDRESS_LINE1:"Street Address",
+ CITY:"City",POSTAL_CODE:"Postal Code",COUNTRY:"Country",CONSENT_FLAG:"Marketing Consent",
+ SEGMENT_CODE:"Customer Segment",LIFETIME_VALUE:"Customer Lifetime Value",CHANNEL:"Contact Channel",
+ STATUS:"Record Status",AMOUNT:"Transaction Amount",CURRENCY:"Currency Code",RISK_SCORE:"Risk Score"};
+const FIELD_CACHE={};
+function fieldsOf(id){
+  if(FIELD_CACHE[id]) return FIELD_CACHE[id];
+  const r=lcg(hash(id)); const n=4+Math.floor(r()*6); const out=[]; const used=new Set();
+  const mk=(nm,pii,dq)=>{
+    // ~48% of fields have a term actually assigned
+    const assigned=(hash(id+"|"+nm)%100)<48 && FIELD_TERMS[nm];
+    return {name:nm,pii,dq,term:assigned?FIELD_TERMS[nm]:null};
+  };
+  out.push(mk(DS[id].pii?"CUSTOMER_ID":"ID",0,90+Math.floor(r()*10)));
+  used.add("ID");used.add("CUSTOMER_ID");
+  while(out.length<n){
+    const [nm,pii]=FIELD_POOL[Math.floor(r()*FIELD_POOL.length)];
+    if(used.has(nm)) continue; used.add(nm);
+    out.push(mk(nm,(pii&&DS[id].pii)?1:0,55+Math.floor(r()*45)));
+  }
+  out.push(mk("UPDATED_AT",0,99));
+  return FIELD_CACHE[id]=out;
+}
+function piiFieldCount(id){
+  if(!DS[id]) return 0;
+  return fieldsOf(id).filter(f=>f.pii).length;
+}
+
+/* ==========================================================================
+   2. VIEW STATE
+   ========================================================================== */
+/* Two annotation sets, one per language.
+   Technical opens lean — quality score, transformation markers, field counts.
+   Business is what the one-click layer brings with it. */
+/* Business context, per DGOV-409 / the AI-suggestions project: terms, domains,
+   policies and metrics, plus stewardship (owners, governance score,
+   certification). Quality score is a technical asset detail, not business
+   context, so it lives in the technical group. */
+/* Certification exists on both sides and they are NOT the same fact:
+   `certBiz` is whether the business term is certified, `cert` is whether the
+   technical asset is. Two keys, so the two checkboxes are independent. */
+const OV_TECHNICAL={term:false,domain:false,policy:false,metric:false,owner:false,gov:false,
+                    cert:false,certBiz:false,dq:true,rel:false,xform:true,fields:true};
+const OV_BUSINESS ={term:true,domain:true,policy:true,metric:true,owner:true,gov:true,
+                    cert:true,certBiz:true,dq:false,rel:false,xform:true,fields:true};
+const OV_LABELS={term:"Business terms",domain:"Domains",policy:"Policies",metric:"Metrics",
+  owner:"Owners",gov:"Governance score",cert:"Certification",certBiz:"Certification",dq:"Quality score",
+  xform:"Transformation markers",fields:"Field counts",rel:"Relationship names"};
+
+/* Business context visibility is shared with the asset details page, but the
+   two surfaces have different room: a details page has a column, a lineage card
+   has 172px next to twenty others. So lineage SEEDS from what details hides —
+   the default never resurfaces something the user already dismissed — and may
+   then narrow further. Divergence is shown, with one click back to matching. */
+const BIZ_CONTEXT_KEYS=["term","domain","policy","metric"];
+function detailsHides(k){return UI.detailsHidden.includes(k);}
+function seedFromDetails(){
+  BIZ_CONTEXT_KEYS.forEach(k=>{
+    if(detailsHides(k)){V.overlays[k]=false;V.ovOther[k]=false;}
+  });
+}
+/* Only meaningful in the business view. In the technical view business context
+   is opt-in annotation, so "off" is the view's nature, not a divergence. */
+function divergesFromDetails(){
+  if(!biz()) return false;
+  return BIZ_CONTEXT_KEYS.some(k=>!!V.overlays[k]!==!detailsHides(k));
+}
+function matchDetails(){
+  snap();pinNode(P.anchor);PENDING_FLASH=false;
+  BIZ_CONTEXT_KEYS.forEach(k=>V.overlays[k]=!detailsHides(k));
+  dirty();render();
+}
+function toggleDetailsHidden(k,hidden){
+  UI.detailsHidden = hidden ? [...new Set([...UI.detailsHidden,k])] : UI.detailsHidden.filter(x=>x!==k);
+  pinNode(P.anchor);PENDING_FLASH=false;
+  if(hidden){V.overlays[k]=false;V.ovOther[k]=false;}   // hiding on details hides here too
+  render();
+}
+function biz(){return V.lang==="business";}
+
+/* ==========================================================================
+   FEATURE SCOPE
+   Reviewing one feature at a time. The rule is "show what is shipped today,
+   plus exactly the feature under review" — hiding everything that isn't the
+   feature would also hide search, Sort By and the round buttons, which already
+   exist, and a prototype that looks LESS than the product is its own confusion.
+   ========================================================================== */
+const SCOPES={
+  all:        {label:"Everything",   tags:null},
+  navigation: {label:"Navigation",   tags:["shipped","nav"]},
+  // The panel's own requirements are about hosting: collapsible sections, the
+  // chip strip summarising several features. So this scope shows everything —
+  // you need the sections populated to review the container. The one exception
+  // is the minimap: it sits bottom-right, which is exactly where a floating
+  // panel gets dragged, so leaving it in muddles Req 3 and Req 5.
+  panel:      {label:"Display Panel",tags:null,hide:["minimap"]},
+};
+/* `tags` is the allow-list, `hide` the narrower deny-list for a scope that
+   otherwise shows everything. Deny wins. */
+function inScope(tag){
+  const s=SCOPES[UI.scope]||SCOPES.all;
+  if(s.hide && s.hide.includes(tag)) return false;
+  return !s.tags || s.tags.includes(tag);
+}
+function setScope(s){
+  UI.scope=s;
+  // Hiding a control must also neutralise its state, or the view can be left
+  // somewhere the reviewer has no way to change.
+  if(s==="navigation"){
+    V.lang="technical";
+    V.overlays={...OV_TECHNICAL};
+    V.ovOther={...OV_BUSINESS};
+    V.grain="Dataset"; V.filters=[]; V.render="graph";
+    V.query=""; V.pinned=[]; V.openFields={};
+    reflow();
+  }
+  render();
+}
+
+const DEFAULTS={anchor:ANCHOR,up:1,down:1,linked:false,grain:"Dataset",render:"graph",
+  searchMode:"highlight",query:"",filters:[],
+  lang:"technical",
+  overlays:{...OV_TECHNICAL},
+  ovOther:{...OV_BUSINESS},
+  branch:{},openFields:{},pinned:[],zoom:1,panX:0,panY:0,nodePos:{},stickyPos:{},sort:{k:"hops",dir:1}};
+let V=JSON.parse(JSON.stringify(DEFAULTS));
+let UI={panelOpen:true,panelMode:"docked",panelPos:{x:null,y:null},annotate:false,fs:false,
+  savedName:"— unsaved —",addFilter:false,showSave:false,scope:"all",collapsed:{},
+  // stands in for the asset details page's "hide business context" setting
+  detailsHidden:["metric"]};
+let SAVED=[
+  {name:"Customer 360 — standard",state:{anchor:ANCHOR,up:2,down:2,grain:"Dataset",lang:"technical",
+    filters:[],overlays:{...OV_TECHNICAL,term:true}}},
+  {name:"GDPR exposure review",state:{anchor:ANCHOR,up:2,down:4,grain:"Dataset",lang:"business",
+    filters:[{k:"Policy",op:"has",v:"GDPR"}],
+    overlays:{...OV_BUSINESS,domain:false}}},
+  {name:"Unmapped assets — term coverage gap",state:{anchor:ANCHOR,up:2,down:3,grain:"Dataset",lang:"business",
+    filters:[{k:"Business term",op:"is",v:"Not assigned"}],
+    overlays:{...OV_BUSINESS,policy:false,cert:false,fields:false}}},
+];
+let HIST=[];
+function snap(){HIST.push(JSON.stringify(V)); if(HIST.length>40) HIST.shift();}
+function undo(){ if(!HIST.length) return; V=JSON.parse(HIST.pop()); render(); }
+
+/* ==========================================================================
+   3. GRAIN PROJECTION  (Dataset ⇄ Datasource)
+   ========================================================================== */
+let P={nodes:{},up:{},down:{},edges:[],anchor:ANCHOR};
+function project(){
+  if(V.grain==="Datasource"){
+    const nodes={},up={},down={},edges=[],seen={};
+    const srcOf=id=>DS[id].src;
+    Object.values(DS).forEach(d=>{
+      const s=d.src;
+      if(!nodes[s]){
+        nodes[s]={id:s,name:s,sys:d.sys,type:"Datasource",path:d.path.split(" › ").slice(0,2).join(" › "),
+          members:[],dq:0,gov:0,certified:false,domain:d.domain,term:null,terms:[],policies:[],metrics:[],owner:"—",pii:false,layer:d.layer,piiFields:0};
+        up[s]=[];down[s]=[];
+      }
+      const g=nodes[s]; g.members.push(d.id);
+      g.pii = g.pii || d.pii;
+      g.certified = g.certified || d.certified;
+      g.layer = Math.min(g.layer, d.layer);
+    });
+    Object.values(nodes).forEach(g=>{
+      g.dq=Math.round(g.members.reduce((s,m)=>s+DS[m].dq,0)/g.members.length);
+      g.gov=Math.round(g.members.reduce((s,m)=>s+DS[m].gov,0)/g.members.length);
+      const owners=[...new Set(g.members.map(m=>DS[m].owner).filter(o=>o!=="—"))];
+      g.owner = owners.length===1?owners[0]:(owners.length?owners.length+" owners":"—");
+      const doms=[...new Set(g.members.map(m=>DS[m].domain))];
+      g.domain = doms.length===1?doms[0]:doms.length+" domains";
+      // a datasource inherits the union of its datasets' policies
+      const seenP=new Set();
+      g.policies=[];
+      g.members.forEach(m=>policyList(DS[m]).forEach(p=>{if(!seenP.has(p.k)){seenP.add(p.k);g.policies.push(p);}}));
+      const seenM=new Set();
+      g.metrics=[];
+      g.members.forEach(m=>(DS[m].metrics||[]).forEach(x=>{if(!seenM.has(x)){seenM.add(x);g.metrics.push(x);}}));
+      g.piiFields=g.members.reduce((s,m)=>s+piiFieldCount(m),0);
+      g.termCoverage=g.members.filter(m=>DS[m].term).length;
+    });
+    EDGES.forEach(e=>{
+      const a=srcOf(e.a),b=srcOf(e.b);
+      if(a===b) return;
+      const key=a+"→"+b; if(seen[key]) { seen[key].n++; if(e.xform) seen[key].xform+=e.xform; return; }
+      const rec={a,b,rel:"derived",xform:e.xform||0,n:1}; seen[key]=rec; edges.push(rec);
+      down[a].push(b);up[b].push(a);
+    });
+    P={nodes,up,down,edges,anchor:srcOf(V.anchor)};
+  } else {
+    P={nodes:DS,up:UP,down:DOWN,edges:EDGES,anchor:V.anchor};
+  }
+}
+
+/* ==========================================================================
+   4. FILTERS
+   ========================================================================== */
+const FILTER_DEFS={
+  "Data source":{ops:["is","is not"],vals:()=>[...new Set(Object.values(DS).map(d=>d.sys))].sort()},
+  "Quality score":{ops:["≥","<"],vals:()=>["95","90","80","70","60"]},
+  "Governance score":{ops:["≥","<"],vals:()=>["90","80","70","60","50","40"]},
+  "Certification":{ops:["is"],vals:()=>["Certified","Not certified"]},
+  "Domain":{ops:["is","is not"],vals:()=>DOMAINS.slice()},
+  "Owner":{ops:["is"],vals:()=>OWNERS.filter(o=>o!=="—")},
+  "Policy":{ops:["has","has no"],vals:()=>POLICY_KEYS.slice()},
+  "Metric":{ops:["has","has no"],vals:()=>["Any metric",...METRIC_POOL]},
+  "PII":{ops:["has","has no"],vals:()=>["PII fields"]},
+  "Business term":{ops:["is","is not"],vals:()=>["Assigned","Not assigned"]},
+  "Asset type":{ops:["is","is not"],vals:()=>[...new Set(Object.values(DS).map(d=>d.type))].sort()},
+};
+function passes(id){
+  const n=P.nodes[id];
+  if(id===P.anchor) return true;                  // the anchor is never filtered away
+  return V.filters.every(f=>{
+    switch(f.k){
+      case "Data source":   return f.op==="is" ? n.sys===f.v : n.sys!==f.v;
+      case "Quality score": return f.op==="≥" ? n.dq>=+f.v : n.dq<+f.v;
+      case "Governance score": return f.op==="≥" ? n.gov>=+f.v : n.gov<+f.v;
+      case "Certification": return f.v==="Certified" ? !!n.certified : !n.certified;
+      case "Domain":        return f.op==="is" ? n.domain===f.v : n.domain!==f.v;
+      case "Owner":         return n.owner===f.v;
+      case "Policy":        { const has=policyList(n).some(p=>p.k===f.v);
+                              return f.op==="has" ? has : !has; }
+      case "PII":           { const has=piiCountOf(id)>0; return f.op==="has" ? has : !has; }
+      case "Metric":        { const m=n.metrics||[];
+                              const has=f.v==="Any metric" ? m.length>0 : m.includes(f.v);
+                              return f.op==="has" ? has : !has; }
+      case "Business term": { const has=!!bizTitle(n);
+                              return f.v==="Assigned" ? (f.op==="is"?has:!has) : (f.op==="is"?!has:has); }
+      case "Asset type":    return f.op==="is" ? n.type===f.v : n.type!==f.v;
+      default: return true;
+    }
+  });
+}
+
+/* ==========================================================================
+   5. TRAVERSAL — reach + per-branch expansion, counted in the displayed grain
+   ========================================================================== */
+function reachOf(id,dir){
+  const base = dir==="up" ? V.up : V.down;
+  const b = V.branch[id];
+  return Math.max(base, b ? (b[dir]||0) : 0);
+}
+function traverse(){
+  const depth={},budget={};
+  const start=P.anchor;
+  if(!P.nodes[start]) return {ids:[],depth:{}};
+  depth[start]=0;
+  const q=[[start,V.up,V.down]];
+  budget[start]=[V.up,V.down];
+  // per-branch expansion raises the budget locally
+  const seen=new Set([start]);
+  while(q.length){
+    const [id,bu,bd]=q.shift();
+    const bu2=Math.max(bu, (V.branch[id]&&V.branch[id].up)||0);
+    const bd2=Math.max(bd, (V.branch[id]&&V.branch[id].down)||0);
+    if(bu2>0) (P.up[id]||[]).forEach(p=>{
+      if(!seen.has(p)){seen.add(p);depth[p]=depth[id]-1;q.push([p,bu2-1,0]);}
+    });
+    if(bd2>0) (P.down[id]||[]).forEach(c=>{
+      if(!seen.has(c)){seen.add(c);depth[c]=depth[id]+1;q.push([c,0,bd2-1]);}
+    });
+  }
+  // pinned nodes revealed by search
+  (V.pinned||[]).forEach(id=>{ if(P.nodes[id]&&!seen.has(id)){seen.add(id);depth[id]=(P.nodes[id].layer||0)-(P.nodes[start].layer||0);} });
+  // apply filters
+  let ids=[...seen].filter(passes);
+  if(!ids.includes(start)) ids.push(start);
+  return {ids,depth};
+}
+function hiddenNeighbours(id,dir,visSet){
+  return ((dir==="up"?P.up[id]:P.down[id])||[]).filter(x=>!visSet.has(x)).length;
+}
+/* bridges: a visible→visible hop that passes only through filtered-out nodes */
+function bridges(ids){
+  const vis=new Set(ids), out=[];
+  const filteredOut=id=>P.nodes[id]&&!vis.has(id);
+  ids.forEach(a=>{
+    const stack=(P.down[a]||[]).filter(filteredOut).map(x=>[x,1]);
+    const best={};
+    const guard=new Set();
+    while(stack.length){
+      const [n,d]=stack.pop();
+      if(d>3||guard.has(n+":"+d)) continue; guard.add(n+":"+d);
+      (P.down[n]||[]).forEach(x=>{
+        if(vis.has(x)){ if(best[x]===undefined||best[x]>d) best[x]=d; }
+        else if(d<3) stack.push([x,d+1]);
+      });
+    }
+    Object.entries(best).forEach(([b,n])=>{ if(b!==a) out.push({a,b,hidden:n}); });
+  });
+  return out;
+}
+
+/* ==========================================================================
+   6. LAYOUT — layered, barycenter-ordered, variable card heights
+   ========================================================================== */
+const CARDW=172, COLW=252, GAP=13, PADX=44, PADY=30;
+function piiCountOf(id){
+  const n=P.nodes[id];
+  return n.type==="Datasource" ? (n.piiFields||0) : piiFieldCount(id);
+}
+/* One source of truth for which annotation rows a card gets, so the technical
+   render, the business repaint and cardH() can never disagree about height.
+   In business mode the term is the headline, so it is not also a row. */
+/* Glossary terms carry their own certification, independent of the table's.
+   Rendered inline next to the term so it costs no vertical space. */
+function termCertified(t){return t?((hash("term:"+t)%100)<58):false;}
+function termTick(t){
+  return (V.overlays.certBiz&&termCertified(t))
+    ? `<span class="tcert" title="Certified business term">✓</span>` : "";
+}
+function plusN(list,first){return first+(list.length>1?` +${list.length-1}`:"");}
+function metricShort(n){const m=n.metrics||[];return m.length?plusN(m,m[0]):null;}
+function rowSpecs(id){
+  const n=P.nodes[id], o=V.overlays, b=biz(), r=[];
+  if(!b && o.term && n.term) r.push("term");
+  if(o.policy && policyShort(n)) r.push("policy");
+  if(o.metric && metricShort(n)) r.push("metric");
+  if(o.domain && n.domain && !(b && n.type==="Datasource")) r.push("domain");
+  if(o.owner && n.owner) r.push("owner");
+  return r;
+}
+function overlayRows(id){
+  const n=P.nodes[id];
+  return rowSpecs(id).map(k=>{
+    if(k==="term")   return ["Term",plusN(n.terms||[n.term],n.term)+termTick(n.term)];
+    if(k==="policy") return ["Policy",policyShort(n).replace("Policy: ","")];
+    if(k==="metric") return ["Metric",metricShort(n)];
+    if(k==="domain") return ["Domain",n.domain];
+    return ["Owner",n.owner];
+  });
+}
+function cardH(id){
+  let h=42;                                        // icon row + path
+  if(id===P.anchor) h+=14;                         // purple home bar
+  const tags=tagCount(id); if(tags) h+=13;
+  const ov=overlayRows(id).length; if(ov) h+=5+ov*11;
+  if(V.overlays.fields && V.grain!=="Datasource") h+=15; // "n Fields" footer
+  if(V.openFields[id]) h+=6+fieldsOf(id).length*15;
+  return h;
+}
+function tagCount(id){
+  const n=P.nodes[id],o=V.overlays;let c=0;
+  if(o.gov) c++; if(o.dq) c++; if(o.cert&&n.certified) c++; if(o.policy&&piiCountOf(id)>0) c++;
+  return c;
+}
+function layout(ids,depth){
+  const layers={};
+  ids.forEach(id=>{const d=depth[id]??0;(layers[d]=layers[d]||[]).push(id);});
+  const keys=Object.keys(layers).map(Number).sort((a,b)=>a-b);
+  const order={}; keys.forEach(k=>order[k]=layers[k].slice());
+  const m={};
+  const reindex=k=>order[k].forEach((id,i)=>m[id]=i);
+  keys.forEach(reindex);
+  // Barycenter ordering. The index map must be updated after each layer is
+  // sorted, not once per pass — sorting every layer against a stale snapshot
+  // barely reduces crossings at all.
+  for(let pass=0;pass<6;pass++){
+    const seq=pass%2?keys.slice().reverse():keys, dir=pass%2?1:-1;
+    seq.forEach(k=>{
+      order[k]=order[k].slice().sort((x,y)=>bary(x,m,dir)-bary(y,m,dir));
+      reindex(k);
+    });
+  }
+  function bary(id,m,dir){
+    const ns=((dir<0?P.up[id]:P.down[id])||[]).filter(x=>x in m);
+    if(!ns.length) return m[id]??0;
+    return ns.reduce((s,x)=>s+m[x],0)/ns.length;
+  }
+  const colH={}; keys.forEach(k=>colH[k]=order[k].reduce((s,id)=>s+cardH(id)+GAP,-GAP));
+  const maxH=Math.max(...keys.map(k=>colH[k]),260);
+  const pos={};
+  keys.forEach((k,ki)=>{
+    let y=PADY+(maxH-colH[k])/2;
+    order[k].forEach(id=>{pos[id]={x:PADX+ki*COLW,y,h:cardH(id)};y+=cardH(id)+GAP;});
+  });
+  // hand-placed nodes win over the computed layout
+  ids.forEach(id=>{ const o=V.nodePos[id]; if(o&&pos[id]){pos[id].x=o.x;pos[id].y=o.y;} });
+  let cw=PADX*2+(keys.length-1)*COLW+CARDW, ch=maxH+PADY*2;
+  ids.forEach(id=>{const p=pos[id];if(p){cw=Math.max(cw,p.x+CARDW+PADX);ch=Math.max(ch,p.y+p.h+PADY);}});
+  return {pos,cw,ch,keys,order};
+}
+
+/* ==========================================================================
+   6b. STICKY LAYOUT
+   Expanding a node is a *local* action, so it must not reshuffle the picture.
+   Committed positions persist in V.stickyPos; new nodes are appended next to
+   their parent in free space. Global changes (reach, grain, filters, anchor)
+   clear the sticky store and re-run the full layered layout, as does Tidy.
+   ========================================================================== */
+function reflow(){V.stickyPos={};}
+
+function appendPlace(newIds,pos,depth,ideal){
+  // group new nodes by the neighbour they hang off, so siblings arrive as a
+  // block centred on their parent rather than stacked below it
+  const groups={};
+  newIds.forEach(id=>{
+    const parents=(P.up[id]||[]).filter(x=>pos[x]);
+    const kids=(P.down[id]||[]).filter(x=>pos[x]);
+    let key,x,yw;
+    if(parents.length>=kids.length&&parents.length){
+      const p=parents.reduce((a,b)=>pos[a].x>=pos[b].x?a:b);
+      key="d:"+p; x=pos[p].x+COLW; yw=pos[p].y+pos[p].h/2;
+    }else if(kids.length){
+      const k=kids.reduce((a,b)=>pos[a].x<=pos[b].x?a:b);
+      key="u:"+k; x=pos[k].x-COLW; yw=pos[k].y+pos[k].h/2;
+    }else{
+      key="free:"+id; x=ideal[id]?ideal[id].x:0; yw=ideal[id]?ideal[id].y:0;
+    }
+    (groups[key]=groups[key]||{x,yw,ids:[]}).ids.push(id);
+  });
+  Object.values(groups).forEach(g=>{
+    const hs=g.ids.map(id=>cardH(id));
+    const total=hs.reduce((s,h)=>s+h+GAP,-GAP);
+    let y=g.yw-total/2;
+    g.ids.forEach((id,i)=>{pos[id]={x:g.x,y,h:hs[i]};y+=hs[i]+GAP;});
+  });
+}
+function deOverlap(pos,ids){
+  const cols={};
+  ids.forEach(id=>{const k=Math.round(pos[id].x/24)*24;(cols[k]=cols[k]||[]).push(id);});
+  Object.values(cols).forEach(list=>{
+    list.sort((a,b)=>pos[a].y-pos[b].y);
+    for(let i=1;i<list.length;i++){
+      const prev=pos[list[i-1]],cur=pos[list[i]];
+      if(cur.y<prev.y+prev.h+GAP) cur.y=prev.y+prev.h+GAP;
+    }
+  });
+}
+function resolveLayout(ids,depth){
+  const ideal=layout(ids,depth);
+  const sticky=V.stickyPos||{};
+  const known=ids.filter(id=>sticky[id]);
+  const pos={};
+  if(!known.length){
+    // fresh or just tidied — take the layered layout wholesale
+    ids.forEach(id=>pos[id]={x:ideal.pos[id].x,y:ideal.pos[id].y,h:cardH(id)});
+  }else{
+    known.forEach(id=>pos[id]={x:sticky[id].x,y:sticky[id].y,h:cardH(id)});
+    const fresh=ids.filter(id=>!sticky[id]);
+    if(fresh.length) appendPlace(fresh,pos,depth,ideal.pos);
+    deOverlap(pos,ids);
+  }
+  // hand-placed nodes always win
+  ids.forEach(id=>{const o=V.nodePos[id];if(o){pos[id].x=o.x;pos[id].y=o.y;}});
+  // normalise into positive space; the uniform shift is absorbed by the pin
+  const minX=Math.min(...ids.map(i=>pos[i].x)), minY=Math.min(...ids.map(i=>pos[i].y));
+  const dx=PADX-minX, dy=PADY-minY;
+  ids.forEach(id=>{pos[id].x+=dx;pos[id].y+=dy;});
+  // Commit BOTH stores in the normalised space. Re-committing nodePos matters:
+  // sticky positions get shifted by each normalisation while a raw override
+  // would be re-applied unshifted, so a hand-placed node drifted relative to
+  // everything else a little more on every render (Req 6 AC4).
+  V.stickyPos=V.stickyPos||{};
+  ids.forEach(id=>{
+    V.stickyPos[id]={x:pos[id].x,y:pos[id].y};
+    if(V.nodePos[id]) V.nodePos[id]={x:pos[id].x,y:pos[id].y};
+  });
+  const cw=Math.max(...ids.map(i=>pos[i].x+CARDW))+PADX;
+  const ch=Math.max(...ids.map(i=>pos[i].y+pos[i].h))+PADY;
+  return {pos,cw:Math.max(cw,600),ch:Math.max(ch,320),keys:ideal.keys};
+}
+
+/* ==========================================================================
+   7. RENDER — canvas
+   ========================================================================== */
+let LAST={ids:[],depth:{},pos:{},bridges:[],cw:0,ch:0};
+let PIN=null, PREV_IDS=[], FLASH=[], PENDING_FLASH=false;
+function pinNode(id){const p=LAST.pos[id];if(p)PIN={id,x:p.x,y:p.y};PENDING_FLASH=true;}
+function viewportSize(){
+  const w=document.getElementById("lin-canvas-wrap");
+  return {w:w?w.clientWidth:1000,h:w?w.clientHeight:640};
+}
+function matchesQuery(id){
+  if(!V.query) return false;
+  const q=V.query.toUpperCase();
+  if(id.toUpperCase().includes(q)) return true;
+  if(V.grain!=="Datasource" && fieldsOf(id).some(f=>f.name.includes(q))) return true;
+  return false;
+}
+function canvasHTML(){
+  project();
+  let {ids,depth}=traverse();
+  // search: filter-to keeps matches plus their path back to the anchor
+  if(V.query && V.searchMode==="filter"){
+    const keep=new Set([P.anchor]);
+    ids.filter(matchesQuery).forEach(m=>{ pathToAnchor(m).forEach(x=>keep.add(x)); });
+    ids=ids.filter(x=>keep.has(x));
+  }
+  const visSet=new Set(ids);
+  const br=V.filters.length?bridges(ids):[];
+  const L=resolveLayout(ids,depth);
+
+  // Keep the node the user just interacted with on the same screen pixel.
+  if(PIN&&L.pos[PIN.id]){
+    V.panX+=(PIN.x-L.pos[PIN.id].x)*V.zoom;
+    V.panY+=(PIN.y-L.pos[PIN.id].y)*V.zoom;
+    PIN=null;
+  }
+  // Which nodes just appeared — used for the ring and the "show them" link.
+  if(PENDING_FLASH){FLASH=ids.filter(x=>!PREV_IDS.includes(x));PENDING_FLASH=false;}
+  PREV_IDS=ids.slice();
+  LAST={ids,depth,pos:L.pos,bridges:br,cw:L.cw,ch:L.ch};
+
+  const paths=buildEdgeSVG(visSet,L.pos);
+  const bpaths=buildBridgeSVG(br,L.pos);
+  const blabels=br.map(b=>{
+    const A=L.pos[b.a],B=L.pos[b.b]; if(!A||!B) return "";
+    const x=(A.x+CARDW+B.x)/2-16,y=(A.y+A.h/2+B.y+B.h/2)/2-6;
+    return `<div class="blabel" style="left:${x}px;top:${y}px">${b.hidden} hidden</div>`;
+  }).join("");
+  const elabels=!V.overlays.rel?"":P.edges.filter(e=>visSet.has(e.a)&&visSet.has(e.b)).slice(0,120).map(e=>{
+    const A=L.pos[e.a],B=L.pos[e.b]; if(!A||!B) return "";
+    const x=(A.x+CARDW+B.x)/2-14,y=(A.y+A.h/2+B.y+B.h/2)/2-5;
+    return `<div class="elabel" style="left:${x}px;top:${y}px">${e.rel}${e.n>1?` ×${e.n}`:""}</div>`;
+  }).join("");
+
+  const offscreen=FLASH.filter(id=>!onScreen(L.pos[id])).length;
+  const stat=`<div class="canvas-stat">Showing <b>${ids.length}</b> of ${V.grain==="Datasource"?Object.keys(P.nodes).length:TOTAL_DS} ${V.grain==="Datasource"?"datasources":"datasets"}${br.length?` · <b>${br.length}</b> bridged`:""} · zoom ${Math.round(V.zoom*100)}%${
+    FLASH.length?` · <b>${FLASH.length}</b> revealed${offscreen?` <a class="statlink" onclick="focusRevealed();event.stopPropagation()">show ${offscreen} off-screen →</a>`:""}`:""}</div>`;
+  const flashSet=new Set(FLASH);
+  FLASH=[];   // the ring plays once, on the render that follows the expansion
+
+  return `
+  <div class="canvas-wrap ${UI.fs?"fs":""} ${biz()?"biz":""}" id="lin-canvas-wrap" onmousedown="startPan(event)" onwheel="onWheel(event)">
+    <div class="canvas ${biz()?"biz":""}" id="lin-canvas" style="width:${L.cw}px;height:${L.ch}px;transform:translate(${V.panX}px,${V.panY}px) scale(${V.zoom})">
+      <svg class="cedges" id="cedges" width="${L.cw}" height="${L.ch}">${paths}${bpaths}</svg>
+      ${ids.map(id=>card(id,L.pos[id],visSet,flashSet.has(id))).join("")}${elabels}${blabels}
+    </div>
+    ${stat}
+    <div class="zoombox" data-req="13">
+      <button onclick="zoomBy(.15);event.stopPropagation()" title="Zoom in">+</button>
+      <button onclick="zoomBy(-.15);event.stopPropagation()" title="Zoom out">−</button>
+      <button onclick="fit();event.stopPropagation()" title="Fit whole graph to view">⛶</button>
+    </div>
+    ${inScope("minimap")?minimapHTML(L):``}
+    <div class="roundset" data-req="13">
+      <button onclick="centerHome();event.stopPropagation()" title="Center on home node">⌂</button>
+      <button onclick="expandAllFields();event.stopPropagation()" title="Expand all — show every card's fields">⇕</button>
+      <button onclick="collapseAllFields();event.stopPropagation()" title="Collapse all — hide every card's fields">✕</button>
+      <button onclick="tidy();event.stopPropagation()" title="Tidy — re-run the layout"${Object.keys(V.nodePos).length||Object.keys(V.stickyPos||{}).length?' style="border-color:#8017e1;color:#8017e1"':''}>⟲</button>
+      <button onclick="toggleFS();event.stopPropagation()" title="Full screen">⤢</button>
+    </div>
+  </div>`;
+}
+/* Edge drawing is factored out of canvasHTML so a node drag can redraw the
+   SVG on its own, without rebuilding the whole page on every mousemove. */
+function buildEdgeSVG(visSet,pos){
+  return P.edges.filter(e=>visSet.has(e.a)&&visSet.has(e.b)).map(e=>{
+    const A=pos[e.a],B=pos[e.b]; if(!A||!B) return "";
+    if(V.openFields[e.a]&&V.openFields[e.b]&&V.grain!=="Datasource") return fieldEdges(e,A,B);
+    const x1=A.x+CARDW,y1=A.y+A.h/2,x2=B.x,y2=B.y+B.h/2,dx=Math.max(34,Math.abs(x2-x1)/2);
+    const hi=V.overlays.xform&&e.xform;
+    // On the grey business-layer ground a light grey stroke disappears, so the
+    // edges go darker rather than more transparent — still subordinate to the cards.
+    const stroke = hi ? (biz()?"#7a14d4":"#8017e1") : (biz()?"#a2a2b4":"#c6c6d2");
+    return `<path d="M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}" fill="none" stroke="${stroke}" stroke-width="${hi?1.8:1.1}" opacity="${V.query&&V.searchMode==="highlight"?.5:1}"/>`;
+  }).join("");
+}
+function buildBridgeSVG(br,pos){
+  return br.map(b=>{
+    const A=pos[b.a],B=pos[b.b]; if(!A||!B) return "";
+    const x1=A.x+CARDW,y1=A.y+A.h/2,x2=B.x,y2=B.y+B.h/2,dx=Math.max(34,Math.abs(x2-x1)/2);
+    return `<path d="M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}" fill="none" stroke="#d9a24a" stroke-width="1.3" stroke-dasharray="5 4"/>`;
+  }).join("");
+}
+function redrawEdges(){
+  const svg=document.getElementById("cedges"); if(!svg) return;
+  const visSet=new Set(LAST.ids);
+  svg.innerHTML=buildEdgeSVG(visSet,LAST.pos)+buildBridgeSVG(LAST.bridges,LAST.pos);
+}
+/* ---- camera helpers. Panning is transform-only (the wrapper no longer
+   scrolls), so canvas↔screen is a single clean mapping and the minimap
+   viewport can be derived from it. ---- */
+function visibleRect(){
+  const {w,h}=viewportSize();
+  return {x:-V.panX/V.zoom, y:-V.panY/V.zoom, w:w/V.zoom, h:h/V.zoom};
+}
+function onScreen(p){
+  if(!p) return true;
+  const r=visibleRect();
+  return p.x+CARDW>r.x && p.x<r.x+r.w && p.y+p.h>r.y && p.y<r.y+r.h;
+}
+function centreOn(cx,cy){
+  const {w,h}=viewportSize();
+  V.panX=-(cx*V.zoom-w/2); V.panY=-(cy*V.zoom-h/2);
+}
+/* Soft clamp so a stray drag can't lose the graph entirely. Applied to
+   user-driven panning only — never to the pin compensation, which must be exact. */
+function clampPan(){
+  const {w,h}=viewportSize();
+  const cw=LAST.cw*V.zoom, ch=LAST.ch*V.zoom, m=140;
+  V.panX=Math.min(w-m,Math.max(m-cw,V.panX));
+  V.panY=Math.min(h-m,Math.max(m-ch,V.panY));
+}
+function focusIds(list){
+  const ps=list.map(id=>LAST.pos[id]).filter(Boolean);
+  if(!ps.length) return;
+  const x1=Math.min(...ps.map(p=>p.x)), x2=Math.max(...ps.map(p=>p.x+CARDW));
+  const y1=Math.min(...ps.map(p=>p.y)), y2=Math.max(...ps.map(p=>p.y+p.h));
+  const {w,h}=viewportSize();
+  V.zoom=Math.max(.35,Math.min(1.2,Math.min((w-70)/Math.max(1,x2-x1),(h-70)/Math.max(1,y2-y1))));
+  centreOn((x1+x2)/2,(y1+y2)/2);
+  render();
+}
+let LAST_REVEAL=[];
+function focusRevealed(){focusIds(LAST_REVEAL);}
+
+/* ---- minimap ---- */
+const MM_W=168, MM_H=112;
+function minimapHTML(L){
+  const s=Math.min(MM_W/L.cw, MM_H/L.ch);
+  const r=visibleRect();
+  const nodes=LAST.ids.map(id=>{
+    const p=L.pos[id]; if(!p) return "";
+    const cls=id===P.anchor?"mm-a":(V.nodePos[id]?"mm-m":"mm-n");
+    return `<i class="${cls}" style="left:${p.x*s}px;top:${p.y*s}px;width:${Math.max(2,CARDW*s)}px;height:${Math.max(1.5,p.h*s)}px"></i>`;
+  }).join("");
+  return `
+  <div class="minimap" id="minimap" onmousedown="startMiniDrag(event)" title="Drag to move · click to jump">
+    <div class="mm-inner" style="width:${L.cw*s}px;height:${L.ch*s}px">
+      ${nodes}
+      <div class="mm-vp" style="left:${r.x*s}px;top:${r.y*s}px;width:${Math.max(6,r.w*s)}px;height:${Math.max(6,r.h*s)}px"></div>
+    </div>
+    <span class="mm-label">${LAST.ids.length} shown</span>
+  </div>`;
+}
+let mdrag=null;
+function startMiniDrag(e){
+  e.stopPropagation();
+  const mm=document.getElementById("minimap"); if(!mm) return;
+  const box=mm.getBoundingClientRect();
+  const s=Math.min(MM_W/LAST.cw, MM_H/LAST.ch);
+  mdrag={box,s};
+  miniJump(e);
+  e.preventDefault();
+}
+function miniJump(e){
+  if(!mdrag) return;
+  const cx=(e.clientX-mdrag.box.left-6)/mdrag.s;
+  const cy=(e.clientY-mdrag.box.top-6)/mdrag.s;
+  centreOn(cx,cy);clampPan();
+  const c=document.getElementById("lin-canvas");
+  if(c) c.style.transform=`translate(${V.panX}px,${V.panY}px) scale(${V.zoom})`;
+  const vp=document.querySelector(".mm-vp");
+  const r=visibleRect();
+  if(vp){vp.style.left=(r.x*mdrag.s)+"px";vp.style.top=(r.y*mdrag.s)+"px";}
+}
+function onWheel(e){
+  if(!e.ctrlKey&&!e.metaKey) return;   // plain wheel is left alone
+  e.preventDefault();
+  zoomBy(e.deltaY>0?-.1:.1);
+}
+function pathToAnchor(id){
+  // shortest path in the undirected projected graph, anchor → id
+  const prev={},q=[P.anchor],seen=new Set([P.anchor]);
+  while(q.length){
+    const n=q.shift(); if(n===id) break;
+    [...(P.up[n]||[]),...(P.down[n]||[])].forEach(x=>{ if(!seen.has(x)){seen.add(x);prev[x]=n;q.push(x);} });
+  }
+  if(!seen.has(id)) return [id];
+  const out=[];let c=id;while(c!==undefined){out.push(c);c=prev[c];}
+  return out;
+}
+function fieldEdges(e,A,B){
+  const fa=fieldsOf(e.a),fb=fieldsOf(e.b);
+  const yTop=id=>{
+    const n=P.nodes[id];let h=42;
+    if(id===P.anchor)h+=14;
+    if(tagCount(id))h+=13;
+    const ov=overlayRows(id).length;if(ov)h+=5+ov*11;
+    if(V.overlays.fields)h+=15;
+    return h+3;
+  };
+  const rows=[];
+  fb.forEach((f,j)=>{
+    let i=fa.findIndex(x=>x.name===f.name);
+    if(i<0 && j<fa.length && f.name!=="UPDATED_AT") i=j;
+    if(i<0) return;
+    const y1=A.y+yTop(e.a)+i*15+7.5, y2=B.y+yTop(e.b)+j*15+7.5;
+    const x1=A.x+CARDW,x2=B.x,dx=Math.max(28,(x2-x1)/2);
+    rows.push(`<path d="M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}" fill="none" stroke="${f.pii?"#e5007e":"#b9a6d8"}" stroke-width=".9"/>`);
+  });
+  return rows.join("");
+}
+function cssId(id){return id.replace(/[^A-Za-z0-9_-]/g,"_");}
+
+/* Field rows follow the same rule as the cards: in business mode the term is
+   the readable thing and the physical column name drops behind it. Fields with
+   no term assigned show the column name in the unmapped style. */
+function fieldRow(f){
+  const pii=f.pii?`<span class="fp">PII</span>`:"";
+  const dq=`<span class="fdq" style="color:${f.dq<80?"#b91c1c":"#15803d"}">${f.dq}%</span>`;
+  if(!biz())
+    return `<div class="fld ${f.pii?"lin":""}"><span class="fn">${f.name}</span>${pii}${dq}</div>`;
+  return f.term
+    ? `<div class="fld biz ${f.pii?"lin":""}" title="${f.name}">
+         <span class="fn ft-term">${f.term}</span><span class="fn-ghost">${f.name}</span>${pii}</div>`
+    : `<div class="fld biz unmapped ${f.pii?"lin":""}">
+         <span class="fn ft-un">${f.name}</span><span class="fn-ghost">no term</span>${pii}</div>`;
+}
+
+/* The business-layer repaint.
+   It deliberately uses the SAME vertical budget as the technical card: the
+   business term occupies the slot the technical name had, and the technical
+   name/path drop to a ghosted monospace line inside that same slot. The rows
+   below are a strict subset of the technical overlay rows, so cardH() is
+   unchanged and nothing in the diagram moves when you flip the layer. */
+function bizTitle(n){
+  if(n.type==="Datasource") return n.domain;           // rolled-up nodes speak in domains
+  return n.term;
+}
+function bizBody(id,n,tags){
+  const t=bizTitle(n);
+  const rows=rowSpecs(id).map(k=>{
+    if(k==="policy") return `<div class="bpol" title="${policyFull(n)}">${policyShort(n)}</div>`;
+    if(k==="metric") return `<div class="bmet" title="${(n.metrics||[]).join(" · ")}">◇ ${metricShort(n)}</div>`;
+    if(k==="domain") return `<div class="ovrow"><span>Domain</span> ${n.domain}</div>`;
+    if(k==="owner")  return `<div class="ovrow"><span>Steward</span> ${n.owner}</div>`;
+    return "";
+  }).filter(Boolean);
+  // No term assigned: fall back to the technical name, styled as unmapped.
+  // Shouting "No business term" on half the cards made the picture unreadable;
+  // this keeps it calm while still being obviously different from a real term.
+  const more=(n.terms||[]).length>1?`<span class="tmore">+${n.terms.length-1}</span>`:"";
+  const head = t
+    ? `<div class="bterm">${t}${termTick(t)}${more}</div><div class="ghost">${n.name||id}</div>`
+    : `<div class="bterm unmapped">${n.name||id}</div><div class="ghost gh-un">no term assigned</div>`;
+  return `
+    <div class="bhead">
+      ${head}
+      ${tags.length?`<div class="tags">${tags.join("")}</div>`:""}
+    </div>
+    ${rows.length?`<div class="ov" style="margin:0 8px 4px">${rows.join("")}</div>`:""}`;
+}
+function card(id,p,visSet,isNew){
+  if(!p) return "";
+  const n=P.nodes[id], isA=id===P.anchor;
+  const hu=hiddenNeighbours(id,"up",visSet), hd=hiddenNeighbours(id,"down",visSet);
+  const tags=[];
+  if(V.overlays.gov) tags.push(`<span class="tg gov ${n.gov<60?"low":""}" title="Governance score">G ${n.gov}%</span>`);
+  if(V.overlays.dq) tags.push(`<span class="tg dq ${n.dq<80?"bad":""}" title="Quality score">Q ${n.dq}%</span>`);
+  if(V.overlays.cert&&n.certified) tags.push(`<span class="tg cert">Certified</span>`);
+  if(V.overlays.policy&&piiCountOf(id)>0) tags.push(`<span class="tg pii">${piiCountOf(id)} PII</span>`);
+  const ov=overlayRows(id);
+  const flds=V.openFields[id]?fieldsOf(id):null;
+  const dim=V.query&&V.searchMode==="highlight"&&!matchesQuery(id);
+  const hit=V.query&&matchesQuery(id);
+  const nFields=V.grain==="Datasource"?null:fieldsOf(id).length;
+  return `
+  <div class="ncard ${isA?"focus":""} ${dim?"dim":""} ${hit?"hit":""} ${biz()?"biz":""} ${isNew?"justadded":""}"
+       id="card-${cssId(id)}" onmousedown="startNodeDrag(event,'${id}')"
+       style="left:${p.x}px;top:${p.y}px;width:${CARDW}px">
+    ${isA?`<div class="barhome">⌂</div>`:""}
+    ${hu?`<button class="nchip" style="left:-30px;top:${p.h/2-9}px" ${isA?'data-req="1"':""} title="Reveal ${hu} upstream" onclick="expandBranch('${id}','up');event.stopPropagation()">+${hu} ‹</button>`:""}
+    ${hd?`<button class="nchip" style="right:-32px;top:${p.h/2-9}px" title="Reveal ${hd} downstream" onclick="expandBranch('${id}','down');event.stopPropagation()">+${hd} ›</button>`:""}
+    <div class="nkebab" ${isA?'data-req="1 / 6 / 7"':""} onclick="openCtx(event,'${id}')">⋮</div>
+    ${biz()?bizBody(id,n,tags):`
+    <div class="body">
+      <div class="r1"><div class="ico">▦</div>
+        <div style="min-width:0"><div class="nm">${n.name||id}</div><div class="pth">${n.path} · ${n.type}</div></div></div>
+      ${tags.length?`<div class="tags">${tags.join("")}</div>`:""}
+      ${ov.length?`<div class="ov">${ov.map(([k,v])=>`<div class="ovrow"><span>${k}</span> ${v}</div>`).join("")}</div>`:""}
+    </div>`}
+    ${V.overlays.fields&&nFields!==null?`<div class="ft" onclick="toggleFields('${id}');event.stopPropagation()">
+        <span>${nFields} Fields</span><span>${V.openFields[id]?"⌃":"⌄"}</span></div>`:""}
+    ${flds?`<div class="flds">${flds.map(f=>fieldRow(f)).join("")}</div>`:""}
+  </div>`;
+}
+
+/* ==========================================================================
+   8. RENDER — list
+   ========================================================================== */
+function listRows(){
+  project();
+  const {ids,depth}=traverse();
+  const rows=ids.map(id=>{
+    const n=P.nodes[id],d=depth[id]??0;
+    return {id,name:n.name||id,type:n.type,sys:n.sys,dir:d<0?"up":d>0?"down":"anchor",hops:Math.abs(d),
+      owner:n.owner,dq:n.dq,gov:n.gov,cert:n.certified?"Certified":"—",
+      term:bizTitle(n)||"— not assigned",pii:piiCountOf(id),policy:policyFull(n),
+      metric:(n.metrics||[]).join(" · ")||"—"};
+  });
+  const {k,dir}=V.sort;
+  rows.sort((a,b)=>{const x=a[k],y=b[k];return (typeof x==="number"?x-y:String(x).localeCompare(String(y)))*dir;});
+  return rows;
+}
+function listHTML(){
+  const rows=listRows();
+  const th=(k,l)=>`<th onclick="sortBy('${k}')">${l}${V.sort.k===k?(V.sort.dir>0?" ▲":" ▼"):""}</th>`;
+  return `<div class="ltable-card">
+    <table class="ltable">
+      <thead><tr>${th("name","Asset")}${th("term","Business term")}${th("type","Type")}${th("sys","System")}${th("dir","Direction")}${th("hops","Hops")}${th("owner","Steward")}${th("gov","Governance")}${th("dq","Quality")}${th("pii","PII fields")}${th("cert","Certification")}${th("policy","Policy")}${th("metric","Metrics")}</tr></thead>
+      <tbody>${rows.map(r=>`<tr>
+        <td class="nmc" onclick="setAnchor('${r.id}')">${r.name}</td>
+        <td ${r.term.startsWith("—")?'style="color:#a08a5e;font-style:italic"':'style="font-weight:600;color:#39006b"'}>${r.term}</td>
+        <td>${r.type}</td><td>${r.sys}</td>
+        <td class="${r.dir==="up"?"up":r.dir==="down"?"dn":"an"}">${r.dir==="up"?"↑ upstream":r.dir==="down"?"↓ downstream":"anchor"}</td>
+        <td>${r.hops}</td><td>${r.owner}</td>
+        <td style="color:${r.gov<60?"#9a5b00":"#3730a3"};font-weight:600">${r.gov}%</td>
+        <td style="color:${r.dq<80?"#b91c1c":"#15803d"};font-weight:600">${r.dq}%</td>
+        <td>${r.pii?`<span style="color:#a3006b;font-weight:600">${r.pii}</span>`:"—"}</td>
+        <td>${r.cert}</td><td>${r.policy}</td>
+        <td ${r.metric==="—"?'style="color:#999"':'style="color:#0f766e;font-weight:600"'}>${r.metric}</td></tr>`).join("")}</tbody>
+    </table></div>`;
+}
+
+/* ==========================================================================
+   9. VIEW PANEL
+   ========================================================================== */
+function panelHTML(){
+  const floating=UI.panelMode==="float";
+  const pos=UI.panelPos.x==null?"":`left:${UI.panelPos.x}px;top:${UI.panelPos.y}px;`;
+  const n=P.nodes[P.anchor]||DS[V.anchor];
+  return `
+  <div class="vpanel ${floating?"float":""}" id="vpanel" style="${floating?pos:""}">
+    <div class="vp-head" onmousedown="startPanelDrag(event)">
+      <span class="grip">⠿</span><h3>Display</h3>
+      <span class="ic" title="${floating?"Dock to the right":"Float — then drag it anywhere"}" onclick="togglePanelMode();event.stopPropagation()">${floating?"⇥":"⇱"}</span>
+      <span class="ic" title="Close" onclick="uiSet('panelOpen',false);event.stopPropagation()">✕</span>
+    </div>
+
+    ${sec("anchor","Anchor","7 / 9",0,`
+      <div class="anchor-row">
+        <div class="ic2">▦</div>
+        <div><div class="nm">${n?(n.name||P.anchor):V.anchor}</div><div class="ty">${n?n.type+" · "+n.sys:""}</div></div>
+      </div>
+      <div class="hint">Click any node's ⋮ ▸ <b>Set as anchor</b>, or a row in the list.</div>`)}
+
+    ${sec("reach","Reach","2 / 3 / 4",(V.up!==1||V.down!==1||Object.keys(V.branch).length)?1:0,`
+      <div class="reach-row"><span class="rl">Upstream</span>${stepperHTML("up")}</div>
+      <div class="reach-row"><span class="rl">Downstream</span>${stepperHTML("down")}</div>
+      <label class="switch-lbl" style="font-size:12px">
+        <input type="checkbox" class="sw" ${V.linked?"checked":""} onchange="setLinked(this.checked)">
+        <span class="sw-track"><span class="sw-knob"></span></span> Move both together</label>
+      <div class="reach-presets" data-req="9">
+        <button class="btn outline sm" onclick="reachAll()">Reach all</button>
+        <button class="btn outline sm" onclick="resetReachDefault()">Reset to default</button>
+      </div>
+      <div class="hint">Counted in <b>${V.grain.toLowerCase()}</b> hops — the grain you are looking at.
+        ${Object.keys(V.branch).length?`<br><b>${Object.keys(V.branch).length}</b> branch expansion(s) on top.`:""}</div>`)}
+
+    ${inScope("grain")?sec("grain","Grain","6",V.grain!=="Dataset"?1:0,`
+      <div class="radios">
+        <label class="off" title="Field grain is a per-node action — see any card's ⋮ ▸ Show fields">
+          <input type="radio" disabled> Field <span style="font-size:10.5px;color:#888">— per node</span></label>
+        ${["Dataset","Datasource"].map(g=>`<label><input type="radio" name="grain" ${V.grain===g?"checked":""} onchange="setGrain('${g}')"> ${g}</label>`).join("")}
+      </div>
+      <div class="hint">A container in scope is <b>whole</b>. Field grain never goes global — that rebuilds the wall.</div>`):``}
+
+    ${inScope("filter")?sec("filters","Filters","12",V.filters.length,`
+      ${V.filters.map((f,i)=>`<div class="filt-row"><span class="fk">${f.k}</span><span class="fv">${f.op} ${f.v}</span><span class="x" onclick="rmFilter(${i})">✕</span></div>`).join("")||`<div style="font-size:11.5px;color:#888;margin-bottom:6px">None</div>`}
+      <div class="addfilt" onclick="uiSet('addFilter',${!UI.addFilter})">${UI.addFilter?"− Cancel":"+ Add filter"}</div>
+      ${UI.addFilter?addFilterBox():""}
+      <div class="hint">Mid-path removals draw a <b>dashed bridge</b> with the hidden count. Bridges carry no relationship name.</div>`):``}
+
+    ${!inScope("biz")?sec("show","Show","",0,`
+      <div class="checks"><div class="nest">
+        ${ovCheck("dq","Quality score")}${ovCheck("gov","Governance score")}
+      </div></div>
+      <div class="hint">The two checkboxes the shipped Display control carries today.</div>`):
+    sec("show","Show","5 / 10",["term","domain","policy","metric","owner","rel"].filter(k=>V.overlays[k]).length,`
+      <div class="sublabel">Read the diagram as</div>
+      <div class="seg langseg" style="width:100%">
+        <button class="${!biz()?"active":""}" style="flex:1" onclick="setLang('technical')">Technical</button>
+        <button class="${biz()?"active":""}" style="flex:1" onclick="setLang('business')">Business</button>
+      </div>
+      <div class="bizhint">${biz()
+        ? "The business term is the headline; the physical name sits behind it. Same nodes, same edges, same positions."
+        : "The physical name is the headline. Switch to Business for the one-click repaint."}</div>
+
+      <div class="sublabel">Add to the cards <span class="dimnote">— ${biz()?"business":"technical"} view</span></div>
+      <div class="checks">
+        <div class="grp">Business context</div>
+        ${biz()?`<div class="inherit ${divergesFromDetails()?"diff":""}">
+          ${divergesFromDetails()
+            ? `Narrowed for the diagram · <a onclick="matchDetails()">match asset details</a>`
+            : `Matching the asset details page`}
+        </div>`:``}
+        <div class="nest">
+          ${biz()
+            ? `<label class="locked" title="In the business view the term is the headline"><span class="lockic">▪</span> Business terms <span class="dimnote">— the headline</span></label>`
+            : ovCheck("term","Business terms")}
+          ${ovCheck("domain","Domains")}${ovCheck("policy","Policies")}${ovCheck("metric","Metrics")}
+          <div class="grp sub">Stewardship</div>
+          <div class="nest">
+            ${ovCheck("owner","Owners")}${ovCheck("gov","Governance score")}${ovCheck("certBiz","Certification","· of the business term")}
+          </div>
+        </div>
+        <div class="grp">Technical</div>
+        <div class="nest">
+          ${ovCheck("dq","Quality score")}${ovCheck("cert","Certification","· of the technical asset")}
+          ${ovCheck("xform","Transformation markers")}${ovCheck("fields","Field counts")}${ovCheck("rel","Relationship names")}
+        </div>
+      </div>
+      <div class="hint">Each view keeps its own set — switch back and forth and nothing is lost.
+        Annotations never change which nodes are in the picture, only what the cards say.</div>`)}
+
+    ${inScope("render")?sec("render","Render as","new",V.render!=="graph"?1:0,`
+      <div class="seg" style="width:100%">
+        <button class="${V.render==="graph"?"active":""}" style="flex:1" onclick="setRender('graph')">Graph</button>
+        <button class="${V.render==="list"?"active":""}" style="flex:1" onclick="setRender('list')">List</button>
+      </div>
+      <div class="hint">Same set, different shape.</div>`):``}
+
+    ${inScope("saved")?sec("saved","Saved views","11",0,`
+      <select class="savedsel" onchange="loadSaved(this.value)">
+        <option value="">— unsaved —</option>
+        ${SAVED.map((s,i)=>`<option value="${i}" ${UI.savedName===s.name?"selected":""}>${s.name}</option>`).join("")}
+      </select>
+      ${UI.showSave?`<div class="addbox">
+        <input type="text" id="savename" placeholder="Name this view">
+        <button class="btn primary sm" style="width:100%" onclick="doSave()">Save</button></div>`:
+        `<div class="addfilt" onclick="uiSet('showSave',true)">+ Save current view</div>`}
+      <div class="hint">Stored as <b>parameters</b>, so it re-runs and stays current. Branch expansions save as branch depth.</div>`):``}
+
+    <div class="vp-foot">
+      <button class="btn outline" onclick="resetView()">Reset</button>
+      <button class="btn outline" onclick="undo()" ${HIST.length?"":"disabled"}>Undo</button>
+    </div>
+  </div>`;
+}
+/* Display Panel Req 6 — collapsible sections. AC3 is the important one: a
+   collapsed section must still say whether anything inside it is active, or
+   collapsing defeats what the summary strip exists to prevent. */
+function sec(key,title,req,activeCount,body){
+  const open=!UI.collapsed[key];
+  return `<div class="vsec" ${req?`data-req="${req}"`:""}>
+    <h4 class="sechead" onclick="toggleSection('${key}')">
+      <span class="caret">${open?"⌄":"›"}</span>${title}
+      ${activeCount?`<span class="cnt">${activeCount}</span>`:""}
+    </h4>
+    ${open?body:``}
+  </div>`;
+}
+function toggleSection(k){
+  if(UI.collapsed[k]) delete UI.collapsed[k]; else UI.collapsed[k]=1;
+  pinNode(P.anchor);PENDING_FLASH=false;render();
+}
+function ovCheck(k,label,note){
+  const hid=BIZ_CONTEXT_KEYS.includes(k)&&detailsHides(k);
+  return `<label><input type="checkbox" ${V.overlays[k]?"checked":""} onchange="setOverlay('${k}',this.checked)"> ${label}${
+    hid?` <span class="dimnote" title="Hidden on the asset details page">· hidden on details</span>`:(note?` <span class="dimnote">${note}</span>`:"")}</label>`;
+}
+function stepperHTML(k){
+  const v=V[k]>=9?"All":V[k];
+  return `<div class="stepper"><button onclick="bump('${k}',-1)">−</button><span>${v}</span><button onclick="bump('${k}',1)">+</button></div>`;
+}
+function addFilterBox(){
+  const keys=Object.keys(FILTER_DEFS), k=UI.newFilterKey||keys[0], def=FILTER_DEFS[k];
+  return `<div class="addbox">
+    <select onchange="uiSet('newFilterKey',this.value)">${keys.map(x=>`<option ${x===k?"selected":""}>${x}</option>`).join("")}</select>
+    <select id="nfop">${def.ops.map(o=>`<option>${o}</option>`).join("")}</select>
+    <select id="nfval">${def.vals().map(v=>`<option>${v}</option>`).join("")}</select>
+    <button class="btn primary sm" style="width:100%" onclick="addFilter('${k}')">Apply filter</button>
+  </div>`;
+}
+
+/* ==========================================================================
+   10. TOOLBAR + CHIP STRIP
+   ========================================================================== */
+function toolbarHTML(){
+  return `<div class="lin-toolbar">
+    <button class="pill-btn" data-req="8" title="Back one selection" onclick="undo()" ${HIST.length?"":"disabled"}>←</button>
+    <div class="lin-search" data-req="9">
+      <input type="text" id="q" value="${V.query}" placeholder="Search this view — asset or field name"
+        oninput="onQuery(this.value)"></div>
+    ${inScope("search")?`<div class="seg sm" data-req="9">
+      <button class="${V.searchMode==="highlight"?"active":""}" onclick="setSearchMode('highlight')">Highlight</button>
+      <button class="${V.searchMode==="filter"?"active":""}" onclick="setSearchMode('filter')">Filter to</button>
+    </div>`:``}
+    <button class="pill-btn ${UI.panelOpen?"on":""}" data-req="panel" onclick="uiSet('panelOpen',${!UI.panelOpen})">⚙ Display${badgeCount()?" · "+badgeCount():""}</button>
+    <select class="toolbar-select" title="Shipped control — not wired in this prototype">
+      <option>Sort By: Quality score</option><option>Sort By: Name</option><option>Sort By: Governance score</option>
+    </select>
+    <label class="switch-lbl"><input type="checkbox" class="sw"><span class="sw-track"><span class="sw-knob"></span></span> Edit mode</label>
+  </div>`;
+}
+function badgeCount(){
+  return V.filters.length + Object.values(V.overlays).filter(Boolean).length - 3;
+}
+/* The view state summary. Two rules from Display Panel Req 7:
+   AC4 — an element at its DEFAULT is not listed, so the strip stays short.
+   AC6 — when nothing is active it occupies no vertical space at all.
+   Styling is deliberately neutral: purple is the action colour in this UI, and
+   this row is status, so colouring it purple made it compete with the controls. */
+function chip(label,value,onClear){
+  return `<span class="vchip"><b>${label}</b>${value?` ${value}`:""}${
+    onClear?`<span class="x" onclick="${onClear}" title="Clear">✕</span>`:""}</span>`;
+}
+function stripHTML(){
+  const chips=[];
+  if(V.up!==1||V.down!==1)
+    chips.push(chip("Reach",`↑${V.up>=9?"All":V.up} ↓${V.down>=9?"All":V.down}`,"resetReach()"));
+  if(Object.keys(V.branch).length){
+    const n=Object.keys(V.branch).length;
+    chips.push(chip("Expanded",`${n} branch${n>1?"es":""}`,"clearBranches()"));
+  }
+  if(V.grain!=="Dataset") chips.push(chip("Grain",V.grain,"setGrain('Dataset')"));
+  if(biz()){
+    const vis=LAST.ids.length?LAST.ids:[P.anchor];
+    const noTerm=vis.filter(x=>P.nodes[x]&&!bizTitle(P.nodes[x])).length;
+    chips.push(chip("Business context",noTerm?`${noTerm} without a term`:"on","setBizLayer(false)"));
+  }
+  V.filters.forEach((f,i)=>chips.push(chip(f.k,`${f.op} ${f.v}`,`rmFilter(${i})`)));
+  if(!biz()) ["term","domain","policy","metric","owner","rel"].forEach(k=>{
+    if(V.overlays[k]) chips.push(chip(OV_LABELS[k],"",`setOverlay('${k}',false)`)); });
+  if(V.render!=="graph") chips.push(chip("Render",V.render,"setRender('graph')"));
+  if(V.query) chips.push(chip(V.searchMode==="filter"?"Filtered to":"Highlighting",`“${V.query}”`,"onQuery('')"));
+  if((V.pinned||[]).length) chips.push(chip("Revealed",`${V.pinned.length} out of scope`,"clearPinned()"));
+  if(LAST.bridges.length) chips.push(chip("Bridged",`${LAST.bridges.length} edge${LAST.bridges.length>1?"s":""}`,""));
+  if(Object.keys(V.nodePos).length) chips.push(chip("Hand-placed",`${Object.keys(V.nodePos).length}`,"tidy()"));
+
+  if(!chips.length) return "";        // Req 7 AC6 — no space when nothing is active
+  return `<div class="viewstrip" data-req="7 / 8">${chips.join("")}
+    <div class="spacer"></div><span class="saved">${UI.savedName==="— unsaved —"
+      ? `Not a saved view` : `Saved view: <b>${UI.savedName}</b>`}</span></div>`;
+}
+
+/* ==========================================================================
+   11. ACTIONS
+   ========================================================================== */
+function set(k,v){snap();V[k]=v;dirty();render();}
+function uiSet(k,v){UI[k]=v;render();}
+function dirty(){UI.savedName="— unsaved —";}
+/* Reach, grain, filters and anchor reshape the graph wholesale, so they clear
+   the sticky store and re-run the layered layout. Only per-node expansion and
+   per-card changes append. */
+// minimum is one hop each direction — zero is not offered (Req 8 AC2/AC4)
+function bump(k,d){snap();reflow();pinNode(P.anchor);V[k]=Math.max(1,Math.min(9,V[k]+d));if(V.linked){V.up=V[k];V.down=V[k];}dirty();render();}
+function setLinked(b){snap();V.linked=b;if(b){const m=Math.max(V.up,V.down);V.up=m;V.down=m;reflow();}render();}
+function resetReach(){snap();reflow();V.up=1;V.down=1;V.branch={};dirty();render();}
+function clearBranches(){snap();reflow();V.branch={};dirty();render();}
+function expandBranch(id,dir){
+  // Never record a branch expansion that cannot change the picture — that made
+  // the chip strip claim an expansion while the diagram stayed put.
+  if(hiddenNeighbours(id,dir,new Set(LAST.ids))===0) return;
+  snap();
+  const before=LAST.ids.slice();
+  pinNode(id);                       // this card must not move
+  V.branch[id]=V.branch[id]||{up:0,down:0};
+  // branch depth is additive *from this node* — one click, one level.
+  V.branch[id][dir]=(V.branch[id][dir]||0)+1;
+  dirty();render();
+  LAST_REVEAL=LAST.ids.filter(x=>!before.includes(x));
+}
+function setGrain(g){snap();reflow();V.grain=g;V.openFields={};V.branch={};dirty();render();}
+function setRender(r){snap();V.render=r;render();}
+// overlays only change card contents/heights — keep positions, hold the anchor still
+function setOverlay(k,b){snap();pinNode(P.anchor);PENDING_FLASH=false;V.overlays[k]=b;dirty();render();}
+/* Each language keeps its own annotation set. Switching swaps the active set
+   with the stored one, so the technical view stays lean and the business view
+   stays rich, and flipping between them is lossless. */
+function setLang(l){
+  if(l===V.lang) return;
+  snap();
+  const outgoing=V.overlays;
+  V.overlays=V.ovOther;
+  V.ovOther=outgoing;
+  V.lang=l;
+  dirty();render();
+}
+function setBizLayer(b){setLang(b?"business":"technical");}   // back-compat for the chip strip
+function setAnchor(id){
+  snap();reflow();
+  if(V.grain==="Datasource"){ const m=P.nodes[id]; if(m&&m.members) id=m.members[0]; }
+  V.anchor=id;V.branch={};V.pinned=[];V.render="graph";V.panX=0;V.panY=0;dirty();render();
+}
+function toggleFields(id){snap();pinNode(id);PENDING_FLASH=false;
+  if(V.openFields[id])delete V.openFields[id];else V.openFields[id]=1;render();}
+function setSearchMode(m){snap();V.searchMode=m;render();}
+function onQuery(q){
+  V.query=q;
+  // if the match exists in the graph but not in scope, pull it in
+  V.pinned=[];
+  if(q&&q.length>2){
+    project();
+    const {ids}=traverse();
+    const inScope=new Set(ids);
+    const hitOutside=Object.keys(P.nodes).find(id=>!inScope.has(id)&&id.toUpperCase().includes(q.toUpperCase()));
+    if(hitOutside) V.pinned=pathToAnchor(hitOutside);
+  }
+  render();
+  const el=document.getElementById("q"); if(el){el.focus();try{el.setSelectionRange(q.length,q.length);}catch(e){}}
+}
+function clearPinned(){V.pinned=[];render();}
+function addFilter(k){
+  const op=document.getElementById("nfop").value, v=document.getElementById("nfval").value;
+  snap();reflow();V.filters.push({k,op,v});UI.addFilter=false;dirty();render();
+}
+function rmFilter(i){snap();reflow();V.filters.splice(i,1);dirty();render();}
+function sortBy(k){V.sort = V.sort.k===k?{k,dir:-V.sort.dir}:{k,dir:1};render();}
+/* ---- The four canvas buttons, corrected to match the shipped product.
+   Previously ⌂ did a full view reset, and ⇕/✕ acted on graph reach — but in the
+   product ⌂ is camera-only and ⇕/✕ expand and collapse each card's FIELD list.
+   The reach presets (Req 9) are separate, and live with the reach control. ---- */
+
+// ⌂ — camera only: recentre and zoom on the anchor. No scope change. (Req 9 AC6)
+function centerHome(){
+  const p=LAST.pos[P.anchor]; if(!p){render();return;}
+  V.zoom=1; centreOn(p.x+CARDW/2,p.y+p.h/2); render();
+}
+// ⇕ — expand every visible card to show its fields
+function expandAllFields(){
+  snap();pinNode(P.anchor);PENDING_FLASH=false;
+  if(V.grain!=="Datasource") LAST.ids.forEach(id=>V.openFields[id]=1);
+  render();
+}
+// ✕ — collapse every card's field list
+function collapseAllFields(){
+  snap();pinNode(P.anchor);PENDING_FLASH=false;V.openFields={};render();
+}
+
+/* ---- Reach presets (Req 9). Two actions, both on the reach control. ---- */
+function reachAll(){snap();reflow();V.up=9;V.down=9;dirty();render();fit();}
+function resetReachDefault(){
+  snap();reflow();
+  V.up=1;V.down=1;V.branch={};V.nodePos={};V.zoom=1;V.panX=0;V.panY=0;
+  dirty();render();
+}
+// used when navigating away and back, and by the shell's placeholder pages
+function goAnchor(){V.query="";V.pinned=[];V.openFields={};resetReachDefault();}
+function resetView(){snap();const keep=V.anchor;V=JSON.parse(JSON.stringify(DEFAULTS));V.anchor=keep;dirty();render();}
+/* Tidy: throw away both the sticky positions and any hand placement, and let
+   the layered layout run clean. The escape hatch for a picture gone messy. */
+function tidy(){snap();reflow();V.nodePos={};pinNode(P.anchor);PENDING_FLASH=false;render();}
+function zoomBy(d){
+  const r=visibleRect(), cx=r.x+r.w/2, cy=r.y+r.h/2;
+  V.zoom=Math.max(.25,Math.min(1.6,+(V.zoom+d).toFixed(2)));
+  centreOn(cx,cy);   // zoom about the centre of what you were looking at
+  render();
+}
+function fit(){
+  if(!LAST.cw) {render();}
+  const {w,h}=viewportSize();
+  // floor is low on purpose — at 199 nodes "fit" has to actually fit, even
+  // though nothing is legible there. That illegibility is the point.
+  V.zoom=Math.max(.1,Math.min(1.2,Math.min((w-40)/LAST.cw,(h-40)/LAST.ch)));
+  centreOn(LAST.cw/2,LAST.ch/2);
+  render();
+}
+function toggleFS(){UI.fs=!UI.fs;render();}
+function togglePanelMode(){
+  UI.panelMode = UI.panelMode==="docked"?"float":"docked";
+  if(UI.panelMode==="float"&&UI.panelPos.x==null){UI.panelPos={x:window.innerWidth-340,y:150};}
+  render();
+}
+function doSave(){
+  const nm=(document.getElementById("savename").value||"").trim()||("View "+(SAVED.length+1));
+  SAVED.push({name:nm,state:{anchor:V.anchor,up:V.up,down:V.down,grain:V.grain,
+    filters:JSON.parse(JSON.stringify(V.filters)),overlays:JSON.parse(JSON.stringify(V.overlays)),
+    branch:JSON.parse(JSON.stringify(V.branch))}});
+  UI.savedName=nm;UI.showSave=false;render();
+}
+function loadSaved(i){
+  if(i==="")return;
+  const s=SAVED[+i];if(!s)return;
+  snap();
+  Object.assign(V,JSON.parse(JSON.stringify(s.state)));
+  V.openFields={};V.query="";V.pinned=[];V.branch=s.state.branch||{};
+  reflow();V.nodePos={};V.panX=0;V.panY=0;V.zoom=1;
+  V.lang=s.state.lang||"technical";
+  V.ovOther={...(V.lang==="business"?OV_TECHNICAL:OV_BUSINESS)};
+  UI.savedName=s.name;render();
+}
+
+/* context menu */
+function openCtx(e,id){
+  e.stopPropagation();
+  const m=document.getElementById("ctx");
+  const isDS=V.grain!=="Datasource";
+  const vis=new Set(LAST.ids);
+  const hu=hiddenNeighbours(id,"up",vis), hd=hiddenNeighbours(id,"down",vis);
+  // Req 3 AC4: no hidden neighbours in a direction means no action at all.
+  // (Was a disabled row reading "— nothing hidden"; the absent indicator on the
+  // card is the signal, per Req 2 AC2, so a greyed row is redundant.)
+  const item=(dir,n,label)=> n
+    ? `<div onclick="expandBranch('${id}','${dir}');closeCtx()">${label} <span class="cn">+${n}</span></div>`
+    : ``;
+  // with no expand rows at all, two separators would collide
+  const expandRows=item("up",hu,"Expand one level upstream")+item("down",hd,"Expand one level downstream");
+  m.innerHTML=`<div class="hd">${P.nodes[id]?(P.nodes[id].name||id):id}</div>
+    <div onclick="setAnchor('${id}');closeCtx()">Set as anchor</div>
+    ${isDS?`<div onclick="toggleFields('${id}');closeCtx()">${V.openFields[id]?"Hide":"Show"} fields</div>`:""}
+    ${expandRows?`<div class="sep"></div>${expandRows}`:""}
+    ${inScope("impact")||inScope("rel")?`<div class="sep"></div>`:""}
+    ${inScope("impact")?`<div onclick="impactOf('${id}');closeCtx()">Reveal all downstream (impact)</div>`:""}
+    ${inScope("rel")?`<div onclick="setOverlay('rel',true);closeCtx()">Show relationship names</div>`:""}`;
+  m.style.left=Math.min(e.clientX,window.innerWidth-240)+"px";
+  m.style.top=Math.min(e.clientY,window.innerHeight-230)+"px";
+  m.classList.add("open");
+}
+function closeCtx(){const m=document.getElementById("ctx");if(m)m.classList.remove("open");}
+function impactOf(id){
+  snap();reflow();
+  const n=P.nodes[id];
+  V.anchor=(n&&n.members&&n.members.length)?n.members[0]:id;
+  V.up=0;V.down=9;V.render="list";V.branch={};V.sort={k:"hops",dir:1};dirty();render();
+}
+
+/* pan + node drag + panel drag */
+let pan=null, ndrag=null;
+/* Pan moves the canvas by transform rather than by scrolling. Scrolling only
+   works when the content overflows, so on a small default view — exactly the
+   case that matters — there was nothing to scroll and the diagram wouldn't move. */
+function startPan(e){
+  if(e.target.closest(".ncard")||e.target.closest(".zoombox")||e.target.closest(".roundset")
+     ||e.target.closest(".minimap")||e.target.closest(".canvas-stat")) return;
+  pan={x:e.clientX,y:e.clientY,px:V.panX,py:V.panY};
+  const w=document.getElementById("lin-canvas-wrap"); if(w) w.classList.add("panning");
+  e.preventDefault();
+}
+function resetLayout(){tidy();}   // kept: older handlers referenced this name
+function startNodeDrag(e,id){
+  if(e.target.closest(".nchip")||e.target.closest(".nkebab")||e.target.closest(".ft")||e.target.closest(".fld")) return;
+  const p=LAST.pos[id]; if(!p) return;
+  ndrag={id,x:e.clientX,y:e.clientY,ox:p.x,oy:p.y,moved:false};
+  e.preventDefault();e.stopPropagation();
+}
+function resetLayout(){snap();V.nodePos={};V.panX=0;V.panY=0;render();}
+let pdrag=null;
+function startPanelDrag(e){
+  if(e.target.classList.contains("ic")) return;
+  if(UI.panelMode!=="float"){ togglePanelMode(); }
+  const p=document.getElementById("vpanel");if(!p)return;
+  const r=p.getBoundingClientRect();
+  pdrag={dx:e.clientX-r.left,dy:e.clientY-r.top};
+  p.classList.add("dragging");
+  e.preventDefault();
+}
+document.addEventListener("mousemove",e=>{
+  if(mdrag){ miniJump(e); return; }
+  if(pan){
+    V.panX=pan.px+(e.clientX-pan.x); V.panY=pan.py+(e.clientY-pan.y);
+    clampPan();
+    const c=document.getElementById("lin-canvas");
+    if(c) c.style.transform=`translate(${V.panX}px,${V.panY}px) scale(${V.zoom})`;
+    const vp=document.querySelector(".mm-vp");
+    if(vp&&LAST.cw){const s=Math.min(MM_W/LAST.cw,MM_H/LAST.ch),r=visibleRect();
+      vp.style.left=(r.x*s)+"px";vp.style.top=(r.y*s)+"px";}
+  }
+  if(ndrag){
+    const dx=(e.clientX-ndrag.x)/V.zoom, dy=(e.clientY-ndrag.y)/V.zoom;
+    if(!ndrag.moved && Math.abs(dx)<3 && Math.abs(dy)<3) return;   // let clicks still be clicks
+    ndrag.moved=true;
+    const nx=Math.max(0,ndrag.ox+dx), ny=Math.max(0,ndrag.oy+dy);
+    LAST.pos[ndrag.id].x=nx; LAST.pos[ndrag.id].y=ny;
+    const el=document.getElementById("card-"+cssId(ndrag.id));
+    if(el){el.style.left=nx+"px";el.style.top=ny+"px";}
+    redrawEdges();
+  }
+  if(pdrag){ const p=document.getElementById("vpanel");
+    if(p){ const x=Math.max(4,Math.min(window.innerWidth-320,e.clientX-pdrag.dx));
+           const y=Math.max(4,Math.min(window.innerHeight-80,e.clientY-pdrag.dy));
+           p.style.left=x+"px";p.style.top=y+"px";UI.panelPos={x,y}; } }
+});
+document.addEventListener("mouseup",()=>{
+  const w=document.getElementById("lin-canvas-wrap");if(w)w.classList.remove("panning");
+  const p=document.getElementById("vpanel");if(p)p.classList.remove("dragging");
+  if(ndrag&&ndrag.moved){
+    V.nodePos[ndrag.id]={x:LAST.pos[ndrag.id].x,y:LAST.pos[ndrag.id].y};
+    // Dropping a node can change the layout's minimum extent, so the whole
+    // diagram is re-normalised and every node shifts uniformly. Pin the dragged
+    // node so the viewport absorbs that shift — otherwise letting go of one node
+    // appears to move all the others (Req 6 AC6).
+    pinNode(ndrag.id);PENDING_FLASH=false;
+    ndrag=null;render();
+  }
+  if(mdrag){mdrag=null;render();}
+  pan=null;pdrag=null;ndrag=null;
+});
+document.addEventListener("click",e=>{ if(!e.target.closest(".ctxmenu")&&!e.target.closest(".nkebab")) closeCtx(); });
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){ if(UI.fs){UI.fs=false;render();} closeCtx(); return; }
+  // Req 12 AC6. Ignored while focus is in a field, so Ctrl+Z there undoes the
+  // typing rather than the diagram.
+  const t=e.target||{};
+  const inField = t.tagName==="INPUT"||t.tagName==="TEXTAREA"||t.isContentEditable;
+  if((e.ctrlKey||e.metaKey)&&!e.shiftKey&&(e.key==="z"||e.key==="Z")&&!inField){
+    e.preventDefault(); undo();
+  }
+});
+
+/* ==========================================================================
+   12. COVERAGE
+   ========================================================================== */
+/* The coverage table is scoped too. Left unscoped it listed grain, filters and
+   the business layer while the reviewer was looking at Navigation — exactly the
+   confusion the scope selector exists to remove. */
+const NAV_COVERAGE=[
+  ["1","Default view","Opens on the anchor at 1 up / 1 down","Scope","9 nodes of 200. Nothing beyond one hop is drawn."],
+  ["2","Hidden-neighbour indicators","<b>+N</b> chips on each card","Scope","Counts of unshown neighbours, per direction. Absent when nothing is hidden — see TWB_CUSTOMER_SNAPSHOT."],
+  ["3","Expand one level","Chip, or ⋮ ▸ Expand one level","Scope","Labelled with the count. No action offered when nothing is hidden."],
+  ["4","Expansion appends","Expand anything — watch what does <i>not</i> move","Scope","Nodes already on screen keep their position. Verified 0px across chained expansions."],
+  ["5","The expanded node holds still","The card you expanded stays put","Scope","Pinned to the same screen pixel, upstream and downstream."],
+  ["6","Manual node placement","Drag any card","Camera/Layout","Cursor turns to a hand. Placement survives expansion; other nodes do not move."],
+  ["7","Reveal feedback","New cards ring once; count in the status line","Overlay","Off-screen reveals are counted, with a link to them."],
+  ["8","Reach","Display ▸ Reach","Scope","Two steppers, one to All, optionally linked. Minimum is one hop."],
+  ["9","Reach presets","Display ▸ Reach ▸ Reach all · Reset to default","Scope","Distinct from the canvas ⇕/✕, which expand and collapse card fields."],
+  ["10","Tidy","⟲ bottom right","Camera/Layout","Re-runs the layout and discards hand placement. One undo step."],
+  ["11","View state is retained","<i>Not demonstrated</i>","Session","The prototype does not persist across reloads — a refresh returns to the default."],
+  ["12","Undo","Toolbar ← , Ctrl+Z, or Display ▸ Undo","Session","Restores scope, expansions, placement and camera. Pans are not undo steps."],
+];
+/* Requirements 1–6 are the panel itself, 7–9 the view state summary. The layer
+   column reads "Chrome" for most of them: the panel is a control surface, so
+   moving or collapsing it changes no set, no paint and no camera. */
+const PANEL_COVERAGE=[
+  ["1","Open and close","<b>⚙ Display</b> in the toolbar; <b>✕</b> on the panel","Chrome","Closing does not reset anything — the chip row above the diagram still reports the view."],
+  ["2","Dock or float","Panel header ▸ <b>⧉</b> pop out, <b>⊟</b> dock","Chrome","Docked reserves space at the right. Floating overlays the canvas."],
+  ["3","Drag to reposition","Pop out, then drag the panel by its header","Chrome","Floating only. Stays within the viewport."],
+  ["4","Position is remembered","Float it, move it, close, reopen","Session","Comes back where you left it. Session only here — a reload returns to the default."],
+  ["5","A docked panel does not obscure the diagram","Dock it and watch the canvas","Chrome","The diagram narrows rather than being covered; the anchor holds its screen position."],
+  ["6","Sections are collapsible","Click any section heading","Chrome","A collapsed section keeps its count badge, so you can still see something inside it is active."],
+  ["7","View state summary","The chip row between toolbar and diagram","Overlay","Nothing at defaults. Each non-default choice adds one chip — change Reach and watch it appear."],
+  ["8","Elements can be cleared from the summary","<b>✕</b> on any chip","Overlay","Clears that one choice and leaves the rest. The chip then disappears."],
+  ["9","Saved-view state is stated","Right end of the chip row","Session","Says <i>Not a saved view</i> or names the view. Present whenever the row is."],
+];
+/* A per-feature demo guide, not a global coverage audit. Only the feature under
+   review gets one; Everything scope shows nothing, because the 13-item mapping
+   had become clutter once the requirements deck carried the real version. */
+const SCOPE_GUIDES={
+  navigation:{title:"Navigation — where each of the 12 requirements is demonstrated",rows:NAV_COVERAGE},
+  panel:{title:"Display Panel — where each of the 9 requirements is demonstrated",rows:PANEL_COVERAGE},
+};
+function featureGuideHTML(){
+  const g=SCOPE_GUIDES[UI.scope];
+  if(!g) return "";
+  return `<details class="cov" open>
+    <summary>${g.title}</summary>
+    <table><thead><tr><th class="n">Req</th><th class="rn">Requirement</th><th>Where to look</th><th class="ly">Layer</th><th>Note</th></tr></thead>
+    <tbody>${g.rows.map(r=>`<tr><td class="n">${r[0]}</td><td class="rn">${r[1]}</td><td>${r[2]}</td><td class="ly">${r[3]}</td><td>${r[4]}</td></tr>`).join("")}</tbody></table>
+  </details>`;
+}
+
+/* ==========================================================================
+   13. LINEAGE TAB
+   ========================================================================== */
+function lineageTab(){
+  project();
+  const body = V.render==="graph"?canvasHTML():listHTML();
+  const docked = UI.panelOpen && UI.panelMode==="docked";
+  return `
+  ${toolbarHTML()}
+  ${stripHTML()}
+  <div class="lin-layout ${docked?"docked":"full"}">
+    ${body}
+    ${docked?panelHTML():""}
+  </div>
+  ${UI.panelOpen&&UI.panelMode==="float"?panelHTML():""}
+  <div class="proto-bar" style="margin-top:16px">
+    <b>Reviewing:</b>
+    <div class="seg sm">
+      ${Object.entries(SCOPES).map(([k,s])=>
+        `<button class="${UI.scope===k?"active":""}" onclick="setScope('${k}')">${s.label}</button>`).join("")}
+    </div>
+    <span style="opacity:.75">${
+      UI.scope==="navigation"
+        ? "Shipped controls plus the 12 Navigation requirements. Grain, filters, business layer, list view, saved views and the minimap are hidden."
+      : UI.scope==="panel"
+        ? "Everything is on. These requirements are about the container, so the sections need contents to review."
+        : `${TOTAL_DS} datasets, ${TOTAL_EDGES} harvested edges. Data is illustrative.`}</span>
+    <div class="spacer"></div>
+    ${inScope("biz")?`<span style="opacity:.8">Asset details page hides:</span>
+    ${BIZ_CONTEXT_KEYS.map(k=>`<label><input type="checkbox" ${detailsHides(k)?"checked":""}
+       onchange="toggleDetailsHidden('${k}',this.checked)"> ${OV_LABELS[k]}</label>`).join("")}`:``}
+    <label style="margin-left:6px"><input type="checkbox" ${UI.annotate?"checked":""} onchange="uiSet('annotate',this.checked)"> Number the requirements</label>
+  </div>
+  ${featureGuideHTML()}`;
+}
+
+/* ==========================================================================
+   14. SHELL + ROUTER
+   ========================================================================== */
+const PAGES={};let HOME_ID=null;
+function registerPage(id,def){PAGES[id]=Object.assign({id},def);if(!HOME_ID)HOME_ID=id;}
+const assetPageState={};
+function registerAssetPage(id,o){
+  assetPageState[id]=o.defaultTab||o.tabs[0];
+  registerPage(id,{chrome:o.chrome,breadcrumb:[...(o.breadcrumbBase||[]),o.title,"Lineage"],hideModuleChrome:true,
+    render:()=>{
+      const a=assetPageState[id],fn=(o.tabContent||{})[a];
+      return `<div class="asset-header"><div class="asset-title-row">
+        <div class="asset-icon-lg">▦</div>
+        <div><div class="asset-title">${o.title} ${(o.badges||[]).map(b=>`<span class="${b.cls}">${b.label}</span>`).join("")}</div>
+        <div class="asset-subtitle">${o.subtitle||""}</div></div>
+        <div style="margin-left:auto;display:flex;gap:8px">${(o.actions||[]).map(x=>`<button class="btn outline">${x}</button>`).join("")}</div>
+      </div><div class="top-tabs">${o.tabs.map(t=>`<a class="${t===a?"active":""}" onclick="navAssetTab('${id}','${t}')">${t}</a>`).join("")}</div></div>
+      <div>${fn?fn():`<div class="dis-empty"><p>The <b>${a}</b> tab isn't mocked up here — the focus is <b>${FEATURE_NAME}</b>.</p></div>`}</div>`;
+    }});
+}
+function navAssetTab(p,t){assetPageState[p]=t;render();}
+
+registerPage("catalog-assets",{
+  chrome:{section:"Catalog",moduleTab:"All Assets"},breadcrumb:["Home","Catalog","All Assets"],
+  render:()=>{
+    const show=[ANCHOR,"MART_CUSTOMER_360","STG_CUSTOMER","VW_CUSTOMER_PII_MASKED","DIM_ADDRESS","TWB_CUSTOMER_360","CRM_CUSTOMER","FS_CUSTOMER_FEATURES"].filter(x=>DS[x]);
+    return `<div class="asset-card-grid">${show.map(id=>{const d=DS[id];return `
+      <div class="asset-card" style="cursor:pointer" onclick="setAnchor('${id}');navPage('asset-lineage')">
+        <div class="asset-card-top"><div class="asset-card-icon">▦</div>
+          <div><div class="asset-card-name">${id}</div><div class="asset-card-type">${d.type}</div></div></div>
+        <div class="asset-card-path">${d.path}</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="score-badge ${d.dq<80?"bad":"good"}">${d.dq}.00%</span>
+          ${d.certified?`<span class="status-badge certified">Certified</span>`:`<span class="status-badge review">Under Review</span>`}
+          ${d.pii?`<span class="status-badge pii">PII</span>`:""}
+        </div></div>`;}).join("")}</div>`;
+  }
+});
+registerAssetPage("asset-lineage",{
+  chrome:{section:"Catalog",moduleTab:"All Assets"},breadcrumbBase:["Home","Catalog","All Assets"],
+  title:"DIM_CUSTOMER",
+  badges:[{cls:"score-badge good",label:"97.00%"},{cls:"status-badge certified",label:"Certified"},{cls:"status-badge pii",label:"PII — Restricted"}],
+  subtitle:`Table in <a>Snowflake</a> › <a>PRCS</a> › <a>CORE</a>`,
+  actions:["Request a change","Edit"],
+  tabs:["Details","Lineage","Profile","Sample","Relationships","Rules","Scoring","Change History"],
+  defaultTab:"Lineage",
+  tabContent:{"Lineage":lineageTab}
+});
+HOME_ID="asset-lineage";
+
+const ICON=p=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const ICONS={
+  grid:ICON(`<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>`),
+  chevronDown:ICON(`<path d="M6 9l6 6 6-6"/>`),
+  gio:ICON(`<path d="M12 2l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>`),
+  catalog:ICON(`<path d="M4 4h11a3 3 0 013 3v13H7a3 3 0 01-3-3V4z"/><path d="M4 4v13a3 3 0 003 3"/>`),
+  governance:ICON(`<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>`),
+  observability:ICON(`<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>`),
+  spatial:ICON(`<path d="M12 22s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/>`),
+  quality:ICON(`<circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-5"/>`),
+  integration:ICON(`<path d="M9 12a4 4 0 004 4h1a4 4 0 000-8h-1"/><path d="M15 12a4 4 0 00-4-4h-1a4 4 0 000 8h1"/>`),
+  workflow:ICON(`<circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M8 6.7L15.8 11M8 17.3L15.8 13"/>`),
+  cloud:ICON(`<path d="M7 18a4 4 0 010-8 5 5 0 019.6-1.5A4 4 0 0117 18H7z"/>`),
+  configuration:ICON(`<path d="M4 6h10M4 12h16M4 18h10"/><circle cx="17" cy="6" r="2"/><circle cx="8" cy="18" r="2"/>`),
+  help:ICON(`<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114.2 1.9c-.9.7-1.7 1.1-1.7 2.4"/><path d="M12 17.2v.1"/>`),
+  legal:ICON(`<circle cx="12" cy="12" r="9"/><path d="M12 8v.1M12 11v5"/>`),
+  user:ICON(`<circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.5-4 4-5.5 7-5.5S17.5 16 19 20"/>`),
+  collapse:ICON(`<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="M15 10l-2 2 2 2"/>`),
+};
+const PRIMARY_NAV=[["Gio","gio"],["Catalog","catalog"],["Governance","governance"],["Observability","observability"],["Spatial Analytics","spatial"],["Quality","quality"],["Integration","integration"],["Workflow","workflow"]];
+let state={section:null,topTab:null,subTab:null,moduleTab:null,pageId:null};
+function chromeOf(s){return{section:s.section,topTab:s.topTab||null,subTab:s.subTab||null,moduleTab:s.moduleTab||null};}
+function findPageByChrome(s){const t=chromeOf(s);return Object.values(PAGES).find(p=>p.chrome&&p.chrome.section===t.section&&(p.chrome.topTab||null)===t.topTab&&(p.chrome.subTab||null)===t.subTab&&(p.chrome.moduleTab||null)===t.moduleTab);}
+function navChrome(sec,tt,st){const s={section:sec,topTab:tt||null,subTab:st||null,moduleTab:null};const m=findPageByChrome(s);state=Object.assign(s,{pageId:m?m.id:null});render();}
+function navModuleChrome(sec,mt){const s={section:sec,topTab:null,subTab:null,moduleTab:mt||null};const m=findPageByChrome(s);state=Object.assign(s,{pageId:m?m.id:null});render();}
+function navPage(id){const p=PAGES[id];if(p&&p.chrome){state.section=p.chrome.section;state.topTab=p.chrome.topTab||null;state.subTab=p.chrome.subTab||null;state.moduleTab=p.chrome.moduleTab||null;}state.pageId=id;render();}
+function navPrimary(l){const t=MODULE_TABS[l];navModuleChrome(l,t?t[0]:null);}
+function navConfiguration(){const t=CONFIG_TOP_TABS[0];navChrome("Configuration",t,(SUBTABS_BY_TOPTAB[t]||[])[0]||null);}
+function navTopTab(l){navChrome("Configuration",l,(SUBTABS_BY_TOPTAB[l]||[])[0]||null);}
+function navSubTab(l){navChrome("Configuration",state.topTab,l);}
+function navModuleTab(l){navModuleChrome(state.section,l);}
+function navPseudo(l){navModuleChrome(l,null);}
+function goHome(){navPage(HOME_ID);}
+function navItemHtml(l,i,oc,a){return `<a class="nav-item${a?" active":""}" onclick="${oc}">${ICONS[i]}<span>${l}</span></a>`;}
+function renderSidebar(){return `
+  <div class="ws-switcher" onclick="navPseudo('Workspace')"><div class="ws-icon">${ICONS.grid}</div>
+    <div class="ws-text"><div class="ws-name">Feature Enablement</div><div class="ws-region">US1 (Northern Virginia)</div></div>
+    <div style="color:var(--muted-foreground)">${ICONS.chevronDown}</div></div>
+  <div class="logo-row" onclick="goHome()"><svg width="92" height="19" viewBox="0 0 92 19"><text x="0" y="15" font-family="DM Sans, system-ui, sans-serif" font-size="17" font-weight="700" fill="#8017e1">precisely</text></svg></div>
+  <div class="nav-scroll">${PRIMARY_NAV.map(([l,i])=>navItemHtml(l,i,`navPrimary('${l}')`,state.section===l)).join("")}
+    <div class="nav-group-label">Standalone</div>${navItemHtml("Evolve Cloud","cloud","navPrimary('Evolve Cloud')",state.section==="Evolve Cloud")}</div>
+  <div class="sidebar-bottom">
+    ${navItemHtml("Configuration","configuration","navConfiguration()",state.section==="Configuration")}
+    ${navItemHtml("Help","help","navPseudo('Help')",state.section==="Help")}
+    ${navItemHtml("Legal/Privacy","legal","navPseudo('Legal')",state.section==="Legal")}
+    <a class="nav-item user" onclick="navPseudo('Account')">${ICONS.user}<span>Mandy Bank</span></a>
+    <a class="nav-item">${ICONS.collapse}<span>Collapse sidebar</span></a></div>`;}
+function defaultBreadcrumb(){
+  if(state.section==="Configuration")return["Home","Configuration",state.topTab,state.subTab].filter(Boolean);
+  if(state.moduleTab)return["Home",state.section,state.moduleTab].filter(Boolean);
+  return["Home",state.section].filter(Boolean);}
+function renderTopbar(page){
+  const crumbs=(page&&page.breadcrumb?page.breadcrumb:defaultBreadcrumb()).map((c,i)=>i===0?c:`<span class="sep">›</span>${c}`).join("");
+  const isModule=state.section!=="Configuration"&&MODULE_TABS[state.section],hide=page&&page.hideModuleChrome;
+  let h=`<div class="breadcrumb">${crumbs}</div>`;
+  if(isModule&&hide)h+=`<div class="topbar-inline-search"><input type="text" placeholder="Search assets..."></div>`;
+  if(state.section==="Configuration")h+=`<div class="top-tabs">${CONFIG_TOP_TABS.map(t=>`<a class="${t===state.topTab?"active":""}" onclick="navTopTab('${t}')">${t}</a>`).join("")}</div>`;
+  else if(isModule&&!hide)h+=`<div class="top-tabs">${MODULE_TABS[state.section].map(t=>`<a class="${t===state.moduleTab?"active":""}" onclick="navModuleTab('${t}')">${t}</a>`).join("")}</div>`;
+  return h;}
+function renderSecondRow(page){
+  const isModule=state.section!=="Configuration"&&MODULE_TABS[state.section],el=document.getElementById("subtabs"),hide=page&&page.hideModuleChrome;
+  if(state.section==="Configuration"){const s=SUBTABS_BY_TOPTAB[state.topTab]||[];
+    if(!s.length){el.style.display="none";el.innerHTML="";return;}
+    el.className="sub-tabs";el.style.display="flex";
+    el.innerHTML=s.map(t=>`<a class="${t===state.subTab?"active":""}" onclick="navSubTab('${t}')">${t}</a>`).join("");return;}
+  if(isModule&&!hide){el.className="module-search-row";el.style.display="block";
+    el.innerHTML=`<div class="lin-search"><input type="text" placeholder="Search assets..."></div>`;return;}
+  el.style.display="none";el.innerHTML="";}
+
+const SCROLL_KEEP=["vpanel","lin-canvas-wrap"];
+function captureScroll(){const s={};SCROLL_KEEP.forEach(id=>{const e=document.getElementById(id);if(e)s[id]={t:e.scrollTop,l:e.scrollLeft};});
+  const m=document.querySelector(".main");if(m)s.__main={t:m.scrollTop};return s;}
+function restoreScroll(s){SCROLL_KEEP.forEach(id=>{const e=document.getElementById(id);if(e&&s[id]){e.scrollTop=s[id].t;e.scrollLeft=s[id].l;}});
+  const m=document.querySelector(".main");if(m&&s.__main)m.scrollTop=s.__main.t;}
+
+function render(){
+  const sc=captureScroll();
+  const page=state.pageId?PAGES[state.pageId]:null;
+  document.body.classList.toggle("annotate",UI.annotate);
+  document.getElementById("sidebar").innerHTML=renderSidebar();
+  document.getElementById("topbar").innerHTML=renderTopbar(page);
+  renderSecondRow(page);
+  document.getElementById("content").innerHTML=page?page.render()
+    :`<div class="dis-empty"><p>This part of the Suite isn't mocked up — the focus is <b>${FEATURE_NAME}</b>.</p><button class="btn primary" onclick="goHome()">← Back</button></div>`;
+  restoreScroll(sc);
+}
+seedFromDetails();   // lineage starts from whatever the details page hides
+navPage(HOME_ID);
+</script>
+</body>
+</html>

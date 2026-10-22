@@ -10,6 +10,8 @@ Pages site — local editing only.
 """
 import http.server
 import json
+import os
+import re
 import socketserver
 import sys
 import urllib.parse
@@ -18,6 +20,45 @@ ALLOWED_FILES = {'.image-slots.state.json'}
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        # Byte-range support, so <video> can seek and loop (http.server alone
+        # always answers 200 with the whole file).
+        path = self.translate_path(self.path)
+        m = re.fullmatch(r'bytes=(\d*)-(\d*)', (self.headers.get('Range') or '').strip())
+        if not m or not os.path.isfile(path):
+            return super().do_GET()
+        size = os.path.getsize(path)
+        if m.group(1):
+            start = int(m.group(1))
+            end = min(int(m.group(2)) if m.group(2) else size - 1, size - 1)
+        elif m.group(2):
+            start, end = max(0, size - int(m.group(2))), size - 1
+        else:
+            return super().do_GET()
+        if start > end:
+            self.send_response(416)
+            self.send_header('Content-Range', f'bytes */{size}')
+            self.end_headers()
+            return
+        self.send_response(206)
+        self.send_header('Content-Type', self.guess_type(path))
+        self.send_header('Accept-Ranges', 'bytes')
+        self.send_header('Content-Range', f'bytes {start}-{end}/{size}')
+        self.send_header('Content-Length', str(end - start + 1))
+        self.end_headers()
+        with open(path, 'rb') as f:
+            f.seek(start)
+            remaining = end - start + 1
+            while remaining > 0:
+                chunk = f.read(min(1 << 16, remaining))
+                if not chunk:
+                    break
+                try:
+                    self.wfile.write(chunk)
+                except (BrokenPipeError, ConnectionResetError):
+                    break
+                remaining -= len(chunk)
+
     def do_POST(self):
         parsed = urllib.parse.urlparse(self.path)
         if parsed.path != '/__write':
@@ -57,6 +98,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
-    with socketserver.TCPServer(('', port), Handler) as httpd:
+    socketserver.ThreadingTCPServer.allow_reuse_address = True
+    # Threaded, so a streaming video doesn't block every other request.
+    with socketserver.ThreadingTCPServer(('', port), Handler) as httpd:
         print(f'Serving with upload support on port {port}')
         httpd.serve_forever()

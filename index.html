@@ -1987,14 +1987,6 @@ class Component extends DCLogic {
         filters: ['Research', 'External Builds'],
         imageLabel: 'Geometry Kit for Blind Students: project cover',
       },
-      {
-        id: 'ai-experiments', title: 'AI Portfolio / Design Automation Experiments', company: 'Personal',
-        depth: 'experiment', destination: 'external', externalUrl: 'https://weekly-minimalist-898205.framer.app/works',
-        summary: 'Experiments using AI-assisted coding, image generation, and interface exploration to quickly prototype product ideas.',
-        tags: ['AI', 'Prototyping', 'Design Automation'],
-        filters: ['Experiments', 'External Builds', 'AI UX'],
-        imageLabel: 'AI Portfolio / Design Automation Experiments: project cover',
-      },
     ];
   }
 
@@ -2602,7 +2594,7 @@ class Component extends DCLogic {
       opacity: p.destination === 'comingSoon' ? '0.75' : '1',
     }));
 
-    const filterNames = ['All', 'Flagship', 'Enterprise SaaS', 'AI UX', 'Data Products', 'Design Systems', 'Research', 'Experiments', 'External Builds'];
+    const filterNames = ['All', 'Flagship', 'Enterprise SaaS', 'AI UX', 'Data Products', 'Design Systems', 'Research', 'External Builds'];
     const matches = (p) => filter === 'All' || (p.filters || []).includes(filter);
     const filtered = projects.filter(matches);
 

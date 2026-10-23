@@ -348,6 +348,27 @@ a{color:inherit}
   </section>
   </sc-if>
 
+  <!-- Outcomes: before → after, each linked to the case study that backs it -->
+  <section aria-label="Outcomes" style="max-width:1200px;margin:0 auto;padding:88px 24px 0">
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Before → after</div>
+    <h2 style="margin:0 0 32px;font-size:clamp(28px,3.4vw,38px);line-height:1.15;letter-spacing:-0.035em;font-weight:750;max-width:24ch">What changed after the work shipped</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+      <sc-for list="{{ outcomes }}" as="o" hint-placeholder-count="3">
+        <a href="#" onClick="{{ o.open }}" style="text-decoration:none;display:flex;flex-direction:column;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px 22px 20px;transition:transform .15s,border-color .15s" style-hover="transform:translateY(-2px);border-color:var(--accent-tint-border)">
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <span style="font-size:15px;font-weight:600;color:var(--text-faint);text-decoration:line-through;text-decoration-thickness:1.5px">{{ o.before }}</span>
+            <span style="font-size:clamp(26px,3vw,32px);font-weight:750;letter-spacing:-0.035em;line-height:1.1;color:var(--accent-text)">{{ o.after }}</span>
+          </div>
+          <p style="margin:0;font-size:14px;line-height:1.55;color:var(--text-secondary);flex:1">{{ o.what }}</p>
+          <div style="display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--border);padding-top:12px;font-size:12.5px;font-weight:600">
+            <span style="color:var(--text-subtle)">{{ o.project }}</span>
+            <span style="color:var(--accent-text);white-space:nowrap">See how →</span>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
   <!-- Selected Work -->
   <section style="max-width:1200px;margin:0 auto;padding:96px 24px 48px">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:40px">
@@ -489,8 +510,8 @@ a{color:inherit}
   <section style="max-width:1200px;margin:0 auto;padding:64px 24px 0">
     <a href="#" onClick="{{ goWork }}" style="text-decoration:none;font-size:13.5px;font-weight:600;color:var(--text-subtle)" style-hover="color:var(--accent-text)">← All work</a>
     <div style="max-width:820px;margin-top:28px">
-      <div style="font-size:14px;font-weight:600;color:var(--accent-text);margin-bottom:14px">{{ cs.company }} · {{ cs.product }}</div>
-      <h1 style="margin:0 0 20px;font-size:clamp(38px,5vw,58px);line-height:1.05;letter-spacing:-0.045em;font-weight:750">{{ cs.title }}</h1>
+      <div style="font-size:14px;font-weight:600;color:var(--accent-text);margin-bottom:14px">{{ cs.eyebrowLine }}</div>
+      <h1 style="margin:0 0 20px;font-size:clamp(34px,4.6vw,54px);line-height:1.08;letter-spacing:-0.045em;font-weight:750">{{ cs.headlineText }}</h1>
       <p style="margin:0;font-size:19px;line-height:1.6;color:var(--text-muted)">{{ cs.summary }}</p>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px">
@@ -1342,6 +1363,22 @@ a{color:inherit}
   </article>
   </sc-if>
 
+  <!-- Work outside the brief -->
+  <sc-if value="{{ cs.offBrief }}" hint-placeholder-val="{{ false }}">
+  <section style="max-width:1000px;margin:0 auto;padding:88px 24px 0">
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Not in the brief</div>
+    <h2 style="margin:0 0 28px;font-size:clamp(24px,3vw,30px);line-height:1.2;letter-spacing:-0.03em;font-weight:750">{{ cs.offBrief.title }}</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+      <sc-for list="{{ cs.offBrief.items }}" as="ob" hint-placeholder-count="3">
+        <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid #F97316;border-radius:16px;padding:20px 22px">
+          <div style="font-size:14.5px;font-weight:700;margin-bottom:6px;color:var(--text)">{{ ob.title }}</div>
+          <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-muted)">{{ ob.text }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+  </sc-if>
+
   <!-- Related -->
   <section style="max-width:1000px;margin:0 auto;padding:88px 24px 0">
     <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:24px">Related projects</div>
@@ -1994,14 +2031,16 @@ class Component extends DCLogic {
     return {
       'data-lineage': {
         title: 'Enterprise Data Lineage', company: 'Precisely', product: 'Data Integrity Suite',
+        headline: 'Every connection was on the map. Finding one wasn’t.',
         summary: 'The evolution of Precisely’s enterprise lineage capability, from an early product vision into a released, continuously improving feature.',
         confidentialityNote: 'Some product details and visuals have been simplified or anonymised to protect confidentiality.',
         heroSrc: 'images/case-studies/data-lineage/hero-macbook.webp', heroAspect: '3/2',
-        impact: ['Evolved from early vision to production release', 'Search designed for complex enterprise graphs', 'Continuously improved with customer feedback'],
+        impact: ['Canvas controls now the shared pattern for the suite', 'Tested with 4 customers, top 3 issues fixed first', 'Search reaches descriptions and tags, not just names'],
         snapshot: [
           { label: 'Company', value: 'Precisely' }, { label: 'Product', value: 'Data Integrity Suite' },
           { label: 'Role', value: 'Designed lineage end to end after the canvas shipped: search & filter, manual lineage, user research, transformations, Gio chat, navigation' }, { label: 'Duration', value: 'Oct 2024 – Present' },
           { label: 'Status', value: 'Released and evolving' }, { label: 'Domain', value: 'Enterprise SaaS · data governance & metadata management' },
+          { label: 'Made with', value: 'Figma, then Claude and Copilot to turn designs into working prototypes' },
         ],
         responsibilities: ['Product design', 'Information architecture', 'Interaction design', 'Search and filtering', 'Usability testing', 'Research synthesis', 'Collaboration with product and engineering'],
         story: [
@@ -2083,15 +2122,19 @@ class Component extends DCLogic {
             eyebrow: 'Rethinking the controls', title: 'Too many buttons, added one at a time',
             paragraphs: [
               'Lineage had grown one feature at a time, and so had its controls: zoom, home, minimap, expand and collapse, even two full-screen buttons, all scattered around the canvas. Three projects were next in line (a display panel, navigation and business context), so I took them on together and redesigned the controls as one system.',
-              'The first draft followed the brief literally: a display panel that detaches and floats anywhere on screen. I moved away from it for four reasons:',
             ],
+            metaphor: 'Like a kitchen where every new gadget found its own corner of the counter: useful alone, chaos together.',
+          },
+          {
+            eyebrow: 'What I let go', title: 'The floating panel the brief asked for',
+            paragraphs: ['The first draft followed the brief to the letter: a display panel that detaches and floats anywhere on screen. It worked. I dropped it anyway, for four reasons:'],
             points: [
               'Floating panels have faded from tools like Adobe’s, replaced by fixed, docked ones.',
               'Support can’t guide someone to a button that could be anywhere on their screen.',
               'A floating panel covers the canvas and clashes with the side panel lineage already uses for asset details.',
               'Key switches like Business/Technical and Graph/List were buried in the panel’s scroll.',
             ],
-            metaphor: 'Like a kitchen where every new gadget found its own corner of the counter: useful alone, chaos together.',
+            metaphor: 'An edit is mostly cuts. The panel was a scene that worked on its own and slowed down the whole film.',
           },
           {
             eyebrow: 'The new interaction', title: 'Two bars, two jobs',
@@ -2190,6 +2233,14 @@ class Component extends DCLogic {
             pending: 'one concrete before/after if you have it (e.g. how long a round of variants took before vs. now).',
           },
         ],
+        offBrief: {
+          title: 'The brief was search and filter. These came with it.',
+          items: [
+            { title: 'A study with four customers', text: 'Real tasks across several flows. We fixed the three most critical issues first and fed the Q&A questions into the same list.' },
+            { title: 'Working prototypes for every option', text: 'Built with AI on the same 200 datasets, so reviewers compared real interactions instead of imagining them from static frames.' },
+            { title: 'A pattern for the whole suite', text: 'The top and bottom bars are being documented in Storybook, so other canvases start from them instead of inventing their own.' },
+          ],
+        },
         scopeNote: 'This case study covers search and filter, manual lineage, a customer usability study, transformations, Gio chat, the move to React, and current navigation work.',
         contextTitle: 'When trusted decisions depend on untrusted data',
         context: 'Users need to trace incorrect or unreliable data from a report or dashboard back to its source. Common users include data stewards, data engineers, data architects, governance managers, and BI teams, asking where data originated, which transformation changed it, and what downstream assets are affected.',
@@ -2310,6 +2361,7 @@ class Component extends DCLogic {
       },
       'asset-impact-diagram': {
         title: 'Asset Impact Diagram', company: 'Precisely', product: 'Data Catalog',
+        headline: 'A table listed every dependency. It couldn’t show what would break.',
         heroSrc: 'images/case-studies/asset-impact-diagram/hero-laptop.webp', heroAspect: '2400/1599',
         summary: 'Turning table-only asset relationships into an interactive diagram users can explore, cluster, and drill into.',
         confidentialityNote: 'Some product details and visuals have been simplified to protect confidentiality.',
@@ -2389,6 +2441,7 @@ class Component extends DCLogic {
       },
       'mm-crm': {
         title: 'Mortgage CRM for Loan Officers', company: 'Infosys', product: 'Movement Mortgage · CRM Portal',
+        headline: 'Leads lived in spreadsheets. Loan officers needed to know who to call next.',
         summary: 'A CRM application that empowers loan officers to nurture leads more effectively, with clear lead visibility and suggested actions that keep borrowers engaged through the loan process.',
         impact: ['Lead conversion time cut from 9 days to 4', 'Centralized data & resource management', 'Streamlined tasks with guided processes'],
         heroSrc: 'images/case-studies/mm-crm/hero-laptop-phone.webp', heroAspect: '2400/1602',
@@ -2397,7 +2450,7 @@ class Component extends DCLogic {
           { label: 'Project type', value: 'New CRM application' }, { label: 'My role', value: 'Offshore Design Lead' },
           { label: 'Team', value: '2 designers, 1 BA, 1 PM' }, { label: 'Duration', value: 'Launched May 2021' },
           { label: 'Scope', value: 'End-to-end CRM portal for loan officers' }, { label: 'Status', value: 'Shipped' },
-          { label: 'Tools', value: 'Figma, workshops, surveys' }, { label: 'Ownership', value: 'Design process lead' },
+          { label: 'Made with', value: 'Figma, workshops, surveys' }, { label: 'Ownership', value: 'Design process lead' },
         ],
         scopeNote: 'This case study covers the end-to-end design of a unified CRM portal for loan officers at Movement Mortgage, delivered as enterprise client work at Infosys.',
         contextTitle: 'Boost lead conversion through thoughtful interactions',
@@ -2458,6 +2511,7 @@ class Component extends DCLogic {
       },
       'bdo-onboarding': {
         title: 'Digital Account Onboarding for BDO Bank', company: 'Infosys', product: 'BDO Bank Philippines · CA/SA Onboarding',
+        headline: 'Opening an account meant a branch visit and paper forms. Then the pandemic arrived.',
         summary: 'Digitized the current and savings account opening process for BDO Bank Philippines: a new online experience for existing and new customers, plus a tablet-based in-branch flow.',
         impact: ['First fully digital onboarding by a bank in the Philippines', 'Streamlined account opening for ETB, NTB & in-branch customers', 'Fully responsive across mobile, tablet, and web'],
         heroAspect: '1800/1038',
@@ -2466,7 +2520,7 @@ class Component extends DCLogic {
           { label: 'Project type', value: 'Digital onboarding experience' }, { label: 'My role', value: 'UX Designer (sole designer)' },
           { label: 'Team', value: 'Client stakeholders + tech teams' }, { label: 'Duration', value: '4 months · launched Feb 2021' },
           { label: 'Scope', value: 'End-to-end onboarding: online + in-branch tablet' }, { label: 'Status', value: 'Shipped' },
-          { label: 'Tools', value: 'Wireframes, prototypes, UI design' }, { label: 'Ownership', value: 'Entire UX/UI workflow' },
+          { label: 'Made with', value: 'Wireframes, prototypes, UI design' }, { label: 'Ownership', value: 'Entire UX/UI workflow' },
         ],
         scopeNote: 'This case study covers the end-to-end design of account opening for existing (ETB), new (NTB), and in-branch customers, delivered as enterprise client work at Infosys.',
         contextTitle: 'Opening a bank account, without the branch',
@@ -2520,6 +2574,7 @@ class Component extends DCLogic {
       },
       'ai-workflows': {
         title: 'AI-Assisted Descriptions & Term Linking', company: 'Precisely', product: 'Data Integrity Suite',
+        headline: 'AI could write a description in seconds. Stewards still had to trust it.',
         heroSrc: 'images/case-studies/ai-workflows/hero-laptop.webp', heroAspect: '2400/1599',
         summary: 'Two related AI-assisted review workflows I designed for the Data Integrity Suite: batch-generating and reviewing AI-written asset descriptions, and recommending links between business glossary terms and technical assets. Both are built around making fast AI output safe to trust.',
         impact: ['Faster review than manual, in both workflows', 'Meaningful metadata & glossary coverage growth', 'Human-in-the-loop control throughout'],
@@ -2528,7 +2583,7 @@ class Component extends DCLogic {
           { label: 'Project type', value: 'Two AI-assisted review workflows' }, { label: 'My role', value: 'Senior Product Designer II' },
           { label: 'Team', value: 'PM, AI engineers, governance SMEs, platform team' }, { label: 'Duration', value: '~6 months combined' },
           { label: 'Scope', value: 'Description generation & review, term-to-asset linking' }, { label: 'Status', value: 'Both shipped' },
-          { label: 'Tools', value: 'Figma, FigJam' }, { label: 'Ownership', value: 'End-to-end AI UX for both' },
+          { label: 'Made with', value: 'Figma, FigJam' }, { label: 'Ownership', value: 'End-to-end AI UX for both' },
         ],
         scopeNote: 'This case study covers two related AI-assisted review workflows shipped within Precisely’s Data Integrity Suite: description generation and review, and business-term-to-technical-asset linking.',
         confidentialityNote: 'Some product details and visuals have been simplified or anonymised to protect confidentiality.',
@@ -2564,6 +2619,13 @@ class Component extends DCLogic {
           { type: 'h2', text: 'What I’d do differently' },
           { type: 'p', text: 'AI UX turned out to be mostly state design (the happy path is the easy part), and I’d prototype with real generated output earlier next time, since placeholder text hides exactly the review problems that matter. I’d also test with longer, messier real queues sooner; clean demo data flatters a review flow in ways a genuinely large, uneven batch does not. Left to test further: how confidence indicators affect review speed and trust in the description workflow, and whether confidence-banded batch approval holds up on term-link queues ten times the size we validated.' },
         ],
+        offBrief: {
+          title: 'Settled with product managers before any screen was drawn.',
+          items: [
+            { title: 'Where should a business term attach?', text: 'A concept-mapping session. Customer email exists as several copies along a pipeline; we kept its meaning once, on the business term, and linked the copies to it.' },
+            { title: 'How many links to suggest?', text: 'From one asset: suggest only that link, or the whole chain. The map laid out both options, plus creating a missing term on demand.' },
+          ],
+        },
         related: ['data-lineage', 'asset-impact-diagram', 'mm-crm'],
       },
     };
@@ -2634,6 +2696,8 @@ class Component extends DCLogic {
         hint: bl.type === 'img' ? this.sizeHint(bl.aspect || '16/9', 'contain') : null,
       })) : null,
       heroAspect: rawCs.heroAspect || '21/9', heroFit: rawCs.heroFit || 'cover',
+      headlineText: rawCs.headline || rawCs.title,
+      eyebrowLine: rawCs.headline ? `${rawCs.title} · ${rawCs.company}` : `${rawCs.company} · ${rawCs.product}`,
       heroHint: this.sizeHint(rawCs.heroAspect || '21/9', rawCs.heroFit || 'cover'),
       artifact1Aspect: rawCs.artifact1Aspect || '16/7', artifact1Fit: rawCs.artifact1Fit || 'cover',
       artifact1Hint: this.sizeHint(rawCs.artifact1Aspect || '16/7', rawCs.artifact1Fit || 'cover'),
@@ -2853,6 +2917,11 @@ class Component extends DCLogic {
         { value: '4+', label: 'AI workflow projects' },
       ],
       flagshipProjects: projects.filter(p => p.homeFeatured),
+      outcomes: [
+        { id: 'mm-crm', before: '9 days', after: '4 days', what: 'Time to convert a mortgage lead, once loan officers could see who to call next and act without leaving the record.', project: 'Mortgage CRM · Movement Mortgage' },
+        { id: 'data-lineage', before: 'Controls in every corner', after: '2 bars', what: 'Lineage’s canvas controls, regrouped by job. Now the shared pattern for the suite’s other canvases.', project: 'Enterprise Data Lineage · Precisely' },
+        { id: 'bdo-onboarding', before: 'Branch visit', after: 'Online', what: 'Opening a current or savings account. The first fully digital onboarding by a bank in the Philippines.', project: 'Account onboarding · BDO Bank' },
+      ].map(o => ({ ...o, open: (projects.find(p => p.id === o.id) || {}).open })),
 
       filterChips: filterNames.map(name => ({
         label: name,

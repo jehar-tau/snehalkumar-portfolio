@@ -1636,6 +1636,94 @@ a{color:inherit}
       <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-muted);flex:1">I hid a tiny instruction in this site's raw HTML, aimed at AI agents and crawlers reading the page. This board logs who found it and acted on it, plus any crawler detected just by visiting.</p>
       <div style="font-size:13.5px;font-weight:600;color:var(--accent-text)">See who's shown up →</div>
     </a>
+    <a href="#/agentfence" onClick="{{ goAgentFence }}" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-2px);box-shadow:0 12px 32px rgba(17,24,39,0.08);border-color:var(--accent-tint-border)">
+      <span style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-text-strong);background:var(--accent-tint);border-radius:999px;padding:4px 10px;width:fit-content">Open source</span>
+      <div style="font-size:19px;font-weight:700;letter-spacing:-0.02em;color:var(--text)">AgentFence</div>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-muted);flex:1">A Chrome extension that stops information leaking between the sites your AI tools can see: your bank, your work chat, your clients. Pick two sites and watch the fence decide.</p>
+      <div style="font-size:13.5px;font-weight:600;color:var(--accent-text)">Try the fence →</div>
+    </a>
+  </div>
+</main>
+</sc-if>
+
+<!-- ============ AGENTFENCE ============ -->
+<sc-if value="{{ isAgentFence }}" hint-placeholder-val="{{ false }}">
+<main data-screen-label="AgentFence" style="max-width:860px;margin:0 auto;padding:64px 24px 96px">
+  <a href="#" onClick="{{ goPlayground }}" class="tap" style="text-decoration:none;font-size:13.5px;font-weight:600;color:var(--text-subtle)" style-hover="color:var(--accent-text)">← Playground</a>
+  <div style="margin-top:20px">
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">Playground · AgentFence</div>
+    <h1 style="margin:0 0 16px;font-size:clamp(32px,4.5vw,46px);line-height:1.08;letter-spacing:-0.045em;font-weight:750">Your AI can open your bank and your work chat. Should it carry things between them?</h1>
+    <p style="margin:0 0 14px;font-size:16.5px;line-height:1.7;color:var(--text-muted)">AgentFence is an open-source Chrome extension, a context firewall for AI-assisted browsing. Access to each site can be perfectly legitimate on its own. The risk is the flow: a balance from your bank pasted into a team chat, or one client’s price pasted into another client’s thread.</p>
+    <p style="margin:0 0 24px;font-size:16.5px;line-height:1.7;color:var(--text-muted)">You give each site a context. When something copied on one site is pasted on another, AgentFence checks the two contexts against your rules and decides: allow, ask, or block.</p>
+    <div style="border-left:3px solid #F97316;background:var(--accent-tint);border-radius:0 14px 14px 0;padding:14px 18px;margin-bottom:12px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-text-strong);margin-bottom:4px">In other words</div>
+      <p style="margin:0;font-size:15px;line-height:1.6;color:var(--text-secondary);font-style:italic">A building pass opens the right doors. AgentFence also checks what you carry from one floor to the next.</p>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:22px">
+      <a href="https://github.com/jehar-tau/agentfence" target="_blank" rel="noopener noreferrer" style="text-decoration:none;font-size:15px;font-weight:600;padding:12px 22px;border-radius:999px;background:#F97316;color:#ffffff" style-hover="background:#EA580C">View on GitHub ↗</a>
+    </div>
+  </div>
+
+  <section aria-label="Try the fence" style="margin-top:56px;background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:clamp(18px,3vw,28px)">
+    <div style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px">Try the fence</div>
+    <p style="margin:0 0 20px;font-size:14.5px;line-height:1.6;color:var(--text-muted)">Pick where something was copied and where it’s being pasted. The answer comes from AgentFence’s own default rules.</p>
+    <div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:8px">Copied on</div>
+    <div role="group" aria-label="Copied on" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px">
+      <sc-for list="{{ afFromChips }}" as="fc" hint-placeholder-count="8">
+        <button type="button" onClick="{{ fc.onClick }}" aria-pressed="{{ fc.pressed }}" style="cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:600;padding:9px 14px;border-radius:999px;background:{{ fc.bg }};color:{{ fc.fg }};border:1px solid {{ fc.bd }}">{{ fc.label }}</button>
+      </sc-for>
+    </div>
+    <div style="font-size:13px;font-weight:700;color:var(--text-secondary);margin-bottom:8px">Pasted into</div>
+    <div role="group" aria-label="Pasted into" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px">
+      <sc-for list="{{ afToChips }}" as="tc" hint-placeholder-count="8">
+        <button type="button" onClick="{{ tc.onClick }}" aria-pressed="{{ tc.pressed }}" style="cursor:pointer;font-family:inherit;font-size:13.5px;font-weight:600;padding:9px 14px;border-radius:999px;background:{{ tc.bg }};color:{{ tc.fg }};border:1px solid {{ tc.bd }}">{{ tc.label }}</button>
+      </sc-for>
+    </div>
+    <div aria-live="polite" style="display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;border-radius:18px;padding:18px 20px;background:{{ afResult.bg }};border:1px solid {{ afResult.bd }}">
+      <span style="font-size:22px;font-weight:800;letter-spacing:-0.02em;color:{{ afResult.fg }}">{{ afResult.label }}</span>
+      <div style="flex:1;min-width:200px">
+        <div style="font-size:14.5px;font-weight:600;color:var(--text);margin-bottom:2px">{{ afResult.flow }}</div>
+        <p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ afResult.why }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top:56px">
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:12px">The Visual Fence Map</div>
+    <h2 style="margin:0 0 12px;font-size:clamp(24px,3vw,30px);line-height:1.2;letter-spacing:-0.03em;font-weight:750">Every protected site, and every flow between them</h2>
+    <p style="margin:0 0 20px;font-size:16px;line-height:1.7;color:var(--text-secondary)">Sites are grouped by context, and each line shows what the rules would decide between them. Filter to just the blocked or asked flows, or pick a site to see everything that touches it.</p>
+    <img src="images/playground/agentfence-visual-map.webp" alt="AgentFence’s Visual Fence Map: sites grouped by context, the flows between them, and a side panel listing the flows for the bank site" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:1180/660;border:1px solid var(--border);border-radius:20px;background:var(--surface-subtle)">
+  </section>
+
+  <section style="margin-top:56px">
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-text);margin-bottom:16px">How it works</div>
+    <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr));gap:12px">
+      <sc-for list="{{ afSteps }}" as="as" hint-placeholder-count="4">
+        <li style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px 18px">
+          <div style="font-size:13px;font-weight:800;color:var(--accent-text);margin-bottom:6px">{{ as.n }}</div>
+          <div style="font-size:14.5px;font-weight:700;color:var(--text);margin-bottom:4px">{{ as.title }}</div>
+          <p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ as.text }}</p>
+        </li>
+      </sc-for>
+    </ol>
+  </section>
+
+  <section style="margin-top:56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px">
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:22px">
+      <div style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px">Private by design</div>
+      <p style="margin:0 0 8px;font-size:14px;line-height:1.6;color:var(--text-secondary)">Everything runs in the browser. No account, no backend, no cloud AI, no telemetry.</p>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-secondary)">Copied text is never stored, only a hash used to match a later paste to where it came from.</p>
+    </div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:20px;padding:22px">
+      <div style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px">Honest limits</div>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:var(--text-secondary)">It catches accidental copy and paste between sites in the browser. It can’t stop screenshots, other extensions, malware, or anything outside the browser, and the docs say so plainly.</p>
+    </div>
+  </section>
+
+  <div style="margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:12px">
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;padding:14px 16px"><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">Status</div><div style="font-size:13.5px;font-weight:500;color:var(--text-secondary)">v0.1, early development</div></div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;padding:14px 16px"><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">Made with</div><div style="font-size:13.5px;font-weight:500;color:var(--text-secondary)">TypeScript, React, WXT, Claude Code</div></div>
+    <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;padding:14px 16px"><div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">License</div><div style="font-size:13.5px;font-weight:500;color:var(--text-secondary)">Apache 2.0, open source</div></div>
   </div>
 </main>
 </sc-if>
@@ -1902,12 +1990,65 @@ class Component extends DCLogic {
   // Routes live in the URL hash (#/work, #/case/data-lineage) so the browser and
   // phone Back button step through pages instead of leaving the site.
   routeFromHash() {
-    const ROUTES = ['home', 'work', 'experience', 'playground', 'guestbook', 'crawlerlog', 'about', 'contact'];
+    const ROUTES = ['home', 'work', 'experience', 'playground', 'guestbook', 'crawlerlog', 'agentfence', 'about', 'contact'];
     const parts = (location.hash || '').replace(/^#\/?/, '').split('/').filter(Boolean);
     if (parts[0] === 'case' && parts[1] && this.caseStudies()[parts[1]]) return { route: 'case', slug: parts[1] };
     if (parts[0] && ROUTES.includes(parts[0])) return { route: parts[0], slug: null };
     return { route: 'home', slug: null };
   }
+  // AgentFence's default rules (extension/core/policy/defaults.ts), evaluated with the same
+  // tier order as evaluate.ts: exact context rule → same-context rule → wildcard rule → fallback (ask).
+  agentFenceVals() {
+    const CTX = [
+      { type: 'work', label: 'Work chat' }, { type: 'personal', label: 'Personal email' },
+      { type: 'finance', label: 'Bank' }, { type: 'health', label: 'Health portal' },
+      { type: 'client', scope: 'acme', label: 'Client · Acme' }, { type: 'client', scope: 'globex', label: 'Client · Globex' },
+      { type: 'public', label: 'Public form' }, { type: 'unknown', label: 'Unassigned site' },
+    ];
+    const NAME = { work: 'Work', personal: 'Personal', finance: 'Finance', health: 'Health', client: 'Client', public: 'Public', unknown: 'Unassigned' };
+    const R = (s, d, decision) => ({ s, d, decision });
+    const RULES = [
+      R('finance', 'public', 'block'), R('health', 'public', 'block'), R('finance', 'work', 'ask'), R('health', 'work', 'ask'),
+      R('personal', 'work', 'ask'), R('work', 'personal', 'ask'), R('client', 'client', 'block'), R('client', 'public', 'ask'),
+    ];
+    const same = (a, b) => a.type !== 'unknown' && a.type === b.type && (a.scope || '') === (b.scope || '');
+    const tag = (c) => c.type === 'client' ? c.label : `${c.label} (${NAME[c.type]})`;
+    const evaluate = (a, b) => {
+      const exact = RULES.filter((r) => r.s === a.type && r.d === b.type && !(r.s === 'client' && r.d === 'client' && same(a, b)));
+      if (exact.length) {
+        const r = exact[0];
+        const rule = r.s === 'client' && r.d === 'client' ? 'One client → a different client' : `${NAME[r.s]} → ${NAME[r.d]}`;
+        return { decision: r.decision, why: `Matched the rule “${rule}”.` };
+      }
+      if (same(a, b)) return { decision: 'allow', why: 'Same context on both sides, so it goes through without a prompt.' };
+      if (a.type === 'unknown') return { decision: 'ask', why: 'The copy came from a site with no context yet, so you’re asked.' };
+      if (b.type === 'unknown') return { decision: 'ask', why: 'The paste is going to a site with no context yet, so you’re asked.' };
+      return { decision: 'ask', why: 'No rule covers this pair, so the safe default applies: ask.' };
+    };
+    const from = this.state.afFrom ?? 2, to = this.state.afTo ?? 0;
+    const chips = (sel, key) => CTX.map((c, i) => ({
+      label: c.label, pressed: i === sel ? 'true' : 'false',
+      bg: i === sel ? '#F97316' : 'var(--surface)', fg: i === sel ? '#ffffff' : 'var(--text-secondary)', bd: i === sel ? '#F97316' : 'var(--border)',
+      onClick: () => this.setState({ [key]: i }),
+    }));
+    const res = evaluate(CTX[from], CTX[to]);
+    const LOOK = {
+      allow: { label: 'Allow', fg: 'var(--status-good-text)', bg: 'var(--status-good-bg)', bd: 'var(--status-good-border)' },
+      ask: { label: 'Ask', fg: 'var(--status-slow-text)', bg: 'var(--status-slow-bg)', bd: 'var(--status-slow-border)' },
+      block: { label: 'Block', fg: 'var(--status-fail-text)', bg: 'var(--status-fail-bg)', bd: 'var(--status-fail-border)' },
+    };
+    return {
+      afFromChips: chips(from, 'afFrom'), afToChips: chips(to, 'afTo'),
+      afResult: { ...LOOK[res.decision], flow: `${tag(CTX[from])} → ${tag(CTX[to])}`, why: res.why },
+      afSteps: [
+        { n: '01', title: 'Give each site a context', text: 'Work, Personal, Finance, Health, a named client, or Public. AgentFence only watches sites you protect.' },
+        { n: '02', title: 'Copy', text: 'On a protected site, it keeps a hash of what you copied and where, never the text itself.' },
+        { n: '03', title: 'Paste', text: 'On another protected site, it matches the paste to its source and checks both contexts against your rules.' },
+        { n: '04', title: 'Allow, ask or block', text: 'Same context goes straight through. Anything else gets an in-page prompt, and “Always allow” writes a real rule you can edit.' },
+      ],
+    };
+  }
+
   hashFor(route, slug) {
     return route === 'home' ? '#/' : (route === 'case' ? '#/case/' + slug : '#/' + route);
   }
@@ -3014,7 +3155,7 @@ class Component extends DCLogic {
     const navDefs = [
       ['Work', 'work'], ['Experience', 'experience'], ['Playground', 'playground'], ['About', 'about'], ['Contact', 'contact'],
     ];
-    const activeRoute = route === 'case' ? 'work' : route;
+    const activeRoute = route === 'case' ? 'work' : (['guestbook', 'crawlerlog', 'agentfence'].includes(route) ? 'playground' : route);
     const navLinks = navDefs.map(([label, r]) => ({
       label,
       onClick: this.nav(r),
@@ -3056,7 +3197,7 @@ class Component extends DCLogic {
       resumeHref: this.safeUrl(this.state.links.resume) || '#',
       resumeTarget: this.safeUrl(this.state.links.resume) ? '_blank' : null,
       isExperience: route === 'experience',
-      isPlayground: route === 'playground', isGuestbook: route === 'guestbook', isCrawlerLog: route === 'crawlerlog',
+      isPlayground: route === 'playground', isGuestbook: route === 'guestbook', isCrawlerLog: route === 'crawlerlog', isAgentFence: route === 'agentfence',
       isAbout: route === 'about', isContact: route === 'contact',
 
       askOpen: this.state.askOpen,
@@ -3149,10 +3290,11 @@ class Component extends DCLogic {
       }),
 
       goHome: this.nav('home'), goWork: this.nav('work'), goExperience: this.nav('experience'),
-      goPlayground: this.nav('playground'), goGuestbook: this.nav('guestbook'), goCrawlerLog: this.nav('crawlerlog'),
+      goPlayground: this.nav('playground'), goGuestbook: this.nav('guestbook'), goCrawlerLog: this.nav('crawlerlog'), goAgentFence: this.nav('agentfence'),
       goAbout: this.nav('about'), goContact: this.nav('contact'),
 
       navLinks,
+      ...this.agentFenceVals(),
       menuOpen: !!this.state.menuOpen,
       menuExpanded: this.state.menuOpen ? 'true' : 'false',
       menuLabel: this.state.menuOpen ? 'Close menu' : 'Open menu',

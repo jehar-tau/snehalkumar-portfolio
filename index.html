@@ -634,6 +634,20 @@ a{color:inherit}
           </div>
         </div>
       </sc-if>
+      <sc-if value="{{ st.setup }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px">
+          <sc-for list="{{ st.setup.facts }}" as="sf" hint-placeholder-count="4">
+            <div style="background:var(--surface-subtle);border:1px solid var(--border);border-radius:16px;padding:14px 16px">
+              <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">{{ sf.label }}</div>
+              <div style="font-size:13.5px;font-weight:500;color:var(--text-secondary);line-height:1.45">{{ sf.value }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <blockquote style="margin:14px 0 0;padding:14px 18px;border:1px solid var(--border);border-radius:16px;background:var(--surface)">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-faint);margin-bottom:6px">{{ st.setup.goalLabel }}</div>
+          <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--text-secondary)">{{ st.setup.goal }}</p>
+        </blockquote>
+      </sc-if>
       <sc-if value="{{ st.taskFlow }}" hint-placeholder-val="{{ false }}">
         <div style="margin-top:28px;border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--surface)">
           <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding:14px 18px;background:var(--surface-subtle);border-bottom:1px solid var(--border)">
@@ -667,6 +681,41 @@ a{color:inherit}
           </div>
           <sc-if value="{{ st.taskFlow.note }}" hint-placeholder-val="{{ false }}">
             <p style="margin:0;padding:12px 18px 14px;border-top:1px solid var(--border);font-size:12.5px;line-height:1.5;color:var(--text-subtle)">{{ st.taskFlow.note }}</p>
+          </sc-if>
+        </div>
+      </sc-if>
+      <sc-if value="{{ st.annotated }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:28px">
+          <div style="position:relative;border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--surface-subtle)">
+            <img src="{{ st.annotated.src }}" alt="{{ st.annotated.label }}" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:{{ st.annotated.aspect }}">
+            <sc-for list="{{ st.annotated.markers }}" as="mk" hint-placeholder-count="6">
+              <span aria-hidden="true" title="{{ mk.title }}" style="position:absolute;left:{{ mk.x }}%;top:{{ mk.y }}%;transform:translate(-50%,-50%);width:clamp(20px,3vw,30px);height:clamp(20px,3vw,30px);border-radius:999px;background:#F97316;color:#ffffff;font-size:clamp(11px,1.4vw,14px);font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px rgba(249,115,22,0.28),0 6px 16px rgba(17,24,39,0.25)">{{ mk.n }}</span>
+            </sc-for>
+          </div>
+          <p style="margin:10px 0 0;font-size:13px;line-height:1.5;color:var(--text-subtle);text-align:center">{{ st.annotated.label }}</p>
+          <ol style="list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">
+            <sc-for list="{{ st.annotated.markers }}" as="mk" hint-placeholder-count="6">
+              <li style="display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 16px">
+                <span aria-hidden="true" style="flex:none;width:24px;height:24px;border-radius:999px;background:#F97316;color:#ffffff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px">{{ mk.n }}</span>
+                <div>
+                  <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">{{ mk.title }}</div>
+                  <p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-muted)">{{ mk.text }}</p>
+                </div>
+              </li>
+            </sc-for>
+          </ol>
+          <sc-if value="{{ st.annotated.fixFirst }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:20px;border:1px solid var(--accent-tint-border);background:var(--accent-tint);border-radius:18px;padding:18px 20px">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--accent-text-strong);margin-bottom:12px">{{ st.annotated.fixFirst.title }}</div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 20px">
+                <sc-for list="{{ st.annotated.fixFirst.items }}" as="fx" hint-placeholder-count="3">
+                  <div>
+                    <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px">{{ fx.title }}</div>
+                    <p style="margin:0;font-size:13.5px;line-height:1.55;color:var(--text-secondary)">{{ fx.text }}</p>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
           </sc-if>
         </div>
       </sc-if>
@@ -2139,27 +2188,53 @@ class Component extends DCLogic {
             eyebrow: 'Usability study', title: 'Four customers, one test drive',
             paragraphs: ['We gave four customers real tasks across several flows and watched where they stalled. We found plenty, then picked the three most critical issues to fix first. Questions raised in Q&A fed the same list.'],
             metaphor: 'A test drive teaches you more from where people brake than from the brochure.',
+            setup: {
+              facts: [
+                { label: 'Who', value: 'Four customers, each profiled against our target personas' },
+                { label: 'When', value: '30 Oct to 8 Nov 2024' },
+                { label: 'How', value: 'Remote, think-aloud, on a clickable prototype' },
+                { label: 'Tasks', value: '3 tasks, 16 steps, each with its own objective' },
+              ],
+              goalLabel: 'The goal participants were given',
+              goal: 'As a data steward, I want to see the data I own, prioritise the poor-quality data, filter it, then expand and trace it so it can be fixed.',
+            },
             taskFlow: {
               title: 'Task flow · 4 participants',
               participants: ['P1', 'P2', 'P3', 'P4'],
               groups: [
-                { name: 'Task 1 · Open lineage for a data source', steps: [
+                { name: 'Task 1 · Find and read the lineage of the lowest-scoring data source', steps: [
                   ['Navigate to Datasources', 'GGGG'], ['Select “DWH”', 'GGGG'], ['Select “Lineage”', 'GGGG'], ['Explore “Lineage”', 'GGGG'],
                 ] },
-                { name: 'Task 2 · Filter and sort by quality', steps: [
+                { name: 'Task 2 · Filter to the datasets I own, then sort by quality', steps: [
                   ['Add filter “Owner”', 'GGYY'], ['Add filter “Data Quality Score”', 'GGGG'], ['Sort by “Data Quality”', 'GRYY'], ['View datasets under “DWH”', 'GGGG'],
                 ] },
-                { name: 'Task 3 · Drill into a dataset’s fields', steps: [
+                { name: 'Task 3 · Go deeper, from datasets down to fields', steps: [
                   ['Select “Products”', 'GGGG'], ['Open “Products” datasets', 'YYYR'], ['Change the Owner filter to “Any”', 'GGGG'], ['Expand “Product” container', 'GGGG'],
                   ['View fields under “Product”', 'GGGG'], ['Select “Product_name”', 'GGGG'], ['Expand all containers', 'RRRR'], ['View info on “Product_name” field', 'GGGG'],
                 ] },
               ],
               note: '“Done” counts completed steps, including ones that took time. Participants are anonymised.',
             },
-            images: [
-              { key: 'study-improvements', label: 'Improvement points on the screen' },
-            ],
-            pending: 'the three critical issues you prioritised, and what each enhancement was based on (key design decisions).',
+            annotated: {
+              src: 'images/case-studies/data-lineage/study-feedback-canvas.webp', aspect: '1444/792',
+              label: 'The lineage canvas participants tested, with where each piece of feedback landed',
+              markers: [
+                { n: 1, x: 74.2, y: 16.5, title: 'Sort and filter', text: 'Sort by data-quality score by default, make sorting and filtering look clearly different, add finer filters such as PII, and keep filters applied while drilling down.' },
+                { n: 2, x: 63.5, y: 38.1, title: 'Cards', text: 'Show more on each card (governance score, Core and PII), offer friendly names next to physical ones, and tell apart datasets with the same name in different schemas.' },
+                { n: 3, x: 41.8, y: 59.0, title: 'Greyed-out datasets', text: 'Datasets dimmed by a filter still felt like part of the diagram. They needed to step back further.' },
+                { n: 4, x: 56.0, y: 79.3, title: 'Tracing on the diagram', text: 'No breadcrumb to step back, no multi-select to compare field lineages, and people expected the side panel to open when they clicked a dataset or field.' },
+                { n: 5, x: 94.4, y: 26.1, title: 'Side panel', text: 'An Owners tab so long descriptions don’t bury ownership, “unassigned” shown plainly, and clickable names. Open in a new tab was a keeper.' },
+                { n: 6, x: 79.8, y: 87.1, title: 'Expand all', text: 'Nobody found it (0 of 4 in the task flow). In one participant’s words, it was “not intuitive in any shape or form.” The icon needed a label or tooltip.' },
+              ],
+              fixFirst: {
+                title: 'What we fixed first',
+                items: [
+                  { title: 'Filter and sort', text: 'Clear visual and written difference between narrowing the canvas and ordering it.' },
+                  { title: 'Owners in the side panel', text: 'Owner details linked the way Govern does it, and easier to find.' },
+                  { title: 'Card states', text: 'A longer-term refinement, given more research time to get right.' },
+                ],
+              },
+            },
           },
           {
             eyebrow: 'Transformations', title: 'How data changed, not just where it went',

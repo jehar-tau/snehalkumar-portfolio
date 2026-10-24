@@ -201,6 +201,12 @@
   --status-good-text:#166534;
   --status-good-bg:#F0FDF4;
   --status-good-border:#BBF7D0;
+  --status-slow-text:#92400E;
+  --status-slow-bg:#FFFBEB;
+  --status-slow-border:#FCD34D;
+  --status-fail-text:#B91C1C;
+  --status-fail-bg:#FEF2F2;
+  --status-fail-border:#FCA5A5;
 }
 @media (prefers-color-scheme: dark){
   :root{
@@ -224,6 +230,12 @@
     --status-good-text:#86EFAC;
     --status-good-bg:#10241A;
     --status-good-border:#358055;
+    --status-slow-text:#FCD34D;
+    --status-slow-bg:#2A2110;
+    --status-slow-border:#8A6D1F;
+    --status-fail-text:#FCA5A5;
+    --status-fail-bg:#2A1414;
+    --status-fail-border:#8A3B3B;
   }
 }
 body{margin:0;background:var(--bg);font-family:'Geist',system-ui,-apple-system,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
@@ -620,6 +632,42 @@ a{color:inherit}
               <div style="display:flex;gap:10px;margin-bottom:10px"><span style="color:#F97316;font-weight:700;flex:none">·</span><span style="font-size:14px;line-height:1.5;color:var(--text-muted)">{{ li }}</span></div>
             </sc-for>
           </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ st.taskFlow }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:28px;border:1px solid var(--border);border-radius:20px;overflow:hidden;background:var(--surface)">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding:14px 18px;background:var(--surface-subtle);border-bottom:1px solid var(--border)">
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-faint)">{{ st.taskFlow.title }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px 16px">
+              <sc-for list="{{ st.taskFlow.legend }}" as="lg" hint-placeholder-count="3">
+                <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-muted)"><span aria-hidden="true" style="width:20px;height:20px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:{{ lg.fg }};background:{{ lg.bg }};border:1px solid {{ lg.bd }}">{{ lg.mark }}</span>{{ lg.label }}</span>
+              </sc-for>
+            </div>
+          </div>
+          <div role="table" aria-label="{{ st.taskFlow.title }}">
+            <div role="row" style="display:grid;grid-template-columns:minmax(0,1fr) repeat(4,clamp(34px,7vw,52px)) clamp(52px,9vw,72px);align-items:center;padding:10px 18px;border-bottom:1px solid var(--border)">
+              <span role="columnheader" style="font-size:12px;font-weight:600;color:var(--text-subtle)">Step</span>
+              <sc-for list="{{ st.taskFlow.participants }}" as="pp" hint-placeholder-count="4">
+                <span role="columnheader" style="font-size:12px;font-weight:700;color:var(--text-secondary);text-align:center">{{ pp }}</span>
+              </sc-for>
+              <span role="columnheader" style="font-size:12px;font-weight:600;color:var(--text-subtle);text-align:right">Done</span>
+            </div>
+            <sc-for list="{{ st.taskFlow.groups }}" as="tg" hint-placeholder-count="3">
+              <div role="row" style="padding:12px 18px 6px;font-size:13px;font-weight:700;color:var(--accent-text-strong)"><span role="rowheader">{{ tg.name }}</span></div>
+              <sc-for list="{{ tg.steps }}" as="ts" hint-placeholder-count="4">
+                <div role="row" style="display:grid;grid-template-columns:minmax(0,1fr) repeat(4,clamp(34px,7vw,52px)) clamp(52px,9vw,72px);align-items:center;padding:7px 18px;background:{{ ts.rowBg }}">
+                  <span role="cell" style="font-size:13.5px;line-height:1.4;color:var(--text-secondary);padding-right:8px">{{ ts.label }}</span>
+                  <sc-for list="{{ ts.cells }}" as="tc" hint-placeholder-count="4">
+                    <span role="cell" aria-label="{{ tc.aria }}" title="{{ tc.aria }}" style="display:flex;justify-content:center"><span aria-hidden="true" style="width:24px;height:24px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:{{ tc.fg }};background:{{ tc.bg }};border:1px solid {{ tc.bd }}">{{ tc.mark }}</span></span>
+                  </sc-for>
+                  <span role="cell" style="font-size:13px;font-weight:700;color:{{ ts.doneColor }};text-align:right">{{ ts.done }}</span>
+                </div>
+              </sc-for>
+            </sc-for>
+          </div>
+          <sc-if value="{{ st.taskFlow.note }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;padding:12px 18px 14px;border-top:1px solid var(--border);font-size:12.5px;line-height:1.5;color:var(--text-subtle)">{{ st.taskFlow.note }}</p>
+          </sc-if>
         </div>
       </sc-if>
       <sc-if value="{{ st.images }}" hint-placeholder-val="{{ false }}">
@@ -2091,8 +2139,24 @@ class Component extends DCLogic {
             eyebrow: 'Usability study', title: 'Four customers, one test drive',
             paragraphs: ['We gave four customers real tasks across several flows and watched where they stalled. We found plenty, then picked the three most critical issues to fix first. Questions raised in Q&A fed the same list.'],
             metaphor: 'A test drive teaches you more from where people brake than from the brochure.',
+            taskFlow: {
+              title: 'Task flow · 4 participants',
+              participants: ['P1', 'P2', 'P3', 'P4'],
+              groups: [
+                { name: 'Task 1 · Open lineage for a data source', steps: [
+                  ['Navigate to Datasources', 'GGGG'], ['Select “DWH”', 'GGGG'], ['Select “Lineage”', 'GGGG'], ['Explore “Lineage”', 'GGGG'],
+                ] },
+                { name: 'Task 2 · Filter and sort by quality', steps: [
+                  ['Add filter “Owner”', 'GGYY'], ['Add filter “Data Quality Score”', 'GGGG'], ['Sort by “Data Quality”', 'GRYY'], ['View datasets under “DWH”', 'GGGG'],
+                ] },
+                { name: 'Task 3 · Drill into a dataset’s fields', steps: [
+                  ['Select “Products”', 'GGGG'], ['Open “Products” datasets', 'YYYR'], ['Change the Owner filter to “Any”', 'GGGG'], ['Expand “Product” container', 'GGGG'],
+                  ['View fields under “Product”', 'GGGG'], ['Select “Product_name”', 'GGGG'], ['Expand all containers', 'RRRR'], ['View info on “Product_name” field', 'GGGG'],
+                ] },
+              ],
+              note: '“Done” counts completed steps, including ones that took time. Participants are anonymised.',
+            },
             images: [
-              { key: 'study-failures', label: 'Where participants got stuck' },
               { key: 'study-improvements', label: 'Improvement points on the screen' },
             ],
             pending: 'the three critical issues you prioritised, and what each enhancement was based on (key design decisions).',
@@ -2676,6 +2740,31 @@ class Component extends DCLogic {
         ...b,
         visible: !b.draftOnly || draftView,
         pendingVisible: !!b.pending && draftView,
+        taskFlow: b.taskFlow ? (() => {
+          const ST = {
+            G: { mark: '✓', label: 'Completed', fg: 'var(--status-good-text)', bg: 'var(--status-good-bg)', bd: 'var(--status-good-border)' },
+            Y: { mark: '!', label: 'Took time', fg: 'var(--status-slow-text)', bg: 'var(--status-slow-bg)', bd: 'var(--status-slow-border)' },
+            R: { mark: '✕', label: 'Not completed', fg: 'var(--status-fail-text)', bg: 'var(--status-fail-bg)', bd: 'var(--status-fail-border)' },
+          };
+          const ps = b.taskFlow.participants;
+          return {
+            ...b.taskFlow,
+            legend: ['G', 'Y', 'R'].map((k) => ST[k]),
+            groups: b.taskFlow.groups.map((g) => ({
+              ...g,
+              steps: g.steps.map(([label, res]) => {
+                const done = [...res].filter((r) => r !== 'R').length;
+                return {
+                  label,
+                  cells: [...res].map((r, i) => ({ ...ST[r], aria: ps[i] + ': ' + ST[r].label })),
+                  done: done + ' of ' + res.length,
+                  doneColor: done === res.length ? 'var(--text-subtle)' : 'var(--status-fail-text)',
+                  rowBg: done === 0 ? 'var(--status-fail-bg)' : 'transparent',
+                };
+              }),
+            })),
+          };
+        })() : null,
         images: b.images ? b.images.map((im) => ({ ...im, aspect: im.aspect || '16/9', slotId: 'story-' + slug + '-' + im.key, hint: this.sizeHint(im.aspect || '16/9', 'contain') })) : null,
         steps: b.steps ? b.steps.map((label, i) => {
           const hl = b.stepHighlight && b.stepHighlight.includes(i);

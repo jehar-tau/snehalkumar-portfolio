@@ -2772,7 +2772,6 @@ class Component extends DCLogic {
       },
       'asset-impact-diagram': {
         title: 'Asset Impact Diagram', company: 'Precisely', product: 'Data Catalog',
-        artifact1Pending: true,
         headline: 'A table listed every dependency. It couldn’t show what would break.',
         heroSrc: 'images/case-studies/asset-impact-diagram/hero-laptop.webp', heroAspect: '2400/1599',
         summary: 'Turning table-only asset relationships into an interactive diagram users can explore, cluster, and drill into.',
@@ -2787,7 +2786,8 @@ class Component extends DCLogic {
         scopeNote: 'This case study covers the design of an interactive asset-relationship diagram within Precisely’s Data Catalog product.',
         contextTitle: 'From a table of relationships to a diagram you can explore',
         context: 'Relationships between data assets were shown only as a table. Users needed to see, understand, and explore how assets connect and depend on each other, without losing context as relationships grew complex.',
-        artifact1: 'Legacy table-based relationships view', artifact1Caption: 'Relationships were previously shown only as a table. A legacy Precisely product offered an initial functional reference, and competitor research found no directly comparable solution.',
+        artifact1: 'The legacy impact diagram in Data360 Govern', artifact1Src: 'images/case-studies/asset-impact-diagram/legacy-impact-diagram.webp', artifact1Aspect: '1710/672', artifact1Fit: 'contain',
+        artifact1Caption: 'The starting reference: the impact diagram in Data360 Govern, Precisely’s legacy product. A colour per asset type, a label on every line, and a filter panel of asset types and impact predicates. In the new catalog, relationships had only been a table.',
         evolution: [
           { phase: 'Table-only relationships', description: 'Users worked with a plain table to understand how assets connected.' },
           { phase: 'Legacy product reference', description: 'An existing Precisely product offered an initial functional reference point.' },

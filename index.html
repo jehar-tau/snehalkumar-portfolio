@@ -683,6 +683,31 @@ a{color:inherit}
           </div>
         </div>
       </sc-if>
+      <sc-if value="{{ st.compare }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px">
+          <sc-for list="{{ st.compare.sides }}" as="cs2" hint-placeholder-count="2">
+            <figure style="margin:0;display:flex;flex-direction:column;background:var(--surface);border:1px solid {{ cs2.bd }};border-radius:20px;overflow:hidden">
+              <div style="padding:16px 18px 14px">
+                <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:{{ cs2.tagColor }}">{{ cs2.tag }}</div>
+                <div style="display:flex;align-items:baseline;gap:10px;margin-top:6px;flex-wrap:wrap">
+                  <span style="font-size:clamp(28px,3.4vw,36px);font-weight:750;letter-spacing:-0.035em;line-height:1;color:{{ cs2.statColor }}">{{ cs2.stat }}</span>
+                  <span style="font-size:13.5px;color:var(--text-muted)">{{ cs2.note }}</span>
+                </div>
+              </div>
+              <img src="{{ cs2.src }}" alt="{{ cs2.alt }}" loading="lazy" style="display:block;width:100%;height:auto;aspect-ratio:{{ cs2.aspect }};border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface-subtle)">
+              <figcaption style="padding:12px 18px 16px;flex:1">
+                <sc-for list="{{ cs2.points }}" as="cp" hint-placeholder-count="2">
+                  <div style="display:flex;gap:8px;margin-top:4px"><span style="color:{{ cs2.tagColor }};font-weight:700;flex:none">·</span><span style="font-size:13.5px;line-height:1.5;color:var(--text-muted)">{{ cp }}</span></div>
+                </sc-for>
+              </figcaption>
+            </figure>
+          </sc-for>
+        </div>
+        <div style="margin-top:14px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;border:1px solid var(--accent-tint-border);background:var(--accent-tint);border-radius:16px;padding:14px 18px">
+          <span style="font-size:24px;font-weight:800;letter-spacing:-0.03em;color:var(--accent-text-strong)">{{ st.compare.big }}</span>
+          <span style="flex:1;min-width:220px;font-size:14px;line-height:1.55;color:var(--text-secondary)">{{ st.compare.text }}</span>
+        </div>
+      </sc-if>
       <sc-if value="{{ st.setup }}" hint-placeholder-val="{{ false }}">
         <div class="facts-grid" style="margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:12px">
           <sc-for list="{{ st.setup.facts }}" as="sf" hint-placeholder-count="4">
@@ -2364,7 +2389,7 @@ class Component extends DCLogic {
         summary: 'The evolution of Precisely’s enterprise lineage capability, from an early product vision into a released, continuously improving feature.',
         confidentialityNote: 'Some product details and visuals have been simplified or anonymised to protect confidentiality.',
         heroSrc: 'images/case-studies/data-lineage/hero-macbook.webp', heroAspect: '3/2',
-        impact: ['Canvas controls now the shared pattern for the suite', 'Tested with 4 customers, top 3 issues fixed first', 'Search reaches descriptions and tags, not just names'],
+        impact: ['Manual lineage: 8 minutes → 25 seconds', 'Canvas controls now the shared pattern for the suite', 'Tested with 4 customers, top 3 issues fixed first'],
         snapshot: [
           { label: 'Company', value: 'Precisely' }, { label: 'Product', value: 'Data Integrity Suite' },
           { label: 'Role', value: 'Designed lineage end to end after the canvas shipped: search & filter, manual lineage, user research, transformations, Gio chat, navigation' }, { label: 'Duration', value: 'Oct 2024 – Present' },
@@ -2402,7 +2427,10 @@ class Component extends DCLogic {
               'Together, search and filters create a focused view: matches stay sharp and everything else is knocked back. The diagram never rearranges, so nobody loses their place.',
             ],
             metaphor: 'Searching names only is like searching a library by the titles on the spines. We pull out the book that matches on the inside, open it to the right page. And instead of moving the shelves, we dim the lights on everything else.',
-            images: [{ key: 'search-focus', label: 'Search & filter: the focused view' }],
+            images: [
+              { key: 'search-email', label: 'Searching the lineage diagram for “email”', src: 'images/case-studies/data-lineage/search-email.webp', aspect: '1600/1087', caption: 'Search “email”: 10 results, a count on each card, and the side panel shows the match inside the description.' },
+              { key: 'filter-poor-quality', label: 'Filtering the lineage diagram by source type and poor quality', src: 'images/case-studies/data-lineage/filter-poor-quality.webp', aspect: '1600/1087', caption: 'Filter to Snowflake and Databricks with poor quality: matches stay sharp, everything else steps back.' },
+            ],
           },
           { eyebrow: 'My role & contribution', title: 'What I owned', showRole: true },
           {
@@ -2410,11 +2438,25 @@ class Component extends DCLogic {
             paragraphs: [
               'Not every relationship can be discovered automatically. Manual lineage lets users add the missing links themselves, so the picture is complete.',
               'Pick a reference dataset and a target, and the fields arrive already paired. Users check each pair, set the relationship type once with Apply to All or row by row, and add them together.',
-              'Compared with the legacy system, adding a relationship by hand now takes considerably less time.',
+              'We timed it for the company’s quarterly business review: creating 12 lineage relationships took 8 minutes in the legacy product and 25 seconds in the new one.',
             ],
             metaphor: 'Like adding a relative to the family tree who never appeared in any record, in a few clicks instead of a paperwork trail.',
-            images: [{ key: 'manual-lineage', label: 'Adding lineage relationships: fields paired automatically, checked and added in one go', src: 'images/case-studies/data-lineage/manual-lineage.webp', aspect: '1400/768' }],
-            pending: 'the time saved vs. legacy if you have a number (e.g. minutes → seconds, or fewer steps).',
+            compare: {
+              before: {
+                tag: 'Before · legacy product', stat: '8 min', note: 'to create 12 lineage relationships',
+                src: 'images/case-studies/data-lineage/manual-lineage-before.webp', aspect: '1800/991',
+                alt: 'Legacy Add Relationships dialog: a long list of relationship types to choose from before picking any assets',
+                points: ['One relationship at a time, from each asset’s own Relationships tab.', 'Pick a type from a long list, then go and find the assets.'],
+              },
+              after: {
+                tag: 'After · new lineage', stat: '25 sec', note: 'for the same 12 relationships',
+                src: 'images/case-studies/data-lineage/manual-lineage-after.webp', aspect: '1800/998',
+                alt: 'New Add Lineage Relationships panel: twelve fields of a dataset paired with their targets, with one relationship type applied to all',
+                points: ['Started from the lineage diagram itself.', 'A whole dataset’s fields arrive paired; set the type once and add all 12 together.'],
+              },
+              big: '19× faster',
+              text: 'A 1,820% productivity gain for creating lineage by hand. The CEO presented it at the quarterly business review as an example of design’s impact on the product.',
+            },
           },
           {
             eyebrow: 'Usability study', title: 'Four customers, one test drive',
@@ -2949,7 +2991,7 @@ class Component extends DCLogic {
         headline: 'AI could write a description in seconds. Stewards still had to trust it.',
         heroSrc: 'images/case-studies/ai-workflows/hero-laptop.webp', heroAspect: '2400/1599',
         summary: 'Two related AI-assisted review workflows I designed for the Data Integrity Suite: batch-generating and reviewing AI-written asset descriptions, and recommending links between business glossary terms and technical assets. Both are built around making fast AI output safe to trust.',
-        impact: ['Faster review than manual, in both workflows', 'Meaningful metadata & glossary coverage growth', 'Human-in-the-loop control throughout'],
+        impact: ['Terms to 20 dataset fields: 23 min → 90 sec', 'Term to 20 technical assets: 13 min → 90 sec', 'Human-in-the-loop control throughout'],
         snapshot: [
           { label: 'Company', value: 'Precisely' }, { label: 'Product', value: 'Data Integrity Suite' },
           { label: 'Project type', value: 'Two AI-assisted review workflows' }, { label: 'My role', value: 'Senior Product Designer II' },
@@ -2963,7 +3005,7 @@ class Component extends DCLogic {
         context: 'Most catalog assets lacked descriptions, weakening search and governance. That made it an obvious case for AI generation at scale. Separately, governance teams needed business terms linked to the technical assets that implemented them; done by hand, that linking was slow and inconsistent. AI could help with both, but the cost of being wrong wasn’t symmetric: a wrong or overwritten description eroded catalog trust, and a wrong term link damaged trust in the entire glossary, worse than leaving something unlinked. Both workflows had to make reviewing AI output fast without making it feel unsafe.',
         outcomes: [
           { label: 'Description review', description: 'Batch review was significantly faster than item-by-item review in usability testing.' },
-          { label: 'Term linking', description: 'Stewards reviewed recommendations substantially faster than the manual linking process it replaced.' },
+          { label: 'Term linking', description: 'Linking business terms to 20 fields of a dataset went from about 23 minutes and 260 clicks by hand to 90 seconds and 7 clicks with AI suggestions; linking one term to 20 technical assets went from about 13 minutes and 160 clicks to 90 seconds and 25 clicks.' },
           { label: 'Cross-pollination', description: 'The review page and suggestion-table patterns from these two features became references for other AI capabilities built afterward.' },
         ],
         decisions: [
@@ -2987,7 +3029,8 @@ class Component extends DCLogic {
           { type: 'h2', text: 'What carried across both' },
           { type: 'p', text: 'The two workflows ended up teaching each other. The description-review page became the reference pattern for other AI features built afterward in the suite, and the suggestion-review table from term linking was reused for other recommendation surfaces. Underneath both was the same small set of rules: never change anything silently, keep the human decision explicit, and always show where a suggestion came from and how confident the AI is.' },
           { type: 'h2', text: 'Outcomes' },
-          { type: 'p', text: 'In usability sessions, batch description review was significantly faster than reviewing items one by one, and stewards worked through term-link recommendations substantially faster than the manual process it replaced. Metadata coverage and glossary linkage both grew as a result, and the review patterns from these two features became reference points other AI capabilities in the suite were built on.' },
+          { type: 'p', text: 'We timed term linking for the company’s quarterly business review. Linking business terms to the 20 fields of a dataset took about 23 minutes and 260 clicks by hand; reviewing AI suggestions did it in 90 seconds and 7 clicks, roughly 15 times faster. Linking one business term to 20 technical assets dropped from about 13 minutes and 160 clicks to 90 seconds and 25 clicks, roughly 9 times faster.' },
+          { type: 'p', text: 'In usability sessions, batch description review was also clearly faster than reviewing items one by one. The review patterns from these two features became reference points other AI capabilities in the suite were built on.' },
           { type: 'h2', text: 'What I’d do differently' },
           { type: 'p', text: 'AI UX turned out to be mostly state design (the happy path is the easy part), and I’d prototype with real generated output earlier next time, since placeholder text hides exactly the review problems that matter. I’d also test with longer, messier real queues sooner; clean demo data flatters a review flow in ways a genuinely large, uneven batch does not. Left to test further: how confidence indicators affect review speed and trust in the description workflow, and whether confidence-banded batch approval holds up on term-link queues ten times the size we validated.' },
         ],
@@ -3050,6 +3093,13 @@ class Component extends DCLogic {
         ...b,
         visible: !b.draftOnly || draftView,
         pendingVisible: !!b.pending && draftView,
+        compare: b.compare ? {
+          ...b.compare,
+          sides: [
+            { ...b.compare.before, bd: 'var(--border)', tagColor: 'var(--text-faint)', statColor: 'var(--text-muted)' },
+            { ...b.compare.after, bd: 'var(--accent-tint-border)', tagColor: 'var(--accent-text-strong)', statColor: 'var(--accent-text)' },
+          ],
+        } : null,
         taskFlow: b.taskFlow ? (() => {
           const ST = {
             G: { mark: '✓', label: 'Completed', fg: 'var(--status-good-text)', bg: 'var(--status-good-bg)', bd: 'var(--status-good-border)' },
@@ -3324,7 +3374,8 @@ class Component extends DCLogic {
       flagshipProjects: projects.filter(p => p.homeFeatured),
       outcomes: [
         { id: 'mm-crm', before: '9 days', after: '4 days', what: 'Time to convert a mortgage lead, once loan officers could see who to call next and act without leaving the record.', project: 'Mortgage CRM · Movement Mortgage' },
-        { id: 'data-lineage', before: 'Controls in every corner', after: '2 bars', what: 'Lineage’s canvas controls, regrouped by job. Now the shared pattern for the suite’s other canvases.', project: 'Enterprise Data Lineage · Precisely' },
+        { id: 'data-lineage', before: '8 min', after: '25 sec', what: 'To create 12 lineage relationships, started from the diagram instead of one asset page at a time.', project: 'Enterprise Data Lineage · Precisely' },
+        { id: 'ai-workflows', before: '23 min', after: '90 sec', what: 'To link business terms to 20 fields of a dataset, by reviewing AI suggestions instead of linking each by hand.', project: 'AI term linking · Precisely' },
         { id: 'bdo-onboarding', before: 'Branch visit', after: 'Online', what: 'Opening a current or savings account. The first fully digital onboarding by a bank in the Philippines.', project: 'Account onboarding · BDO Bank' },
       ].map(o => ({ ...o, open: (projects.find(p => p.id === o.id) || {}).open })),
 

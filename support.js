@@ -1311,6 +1311,11 @@
           const mayBePartial = streaming && !helmetClosed && i === raw.length - 1;
           if (tag === "SCRIPT") {
             if (mayBePartial) continue;
+            // Inline scripts inside the source <helmet> have already run as
+            // the browser parsed the document. Re-inserting their
+            // template-encoded copy both duplicates side effects and can
+            // turn camelCase identifiers into invalid kebab-case tokens.
+            if (!child.getAttribute("src")) continue;
             const key = "SCRIPT|" + (child.getAttribute("src") || child.textContent || "");
             if (mounted.has(key)) continue;
             mounted.add(key);

@@ -1,0 +1,26 @@
+/* One round icon unfolds into a three-position switch on the same baseline. */
+portfolio-mode{
+  --hit:44px;display:inline-flex;position:relative;isolation:isolate;flex:none;
+  width:calc(var(--hit) + 2px);height:calc(var(--hit) + 2px);box-sizing:border-box;
+  background:var(--surface);color:var(--text);border:1px solid var(--border-dashed);
+  border-radius:999px;overflow:hidden;transition:width .2s cubic-bezier(.2,.8,.2,1)
+}
+portfolio-mode[data-open]{width:calc(3 * var(--hit) + 2px)}
+portfolio-mode button{
+  flex:0 0 var(--hit);width:var(--hit);height:var(--hit);padding:0;margin:0;
+  display:grid;place-items:center;background:transparent;color:inherit;border:0;cursor:pointer
+}
+portfolio-mode svg{display:block;width:20px;height:20px;pointer-events:none}
+portfolio-mode .mode-options{display:flex;align-items:center;width:max-content}
+portfolio-mode [hidden]{display:none!important}
+portfolio-mode button:hover{background:var(--surface-muted)}
+portfolio-mode .mode-options button[aria-pressed=true]{color:var(--accent-text-strong);background:var(--accent-tint)}
+portfolio-mode .mode-options button[aria-pressed=true]::after{content:"";position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:currentColor}
+portfolio-mode button:focus-visible{outline:2px solid var(--accent-text);outline-offset:-4px;border-radius:999px}
+@media(max-width:860px){portfolio-mode{order:1}}
+@media(max-width:480px){
+  nav>div:has(portfolio-mode[data-open]) .signal-brand{min-width:0;flex:1 1 0;overflow:hidden}
+  nav>div:has(portfolio-mode[data-open]) .signal-brand i{display:none}
+  nav>div:has(portfolio-mode[data-open]) .signal-brand>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
+@media(prefers-reduced-motion:reduce){portfolio-mode{transition:none}}

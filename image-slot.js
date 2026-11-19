@@ -440,7 +440,7 @@
       root.innerHTML =
         '<style>' + stylesheet + '</style>' +
         '<div class="frame" part="frame">' +
-        '  <img part="image" alt="" draggable="false" style="display:none">' +
+        '  <img part="image" alt="" draggable="false" loading="lazy" decoding="async" style="display:none">' +
         '  <div class="empty" part="empty">' + icon +
         '    <div class="cap"></div>' +
         '    <div class="hint"></div>' +
@@ -457,7 +457,7 @@
         // (photographer + Unsplash), built per-render in _render().
         '<span class="credit" part="credit"></span>' +
         '<div class="spill" popover="manual">' +
-        '  <img class="ghost" alt="" draggable="false">' +
+        '  <img class="ghost" alt="" draggable="false" loading="lazy" decoding="async">' +
         '  <div class="handle" data-c="nw"></div><div class="handle" data-c="ne"></div>' +
         '  <div class="handle" data-c="sw"></div><div class="handle" data-c="se"></div>' +
         '</div>' +
@@ -942,10 +942,13 @@
 
       // Content. The sidecar is also writable by the agent's write_file
       // tool, so its value isn't guaranteed canvas-originated — only accept
-      // data:image/ URLs from it. The `src` attribute is author-controlled
-      // (Claude wrote it into the HTML) so it passes through unchanged.
+      // data:image/ URLs or generated same-site slot assets from it. The
+      // narrow relative-path allowlist keeps arbitrary remote/script URLs out
+      // while allowing production pages to avoid a multi-megabyte JSON blob.
       let stored = this.id ? getSlot(this.id) : this._local;
-      if (stored && stored.u && !/^data:image\//i.test(stored.u)) stored = null;
+      if (stored && stored.u &&
+          !/^data:image\//i.test(stored.u) &&
+          !/^images\/slot-uploads\/[a-z0-9._-]+$/i.test(stored.u)) stored = null;
       const srcAttr = this.getAttribute('src') || '';
       this._userUrl = (stored && stored.u) || null;
       const url = this._userUrl || srcAttr;

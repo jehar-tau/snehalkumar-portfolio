@@ -1,0 +1,60 @@
+/* Core colors sampled from the light and dark theme tokens of kousikdutta.com.
+   Additional washes are mixed locally for the portfolio's chips and status boxes. */
+html[data-edition=classic]{
+  color-scheme:light;--bg:#fafaf8;--surface:#fff;--surface-muted:#efede8;
+  --text:#111;--text-subtle:#5f5f63;--border:#1111111a;--accent-text:#ba4300;
+  --brand-fill:#ce4c00;--brand-hover:#ab3e00;--brand-ring:#ba4300;--brand:#ff6a13;
+  --shadow-rgb:17,17,17;
+  --outcome-surface:var(--surface-muted);--outcome-accent:var(--accent-text);
+  --outcome-label:var(--text-subtle);--outcome-copy:var(--text-secondary);
+  --user-avatar:var(--brand-fill);--user-bubble:var(--accent-tint);
+  --user-bubble-edge:var(--accent-tint-border);--user-bubble-text:var(--text);
+  --status-good-text:#287649;--status-slow-text:#94531c;--status-fail-text:#b62f3f;
+  --ink-secondary:82%;--ink-muted:66%;
+  --surface-subtle:color-mix(in oklab,var(--surface-muted) 45%,var(--bg));
+  --text-secondary:color-mix(in oklab,var(--text) var(--ink-secondary),var(--bg));
+  --text-muted:color-mix(in oklab,var(--text) var(--ink-muted),var(--bg));--text-faint:var(--text-subtle);
+  --border-dashed:color-mix(in oklab,var(--text) 30%,var(--bg));
+  --accent-text-strong:var(--accent-text);--accent-text-deep:var(--text);
+  --accent-tint:color-mix(in srgb,var(--brand) 7%,var(--surface));
+  --accent-tint-border:color-mix(in srgb,var(--accent-text) 32%,var(--surface));
+  --nav-bg:color-mix(in srgb,var(--bg) 95%,transparent);
+  --status-good-bg:color-mix(in srgb,var(--status-good-text) 9%,var(--surface));
+  --status-good-border:color-mix(in srgb,var(--status-good-text) 36%,var(--surface));
+  --status-slow-bg:color-mix(in srgb,var(--status-slow-text) 9%,var(--surface));
+  --status-slow-border:color-mix(in srgb,var(--status-slow-text) 36%,var(--surface));
+  --status-fail-bg:color-mix(in srgb,var(--status-fail-text) 9%,var(--surface));
+  --status-fail-border:color-mix(in srgb,var(--status-fail-text) 36%,var(--surface));
+  accent-color:var(--accent-text);background:var(--bg)
+}
+html[data-edition=classic][data-theme=dark]{
+  color-scheme:dark;--bg:#0c0b09;--surface:#151311;--surface-muted:#1f1d1a;
+  --text:#f3f0e8;--text-subtle:#aea8a0;--border:#f3ecde1a;--accent-text:#ff6a13;
+  --brand-ring:#ff8a45;--ink-secondary:86%;--ink-muted:70%;
+  --shadow-rgb:12,11,9;
+  --status-good-text:#75ce8f;--status-slow-text:#f0be6d;--status-fail-text:#f57772
+}
+html[data-edition=classic] :focus-visible{outline:2px solid var(--brand-ring);outline-offset:2px}
+.signal-brand{display:inline-flex;align-items:center;text-decoration:none;color:var(--text);font:650 17px/1.1 system-ui;letter-spacing:-.04em}
+.signal-brand small{display:block;margin-top:4px;font:600 10px/1.3 system-ui;letter-spacing:.12em;color:var(--text-subtle)}
+.experience-cta{background:var(--brand-fill)}
+.experience-cta:hover,.experience-cta:active{background:var(--brand-hover)}
+signal-banner,signal-reader,signal-next,field-note,field-marker{display:none}
+/* Equal outer tracks keep the links centered when the mode control unfolds. */
+.portfolio-header-row{
+  display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+  gap:16px!important;min-height:68px!important
+}
+.portfolio-header-row .signal-brand{justify-self:start}
+.portfolio-header-row .nav-links{gap:4px!important}
+.portfolio-header-row .nav-links a{padding:10px 12px!important}
+.portfolio-header-actions{display:flex!important;align-items:center;justify-self:end;gap:12px}
+@media(min-width:861px) and (max-width:1140px){.portfolio-header-row .nav-cta{display:none!important}}
+@media(max-width:860px){
+  .portfolio-header-row{--gutter:clamp(12px,4vw,24px);padding:8px var(--gutter)!important;min-height:62px!important;grid-template-columns:minmax(0,1fr) auto auto;gap:8px!important}
+  .portfolio-header-row .signal-brand{min-width:0;max-width:100%}
+  .portfolio-header-row .portfolio-header-actions{grid-column:2;grid-row:1}
+  .portfolio-header-row .nav-burger{grid-column:3;grid-row:1;margin:0}
+  .nav-sheet{padding-inline:clamp(12px,4vw,24px)!important}
+}
+@media(max-width:380px){.portfolio-header-row .signal-brand{font-size:15px}}
